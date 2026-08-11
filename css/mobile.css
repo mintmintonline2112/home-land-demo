@@ -1,0 +1,187 @@
+/* ==========================================================================
+   Sean Truong Real Estate — mobile.css
+   Responsive refinements for the whole site. Loaded after style.css.
+   Breakpoints: 1024px (small laptop/tablet landscape), 768px (tablet),
+   480px (phone). Base styles already handle grid collapses; this file
+   tightens spacing, type scale, and touch ergonomics.
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   ≤ 1024px — small laptops / tablets (landscape)
+   -------------------------------------------------------------------------- */
+@media (max-width: 1024px) {
+  .section { padding: 72px 0; }
+  .section-head { margin-bottom: 44px; }
+
+  .hero__content { padding: 96px 0 112px; }
+
+  .detail-layout { gap: 28px; }
+  .listing-layout { gap: 28px; }
+
+  .footer-main { padding: 56px 0 40px; gap: 32px; }
+}
+
+/* --------------------------------------------------------------------------
+   ≤ 768px — tablets (portrait) / large phones
+   -------------------------------------------------------------------------- */
+@media (max-width: 768px) {
+  .container { padding-inline: 16px; }
+
+  .section { padding: 56px 0; }
+  .section-head { margin-bottom: 36px; }
+  .section-head p { font-size: 0.92rem; }
+
+  /* Header */
+  .header-inner { height: 68px; }
+  .main-nav { inset: 68px 0 auto 0; max-height: calc(100dvh - 68px); }
+  .logo { font-size: 1.08rem; }
+  .logo .logo-mark { width: 34px; height: 34px; }
+
+  /* Hero */
+  .hero { min-height: 0; }
+  .hero__content { padding: 72px 0 80px; }
+  .hero h1 { font-size: clamp(1.7rem, 7vw, 2.3rem); }
+  .hero p.lead { font-size: 0.95rem; }
+  .hero__content .eyebrow { font-size: 0.68rem; letter-spacing: 0.16em; }
+
+  .search-bar {
+    grid-template-columns: 1fr;
+    padding: 12px;
+    margin-top: 32px;
+  }
+  .search-bar .field--keyword { grid-column: auto; }
+  .search-bar .btn { grid-column: auto; width: 100%; }
+
+  /* Stats */
+  .stats-strip .container { padding-block: 26px; gap: 14px; }
+  .stat strong { font-size: 1.5rem; }
+  .stat span { font-size: 0.68rem; letter-spacing: 0.08em; }
+
+  /* Filter tabs: horizontal scroll instead of wrapping */
+  .filter-tabs {
+    flex-wrap: nowrap;
+    justify-content: flex-start;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    margin-inline: -16px;
+    padding-inline: 16px;
+    margin-bottom: 28px;
+  }
+  .filter-tabs::-webkit-scrollbar { display: none; }
+  .filter-tabs button { flex-shrink: 0; }
+
+  /* Cards & grids */
+  .grid-2, .grid-3, .grid-4, .feature-grid { gap: 18px; }
+  .property-card__body { padding: 16px 16px 0; }
+  .property-card__meta { margin: 14px 16px 0; gap: 14px; flex-wrap: wrap; }
+  .feature-card { padding: 28px 20px; }
+  .location-card__body { padding: 16px 18px; }
+  .news-card__body { padding: 18px 18px 22px; }
+
+  /* CTA band */
+  .cta-band {
+    padding: 36px 24px;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 20px;
+  }
+  .cta-band .btn { width: 100%; }
+
+  /* About split */
+  .about-split { gap: 24px; }
+  .about-split__photo { aspect-ratio: 4 / 3; }
+  .about-split__facts { margin: 18px 0 22px; }
+  .about-split__body .btn { width: 100%; }
+
+  /* Page hero (inner pages) */
+  .page-hero { padding: 44px 0; }
+
+  /* Listing page */
+  .results-toolbar { flex-direction: column; align-items: stretch; gap: 10px; }
+  .results-toolbar select { width: 100%; }
+  .filter-panel { padding: 22px 18px; }
+
+  /* Detail page */
+  .detail-header { flex-direction: column; align-items: flex-start; gap: 12px; margin-bottom: 20px; }
+  .detail-price { text-align: left; }
+  .detail-card { padding: 22px 18px; margin-top: 20px; }
+  .gallery__thumbs { gap: 6px; margin-top: 6px; }
+  .overview-grid { gap: 10px; }
+  .overview-item { padding: 12px; gap: 10px; }
+  .amenities { grid-template-columns: 1fr; gap: 10px; }
+  .spec-table { font-size: 0.85rem; }
+  .agent-box { padding: 20px 18px; }
+
+  /* Contact page */
+  .info-card { padding: 18px; gap: 12px; }
+
+  /* Testimonials */
+  .testimonial-card { padding: 24px 20px; }
+
+  /* Footer */
+  .footer-main { grid-template-columns: 1fr 1fr; padding: 48px 0 32px; gap: 28px; }
+  .footer-about { grid-column: 1 / -1; }
+  .footer-about p { max-width: none; }
+  .footer-bottom { flex-direction: column; text-align: center; gap: 14px; padding: 18px 0; }
+
+  /* Back to top: smaller, tucked in */
+  .back-to-top { right: 16px; bottom: 16px; width: 44px; height: 44px; }
+}
+
+/* --------------------------------------------------------------------------
+   ≤ 480px — phones
+   -------------------------------------------------------------------------- */
+@media (max-width: 480px) {
+  .section { padding: 48px 0; }
+
+  .section-head h2 { font-size: 1.45rem; }
+  .section-head .eyebrow { font-size: 0.68rem; }
+
+  /* Hero */
+  .hero__content { padding: 56px 0 64px; }
+  .hero h1 { font-size: 1.65rem; }
+
+  /* Stats: 2×2 already; tighten further */
+  .stats-strip .container { grid-template-columns: repeat(2, 1fr); row-gap: 20px; }
+
+  /* Cards */
+  .grid-2, .grid-3, .grid-4, .feature-grid { gap: 16px; }
+  .property-card__price { font-size: 0.92rem; padding: 6px 10px; }
+  .badge { font-size: 0.62rem; padding: 5px 10px; }
+  .property-card__meta { font-size: 0.76rem; gap: 12px; }
+
+  /* Detail page */
+  .detail-header h1 { font-size: 1.4rem; }
+  .detail-price .amount { font-size: 1.3rem; }
+  .gallery__thumbs { grid-template-columns: repeat(4, 1fr); }
+  .gallery__thumbs button:nth-child(5) { display: none; }
+  .overview-grid { grid-template-columns: 1fr 1fr; }
+
+  /* Forms */
+  .form-grid .row-2 { grid-template-columns: 1fr; }
+  .form-grid input, .form-grid select, .form-grid textarea { min-height: 46px; }
+
+  /* Buttons: comfortable full-width targets in key flows */
+  .search-bar .btn,
+  .filter-panel .btn,
+  .agent-box .btn { width: 100%; }
+
+  /* Footer single column */
+  .footer-main { grid-template-columns: 1fr; gap: 24px; }
+
+  /* Map */
+  .map-placeholder { aspect-ratio: 4 / 3 !important; }
+  .map-placeholder small { padding-inline: 16px; text-align: center; }
+
+  /* Testimonial / about */
+  .about-split__facts { grid-template-columns: 1fr; }
+}
+
+/* --------------------------------------------------------------------------
+   Landscape phones — keep hero & menus usable when height is short
+   -------------------------------------------------------------------------- */
+@media (max-height: 480px) and (orientation: landscape) {
+  .hero__content { padding: 48px 0 56px; }
+  .main-nav { max-height: calc(100dvh - 68px); overflow-y: auto; }
+}

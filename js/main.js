@@ -1,5 +1,5 @@
 /* ==========================================================================
-   HomeLander — main.js
+   Sean Truong Real Estate — main.js
    Handles: mobile menu, header, counters, reveal, tabs, favorites,
    gallery, listing filters, form validation, back-to-top
    ========================================================================== */
@@ -8,6 +8,8 @@
   "use strict";
 
   var prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  // When GSAP is available, animations.js owns the reveal effects
+  var gsapActive = !!(window.gsap && window.ScrollTrigger) && !prefersReducedMotion;
 
   /* ---------- 1. Mobile nav toggle ---------- */
   var navToggle = document.getElementById("navToggle");
@@ -38,6 +40,34 @@
     });
   }
 
+  /* ---------- 1b. Dropdown menus (click toggle — accordion on mobile, tap support on desktop) ---------- */
+  document.querySelectorAll(".has-dropdown > .nav-link").forEach(function (btn) {
+    btn.addEventListener("click", function () {
+      var li = btn.parentElement;
+      var wasOpen = li.classList.contains("is-open");
+      // Close sibling dropdowns
+      document.querySelectorAll(".has-dropdown.is-open").forEach(function (other) {
+        if (other !== li) {
+          other.classList.remove("is-open");
+          var b = other.querySelector(".nav-link");
+          if (b) b.setAttribute("aria-expanded", "false");
+        }
+      });
+      li.classList.toggle("is-open", !wasOpen);
+      btn.setAttribute("aria-expanded", !wasOpen ? "true" : "false");
+    });
+  });
+
+  document.addEventListener("click", function (e) {
+    if (!e.target.closest(".has-dropdown")) {
+      document.querySelectorAll(".has-dropdown.is-open").forEach(function (li) {
+        li.classList.remove("is-open");
+        var b = li.querySelector(".nav-link");
+        if (b) b.setAttribute("aria-expanded", "false");
+      });
+    }
+  });
+
   /* ---------- 2. Header shadow on scroll ---------- */
   var header = document.getElementById("siteHeader");
   var backToTop = document.getElementById("backToTop");
@@ -63,9 +93,9 @@
     });
   }
 
-  /* ---------- 3. Reveal on scroll ---------- */
+  /* ---------- 3. Reveal on scroll (fallback when GSAP is absent) ---------- */
   var revealEls = document.querySelectorAll(".reveal");
-  if (revealEls.length) {
+  if (revealEls.length && !gsapActive) {
     if (prefersReducedMotion || !("IntersectionObserver" in window)) {
       revealEls.forEach(function (el) { el.classList.add("is-visible"); });
     } else {
@@ -117,7 +147,7 @@
     }
   }
 
-  /* ---------- 5. Filter tabs (home page) ---------- */
+  /* ---------- 5. Filter tabs (home page — by region) ---------- */
   var tabWrap = document.querySelector(".filter-tabs");
   var featuredGrid = document.getElementById("featuredGrid");
   if (tabWrap && featuredGrid) {
@@ -128,14 +158,14 @@
       btn.classList.add("is-active");
       var filter = btn.getAttribute("data-filter");
       featuredGrid.querySelectorAll(".property-card").forEach(function (card) {
-        var show = filter === "all" || card.getAttribute("data-status") === filter;
+        var show = filter === "all" || card.getAttribute("data-region") === filter;
         card.style.display = show ? "" : "none";
       });
     });
   }
 
   /* ---------- 6. Favorite buttons (localStorage) ---------- */
-  var FAV_KEY = "homelander_favs";
+  var FAV_KEY = "seantruong_favs";
   function getFavs() {
     try { return JSON.parse(localStorage.getItem(FAV_KEY)) || []; }
     catch (e) { return []; }
@@ -180,36 +210,25 @@
 
   if (filterForm && listingGrid) {
     var fKeyword = document.getElementById("fKeyword");
-    var fStatus = document.getElementById("fStatus");
     var fType = document.getElementById("fType");
     var fBeds = document.getElementById("fBeds");
-    var fPriceSale = document.getElementById("fPriceSale");
-    var fPriceRent = document.getElementById("fPriceRent");
-    var outSale = document.getElementById("outSale");
-    var outRent = document.getElementById("outRent");
+    var fPrice = document.getElementById("fPrice");
+    var outPrice = document.getElementById("outPrice");
     var sortSelect = document.getElementById("sortSelect");
     var resultCount = document.getElementById("resultCount");
     var noResults = document.getElementById("noResults");
     var cards = Array.prototype.slice.call(listingGrid.querySelectorAll(".property-card"));
 
-    function fmtSale(v) {
+    function fmtPrice(v) {
       return v >= 1000000
         ? "$" + (v / 1000000).toFixed(1) + "M"
         : "$" + Math.round(v / 1000) + "k";
     }
-    function fmtRent(v) {
-      return "$" + v.toLocaleString("en-US") + "/mo";
-    }
 
-    // Live slider labels
-    if (fPriceSale && outSale) {
-      fPriceSale.addEventListener("input", function () {
-        outSale.textContent = fmtSale(parseFloat(fPriceSale.value));
-      });
-    }
-    if (fPriceRent && outRent) {
-      fPriceRent.addEventListener("input", function () {
-        outRent.textContent = fmtRent(parseFloat(fPriceRent.value));
+    // Live slider label
+    if (fPrice && outPrice) {
+      fPrice.addEventListener("input", function () {
+        outPrice.textContent = fmtPrice(parseFloat(fPrice.value));
       });
     }
 
@@ -226,15 +245,12 @@
 
     function applyFilters() {
       var kw = normalize(fKeyword.value.trim());
-      var status = fStatus.value;
       var type = fType.value;
       var minBeds = parseInt(fBeds.value, 10) || 0;
-      var maxSale = parseFloat(fPriceSale.value);
-      var maxRent = parseFloat(fPriceRent.value);
+      var maxPrice = fPrice ? parseFloat(fPrice.value) : Infinity;
       var visible = 0;
 
       cards.forEach(function (card) {
-        var cStatus = card.getAttribute("data-status");
         var cType = card.getAttribute("data-type");
         var cBeds = parseInt(card.getAttribute("data-beds"), 10) || 0;
         var cPrice = parseFloat(card.getAttribute("data-price")) || 0;
@@ -242,12 +258,9 @@
 
         var ok = true;
         if (kw && text.indexOf(kw) === -1) ok = false;
-        if (status && cStatus !== status) ok = false;
         if (type && cType !== type) ok = false;
         if (minBeds && cBeds < minBeds) ok = false;
-        // Each price slider only constrains listings of its own status
-        if (cStatus === "sale" && cPrice > maxSale) ok = false;
-        if (cStatus === "rent" && cPrice > maxRent) ok = false;
+        if (cPrice > maxPrice) ok = false;
 
         card.style.display = ok ? "" : "none";
         if (ok) visible++;
@@ -279,11 +292,8 @@
       applyFilters();
     });
 
-    [fStatus, fType, fBeds].forEach(function (el) {
-      el.addEventListener("change", applyFilters);
-    });
-    [fPriceSale, fPriceRent].forEach(function (el) {
-      el.addEventListener("change", applyFilters);
+    [fType, fBeds, fPrice].forEach(function (el) {
+      if (el) el.addEventListener("change", applyFilters);
     });
 
     var kwTimer;
@@ -298,18 +308,16 @@
     if (resetBtn) {
       resetBtn.addEventListener("click", function () {
         filterForm.reset();
-        if (outSale) outSale.textContent = fmtSale(parseFloat(fPriceSale.max));
-        if (outRent) outRent.textContent = fmtRent(parseFloat(fPriceRent.max));
+        if (outPrice && fPrice) outPrice.textContent = fmtPrice(parseFloat(fPrice.max));
         applyFilters();
       });
     }
 
-    // Pick up search params from the home page (?keyword=&type=&status=)
+    // Pick up search params from the home page (?keyword=&type=)
     var params = new URLSearchParams(window.location.search);
     var hasParams = false;
     if (params.get("keyword")) { fKeyword.value = params.get("keyword"); hasParams = true; }
     if (params.get("type")) { fType.value = params.get("type"); hasParams = true; }
-    if (params.get("status")) { fStatus.value = params.get("status"); hasParams = true; }
     if (hasParams) applyFilters();
 
     applySort();

@@ -3,37 +3,121 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Property Listings — HomeLander</title>
-  <meta name="description" content="Browse properties for sale and for rent across the United States with HomeLander.">
+  <title>Property Search | Sean Truong Real Estate</title>
+  <meta name="description" content="Search homes for sale across Orange County and the Bay Area with Sean Truong, First Team Real Estate.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/mobile.css">
 </head>
 <body>
 
   <!-- ================= HEADER ================= -->
   <header class="site-header" id="siteHeader">
     <div class="container header-inner">
-      <a href="index.html" class="logo" aria-label="HomeLander - Home">
+      <a href="index.html" class="logo" aria-label="Sean Truong - Home">
         <span class="logo-mark" aria-hidden="true">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
         </span>
-        <span>Home<em>Lander</em></span>
+        <span>Sean<em>Truong</em></span>
       </a>
+
       <nav class="main-nav" id="mainNav" aria-label="Main navigation">
         <ul>
-          <li><a href="index.html">Home</a></li>
-          <li><a href="properties.html" class="is-active" aria-current="page">Properties</a></li>
-          <li><a href="agents.html">Agents</a></li>
+          <li class="has-dropdown">
+            <button type="button" class="nav-link" aria-expanded="false">Buy
+              <svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg>
+            </button>
+            <div class="dropdown">
+              <a href="properties.html">Property Search</a>
+              <a href="index.html#featured">Featured Homes</a>
+              <a href="properties.html">New Listings</a>
+              <a href="#">Open Houses</a>
+              <a href="#">Buying Process</a>
+              <a href="#">Financing Resources</a>
+            </div>
+          </li>
+          <li class="has-dropdown">
+            <button type="button" class="nav-link" aria-expanded="false">Sell
+              <svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg>
+            </button>
+            <div class="dropdown">
+              <a href="contact.html">Home Valuation</a>
+              <a href="#">Selling Process</a>
+              <a href="#">Marketing Strategy</a>
+              <a href="contact.html">Seller Consultation</a>
+            </div>
+          </li>
+          <li class="has-dropdown">
+            <button type="button" class="nav-link" aria-expanded="false">Luxury
+              <svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg>
+            </button>
+            <div class="dropdown">
+              <a href="properties.html?type=luxury">Luxury Properties</a>
+              <a href="#">Estate Homes</a>
+              <a href="#">Luxury Communities</a>
+              <a href="#">Private &amp; Off-Market</a>
+            </div>
+          </li>
+          <li class="has-dropdown">
+            <button type="button" class="nav-link" aria-expanded="false">Areas
+              <svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg>
+            </button>
+            <div class="dropdown dropdown--mega">
+              <div class="mega-col">
+                <span class="dropdown-heading">Southern California</span>
+                <a href="properties.html?keyword=Irvine">Irvine</a>
+                <a href="properties.html?keyword=Newport%20Beach">Newport Beach</a>
+                <a href="properties.html?keyword=Tustin">Tustin &amp; North Tustin</a>
+                <a href="properties.html?keyword=Villa%20Park">Villa Park</a>
+                <a href="properties.html?keyword=Anaheim%20Hills">Anaheim Hills</a>
+                <a href="properties.html?keyword=Orange">Orange</a>
+                <a href="properties.html?keyword=Garden%20Grove">Garden Grove</a>
+                <a href="properties.html">Greater Orange County</a>
+              </div>
+              <div class="mega-col">
+                <span class="dropdown-heading">Northern California</span>
+                <a href="properties.html?keyword=San%20Francisco">San Francisco</a>
+                <a href="properties.html?keyword=San%20Jose">San Jose</a>
+                <a href="properties.html?keyword=Silicon%20Valley">Silicon Valley</a>
+                <a href="properties.html?keyword=Bay%20Area">Bay Area</a>
+              </div>
+            </div>
+          </li>
+          <li class="has-dropdown">
+            <button type="button" class="nav-link" aria-expanded="false">Resources
+              <svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg>
+            </button>
+            <div class="dropdown">
+              <a href="#">Buyer Guide</a>
+              <a href="#">Seller Guide</a>
+              <a href="#">Market Updates</a>
+              <a href="#">Real Estate Blog</a>
+              <a href="#">Mortgage &amp; Closing Costs</a>
+              <a href="#">Escrow &amp; Title</a>
+              <a href="#">Property Tax</a>
+            </div>
+          </li>
+          <li class="has-dropdown">
+            <button type="button" class="nav-link" aria-expanded="false">Relocation
+              <svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg>
+            </button>
+            <div class="dropdown">
+              <a href="#">Moving to California</a>
+              <a href="#">Buying as a Foreign Buyer</a>
+              <a href="#">Vietnamese Buyers</a>
+              <a href="#">School &amp; Community Resources</a>
+              <a href="#">Relocation Services</a>
+            </div>
+          </li>
+          <li><a href="about.html">About Sean</a></li>
           <li><a href="contact.html">Contact</a></li>
         </ul>
       </nav>
+
       <div class="header-actions">
-        <a href="contact.html" class="btn btn--primary">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg>
-          Add Listing
-        </a>
+        <a href="contact.html" class="btn btn--primary">Schedule Consultation</a>
         <button class="nav-toggle" id="navToggle" aria-expanded="false" aria-controls="mainNav" aria-label="Open menu">
           <svg class="icon-menu" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 6h16M4 12h16M4 18h16"/></svg>
           <svg class="icon-close" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M18 6 6 18M6 6l12 12"/></svg>
@@ -46,11 +130,11 @@
     <!-- ================= PAGE HERO ================= -->
     <section class="page-hero">
       <div class="container">
-        <h1>Property Listings</h1>
+        <h1>Property Search</h1>
         <nav class="breadcrumb" aria-label="Breadcrumb">
           <a href="index.html">Home</a>
           <span class="sep">/</span>
-          <span>Properties</span>
+          <span>Property Search</span>
         </nav>
       </div>
     </section>
@@ -67,25 +151,17 @@
           </h2>
           <form id="filterForm">
             <div class="field">
-              <label for="fKeyword">Keyword</label>
-              <input type="text" id="fKeyword" placeholder="Name, city, neighborhood...">
-            </div>
-            <div class="field">
-              <label for="fStatus">Status</label>
-              <select id="fStatus">
-                <option value="">Any</option>
-                <option value="sale">For Sale</option>
-                <option value="rent">For Rent</option>
-              </select>
+              <label for="fKeyword">Keyword / City</label>
+              <input type="text" id="fKeyword" placeholder="Irvine, Newport Beach...">
             </div>
             <div class="field">
               <label for="fType">Property Type</label>
               <select id="fType">
                 <option value="">All Types</option>
-                <option value="apartment">Apartment</option>
                 <option value="house">House</option>
-                <option value="villa">Villa</option>
-                <option value="office">Office</option>
+                <option value="condo">Condo</option>
+                <option value="townhouse">Townhouse</option>
+                <option value="luxury">Luxury Estate</option>
               </select>
             </div>
             <div class="field">
@@ -96,17 +172,13 @@
                 <option value="2">2+</option>
                 <option value="3">3+</option>
                 <option value="4">4+</option>
+                <option value="5">5+</option>
               </select>
             </div>
             <div class="field">
-              <label for="fPriceSale">Max Sale Price</label>
-              <input type="range" id="fPriceSale" min="100000" max="2000000" step="50000" value="2000000">
-              <div class="range-out"><span>$100k</span><output id="outSale">$2.0M</output></div>
-            </div>
-            <div class="field">
-              <label for="fPriceRent">Max Monthly Rent</label>
-              <input type="range" id="fPriceRent" min="500" max="10000" step="250" value="10000">
-              <div class="range-out"><span>$500</span><output id="outRent">$10,000/mo</output></div>
+              <label for="fPrice">Max Price</label>
+              <input type="range" id="fPrice" min="500000" max="3000000" step="50000" value="3000000">
+              <div class="range-out"><span>$500k</span><output id="outPrice">$3.0M</output></div>
             </div>
             <button type="submit" class="btn btn--primary btn--block">Apply Filters</button>
             <button type="button" class="btn btn--ghost btn--block" id="resetFilters" style="margin-top: 8px;">Reset Filters</button>
@@ -116,7 +188,7 @@
         <!-- Results -->
         <div>
           <div class="results-toolbar">
-            <p class="count">Showing <strong id="resultCount">9</strong> properties</p>
+            <p class="count">Showing <strong id="resultCount">9</strong> homes</p>
             <select id="sortSelect" aria-label="Sort by">
               <option value="newest">Newest First</option>
               <option value="price-asc">Price: Low to High</option>
@@ -127,164 +199,165 @@
 
           <div class="grid-2" id="listingGrid">
 
-            <article class="property-card" data-status="sale" data-type="villa" data-beds="4" data-price="850000" data-area="3400" data-date="2026-08-01">
+            <article class="property-card" data-type="luxury" data-beds="5" data-price="1850000" data-area="3800" data-date="2026-08-01">
               <div class="property-card__media">
                 <span class="badge">For Sale</span>
                 <button class="fav-btn" data-fav="p1" aria-label="Save to favorites"><svg viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/></svg></button>
-                <a href="property-detail.html"><img src="https://images.unsplash.com/photo-1564013799919-ab600027ffc6?auto=format&fit=crop&w=800&q=75" alt="Two-story family villa with garden" loading="lazy"></a>
-                <div class="property-card__price">$850,000</div>
+                <a href="property-detail.html"><img src="https://images.unsplash.com/photo-1613490493576-7fde63acd811?auto=format&fit=crop&w=800&q=75" alt="Luxury estate with pool" loading="lazy"></a>
+                <div class="property-card__price">$1,850,000</div>
               </div>
               <div class="property-card__body">
-                <h3><a href="property-detail.html">Modern Family Villa</a></h3>
-                <p class="property-card__loc"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg> Barton Hills, Austin, TX</p>
+                <h3><a href="property-detail.html">Turtle Rock Estate</a></h3>
+                <p class="property-card__loc"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg> Turtle Rock, Irvine, CA</p>
+              </div>
+              <div class="property-card__meta">
+                <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 20v-8a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v8"/><path d="M4 10V6a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v4"/><path d="M2 17h20"/></svg> 5 Beds</span>
+                <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 6 6.5 3.5a1.5 1.5 0 0 0-1-.5C4.7 3 4 3.7 4 4.5V17a5 5 0 0 0 5 5h6a5 5 0 0 0 5-5v-2H4"/><path d="M8 6h4"/></svg> 4 Baths</span>
+                <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 3 3 21"/><path d="M21 3h-6M21 3v6M3 21h6M3 21v-6"/></svg> 3,800 sqft</span>
+              </div>
+            </article>
+
+            <article class="property-card" data-type="luxury" data-beds="4" data-price="2400000" data-area="3200" data-date="2026-08-05">
+              <div class="property-card__media">
+                <span class="badge">For Sale</span>
+                <button class="fav-btn" data-fav="p2" aria-label="Save to favorites"><svg viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/></svg></button>
+                <a href="property-detail.html"><img src="https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&fit=crop&w=800&q=75" alt="Modern home with pool at dusk" loading="lazy"></a>
+                <div class="property-card__price">$2,400,000</div>
+              </div>
+              <div class="property-card__body">
+                <h3><a href="property-detail.html">Newport Harbor View Home</a></h3>
+                <p class="property-card__loc"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg> Newport Beach, CA</p>
+              </div>
+              <div class="property-card__meta">
+                <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 20v-8a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v8"/><path d="M4 10V6a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v4"/><path d="M2 17h20"/></svg> 4 Beds</span>
+                <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 6 6.5 3.5a1.5 1.5 0 0 0-1-.5C4.7 3 4 3.7 4 4.5V17a5 5 0 0 0 5 5h6a5 5 0 0 0 5-5v-2H4"/><path d="M8 6h4"/></svg> 4 Baths</span>
+                <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 3 3 21"/><path d="M21 3h-6M21 3v6M3 21h6M3 21v-6"/></svg> 3,200 sqft</span>
+              </div>
+            </article>
+
+            <article class="property-card" data-type="house" data-beds="4" data-price="1150000" data-area="2600" data-date="2026-08-08">
+              <div class="property-card__media">
+                <span class="badge">For Sale</span>
+                <button class="fav-btn" data-fav="p3" aria-label="Save to favorites"><svg viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/></svg></button>
+                <a href="property-detail.html"><img src="https://images.unsplash.com/photo-1564013799919-ab600027ffc6?auto=format&fit=crop&w=800&q=75" alt="Two-story family home" loading="lazy"></a>
+                <div class="property-card__price">$1,150,000</div>
+              </div>
+              <div class="property-card__body">
+                <h3><a href="property-detail.html">Anaheim Hills View Home</a></h3>
+                <p class="property-card__loc"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg> Anaheim Hills, CA</p>
               </div>
               <div class="property-card__meta">
                 <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 20v-8a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v8"/><path d="M4 10V6a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v4"/><path d="M2 17h20"/></svg> 4 Beds</span>
                 <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 6 6.5 3.5a1.5 1.5 0 0 0-1-.5C4.7 3 4 3.7 4 4.5V17a5 5 0 0 0 5 5h6a5 5 0 0 0 5-5v-2H4"/><path d="M8 6h4"/></svg> 3 Baths</span>
-                <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 3 3 21"/><path d="M21 3h-6M21 3v6M3 21h6M3 21v-6"/></svg> 3,400 sqft</span>
+                <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 3 3 21"/><path d="M21 3h-6M21 3v6M3 21h6M3 21v-6"/></svg> 2,600 sqft</span>
               </div>
             </article>
 
-            <article class="property-card" data-status="rent" data-type="apartment" data-beds="2" data-price="2500" data-area="900" data-date="2026-08-05">
-              <div class="property-card__media">
-                <span class="badge badge--rent">For Rent</span>
-                <button class="fav-btn" data-fav="p2" aria-label="Save to favorites"><svg viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/></svg></button>
-                <a href="property-detail.html"><img src="https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=800&q=75" alt="Apartment with modern interior" loading="lazy"></a>
-                <div class="property-card__price">$2,500 <small>/mo</small></div>
-              </div>
-              <div class="property-card__body">
-                <h3><a href="property-detail.html">Luxury Downtown Apartment</a></h3>
-                <p class="property-card__loc"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg> Brickell, Miami, FL</p>
-              </div>
-              <div class="property-card__meta">
-                <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 20v-8a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v8"/><path d="M4 10V6a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v4"/><path d="M2 17h20"/></svg> 2 Beds</span>
-                <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 6 6.5 3.5a1.5 1.5 0 0 0-1-.5C4.7 3 4 3.7 4 4.5V17a5 5 0 0 0 5 5h6a5 5 0 0 0 5-5v-2H4"/><path d="M8 6h4"/></svg> 2 Baths</span>
-                <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 3 3 21"/><path d="M21 3h-6M21 3v6M3 21h6M3 21v-6"/></svg> 900 sqft</span>
-              </div>
-            </article>
-
-            <article class="property-card" data-status="sale" data-type="house" data-beds="3" data-price="620000" data-area="1500" data-date="2026-07-28">
+            <article class="property-card" data-type="house" data-beds="3" data-price="875000" data-area="1800" data-date="2026-07-20">
               <div class="property-card__media">
                 <span class="badge">For Sale</span>
-                <button class="fav-btn" data-fav="p3" aria-label="Save to favorites"><svg viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/></svg></button>
-                <a href="property-detail.html"><img src="https://images.unsplash.com/photo-1568605114967-8130f3a36994?auto=format&fit=crop&w=800&q=75" alt="Contemporary townhouse exterior" loading="lazy"></a>
-                <div class="property-card__price">$620,000</div>
+                <button class="fav-btn" data-fav="p4" aria-label="Save to favorites"><svg viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/></svg></button>
+                <a href="property-detail.html"><img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=800&q=75" alt="Craftsman house with front yard" loading="lazy"></a>
+                <div class="property-card__price">$875,000</div>
               </div>
               <div class="property-card__body">
-                <h3><a href="property-detail.html">Contemporary Townhouse</a></h3>
-                <p class="property-card__loc"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg> Highlands, Denver, CO</p>
+                <h3><a href="property-detail.html">Charming Craftsman</a></h3>
+                <p class="property-card__loc"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg> Old Towne, Orange, CA</p>
+              </div>
+              <div class="property-card__meta">
+                <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 20v-8a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v8"/><path d="M4 10V6a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v4"/><path d="M2 17h20"/></svg> 3 Beds</span>
+                <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 6 6.5 3.5a1.5 1.5 0 0 0-1-.5C4.7 3 4 3.7 4 4.5V17a5 5 0 0 0 5 5h6a5 5 0 0 0 5-5v-2H4"/><path d="M8 6h4"/></svg> 2 Baths</span>
+                <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 3 3 21"/><path d="M21 3h-6M21 3v6M3 21h6M3 21v-6"/></svg> 1,800 sqft</span>
+              </div>
+            </article>
+
+            <article class="property-card" data-type="house" data-beds="4" data-price="980000" data-area="2400" data-date="2026-07-28">
+              <div class="property-card__media">
+                <span class="badge">For Sale</span>
+                <button class="fav-btn" data-fav="p5" aria-label="Save to favorites"><svg viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/></svg></button>
+                <a href="property-detail.html"><img src="https://images.unsplash.com/photo-1568605114967-8130f3a36994?auto=format&fit=crop&w=800&q=75" alt="Modern family home exterior" loading="lazy"></a>
+                <div class="property-card__price">$980,000</div>
+              </div>
+              <div class="property-card__body">
+                <h3><a href="property-detail.html">Modern Family Home</a></h3>
+                <p class="property-card__loc"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg> Tustin, CA</p>
+              </div>
+              <div class="property-card__meta">
+                <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 20v-8a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v8"/><path d="M4 10V6a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v4"/><path d="M2 17h20"/></svg> 4 Beds</span>
+                <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 6 6.5 3.5a1.5 1.5 0 0 0-1-.5C4.7 3 4 3.7 4 4.5V17a5 5 0 0 0 5 5h6a5 5 0 0 0 5-5v-2H4"/><path d="M8 6h4"/></svg> 3 Baths</span>
+                <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 3 3 21"/><path d="M21 3h-6M21 3v6M3 21h6M3 21v-6"/></svg> 2,400 sqft</span>
+              </div>
+            </article>
+
+            <article class="property-card" data-type="house" data-beds="3" data-price="720000" data-area="1450" data-date="2026-08-09">
+              <div class="property-card__media">
+                <span class="badge">For Sale</span>
+                <button class="fav-btn" data-fav="p6" aria-label="Save to favorites"><svg viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/></svg></button>
+                <a href="property-detail.html"><img src="https://images.unsplash.com/photo-1560518883-ce09059eeffa?auto=format&fit=crop&w=800&q=75" alt="Single-story starter home" loading="lazy"></a>
+                <div class="property-card__price">$720,000</div>
+              </div>
+              <div class="property-card__body">
+                <h3><a href="property-detail.html">Garden Grove Starter Home</a></h3>
+                <p class="property-card__loc"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg> Garden Grove, CA</p>
+              </div>
+              <div class="property-card__meta">
+                <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 20v-8a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v8"/><path d="M4 10V6a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v4"/><path d="M2 17h20"/></svg> 3 Beds</span>
+                <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 6 6.5 3.5a1.5 1.5 0 0 0-1-.5C4.7 3 4 3.7 4 4.5V17a5 5 0 0 0 5 5h6a5 5 0 0 0 5-5v-2H4"/><path d="M8 6h4"/></svg> 2 Baths</span>
+                <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 3 3 21"/><path d="M21 3h-6M21 3v6M3 21h6M3 21v-6"/></svg> 1,450 sqft</span>
+              </div>
+            </article>
+
+            <article class="property-card" data-type="townhouse" data-beds="3" data-price="1280000" data-area="1700" data-date="2026-07-10">
+              <div class="property-card__media">
+                <span class="badge">For Sale</span>
+                <button class="fav-btn" data-fav="p7" aria-label="Save to favorites"><svg viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/></svg></button>
+                <a href="property-detail.html"><img src="https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=800&q=75" alt="Modern townhouse interior" loading="lazy"></a>
+                <div class="property-card__price">$1,280,000</div>
+              </div>
+              <div class="property-card__body">
+                <h3><a href="property-detail.html">Silicon Valley Townhouse</a></h3>
+                <p class="property-card__loc"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg> Willow Glen, San Jose, CA</p>
               </div>
               <div class="property-card__meta">
                 <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 20v-8a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v8"/><path d="M4 10V6a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v4"/><path d="M2 17h20"/></svg> 3 Beds</span>
                 <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 6 6.5 3.5a1.5 1.5 0 0 0-1-.5C4.7 3 4 3.7 4 4.5V17a5 5 0 0 0 5 5h6a5 5 0 0 0 5-5v-2H4"/><path d="M8 6h4"/></svg> 3 Baths</span>
-                <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 3 3 21"/><path d="M21 3h-6M21 3v6M3 21h6M3 21v-6"/></svg> 1,500 sqft</span>
+                <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 3 3 21"/><path d="M21 3h-6M21 3v6M3 21h6M3 21v-6"/></svg> 1,700 sqft</span>
               </div>
             </article>
 
-            <article class="property-card" data-status="rent" data-type="house" data-beds="4" data-price="4500" data-area="2200" data-date="2026-08-08">
-              <div class="property-card__media">
-                <span class="badge badge--rent">For Rent</span>
-                <button class="fav-btn" data-fav="p4" aria-label="Save to favorites"><svg viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/></svg></button>
-                <a href="property-detail.html"><img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=800&q=75" alt="Modern house with front yard" loading="lazy"></a>
-                <div class="property-card__price">$4,500 <small>/mo</small></div>
-              </div>
-              <div class="property-card__body">
-                <h3><a href="property-detail.html">Spacious Suburban Home</a></h3>
-                <p class="property-card__loc"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg> Ballard, Seattle, WA</p>
-              </div>
-              <div class="property-card__meta">
-                <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 20v-8a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v8"/><path d="M4 10V6a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v4"/><path d="M2 17h20"/></svg> 4 Beds</span>
-                <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 6 6.5 3.5a1.5 1.5 0 0 0-1-.5C4.7 3 4 3.7 4 4.5V17a5 5 0 0 0 5 5h6a5 5 0 0 0 5-5v-2H4"/><path d="M8 6h4"/></svg> 4 Baths</span>
-                <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 3 3 21"/><path d="M21 3h-6M21 3v6M3 21h6M3 21v-6"/></svg> 2,200 sqft</span>
-              </div>
-            </article>
-
-            <article class="property-card" data-status="sale" data-type="villa" data-beds="5" data-price="1580000" data-area="4800" data-date="2026-07-20">
+            <article class="property-card" data-type="condo" data-beds="2" data-price="1050000" data-area="1100" data-date="2026-08-03">
               <div class="property-card__media">
                 <span class="badge">For Sale</span>
-                <button class="fav-btn" data-fav="p5" aria-label="Save to favorites"><svg viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/></svg></button>
-                <a href="property-detail.html"><img src="https://images.unsplash.com/photo-1613490493576-7fde63acd811?auto=format&fit=crop&w=800&q=75" alt="Resort-style villa with pool" loading="lazy"></a>
-                <div class="property-card__price">$1,580,000</div>
-              </div>
-              <div class="property-card__body">
-                <h3><a href="property-detail.html">Mountain View Retreat Villa</a></h3>
-                <p class="property-card__loc"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg> Aspen, CO</p>
-              </div>
-              <div class="property-card__meta">
-                <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 20v-8a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v8"/><path d="M4 10V6a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v4"/><path d="M2 17h20"/></svg> 5 Beds</span>
-                <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 6 6.5 3.5a1.5 1.5 0 0 0-1-.5C4.7 3 4 3.7 4 4.5V17a5 5 0 0 0 5 5h6a5 5 0 0 0 5-5v-2H4"/><path d="M8 6h4"/></svg> 5 Baths</span>
-                <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 3 3 21"/><path d="M21 3h-6M21 3v6M3 21h6M3 21v-6"/></svg> 4,800 sqft</span>
-              </div>
-            </article>
-
-            <article class="property-card" data-status="rent" data-type="apartment" data-beds="1" data-price="1900" data-area="480" data-date="2026-08-09">
-              <div class="property-card__media">
-                <span class="badge badge--rent">For Rent</span>
-                <button class="fav-btn" data-fav="p6" aria-label="Save to favorites"><svg viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/></svg></button>
-                <a href="property-detail.html"><img src="https://images.unsplash.com/photo-1600566753086-00f18fb6b3ea?auto=format&fit=crop&w=800&q=75" alt="Studio apartment with balcony" loading="lazy"></a>
-                <div class="property-card__price">$1,900 <small>/mo</small></div>
-              </div>
-              <div class="property-card__body">
-                <h3><a href="property-detail.html">Cozy Midtown Studio</a></h3>
-                <p class="property-card__loc"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg> Midtown, New York, NY</p>
-              </div>
-              <div class="property-card__meta">
-                <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 20v-8a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v8"/><path d="M4 10V6a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v4"/><path d="M2 17h20"/></svg> 1 Bed</span>
-                <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 6 6.5 3.5a1.5 1.5 0 0 0-1-.5C4.7 3 4 3.7 4 4.5V17a5 5 0 0 0 5 5h6a5 5 0 0 0 5-5v-2H4"/><path d="M8 6h4"/></svg> 1 Bath</span>
-                <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 3 3 21"/><path d="M21 3h-6M21 3v6M3 21h6M3 21v-6"/></svg> 480 sqft</span>
-              </div>
-            </article>
-
-            <article class="property-card" data-status="sale" data-type="villa" data-beds="4" data-price="1250000" data-area="4100" data-date="2026-07-10">
-              <div class="property-card__media">
-                <span class="badge">For Sale</span>
-                <button class="fav-btn" data-fav="p7" aria-label="Save to favorites"><svg viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/></svg></button>
-                <a href="property-detail.html"><img src="https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&fit=crop&w=800&q=75" alt="Modern villa with pool" loading="lazy"></a>
-                <div class="property-card__price">$1,250,000</div>
-              </div>
-              <div class="property-card__body">
-                <h3><a href="property-detail.html">Gated Community Estate</a></h3>
-                <p class="property-card__loc"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg> North Scottsdale, Scottsdale, AZ</p>
-              </div>
-              <div class="property-card__meta">
-                <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 20v-8a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v8"/><path d="M4 10V6a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v4"/><path d="M2 17h20"/></svg> 4 Beds</span>
-                <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 6 6.5 3.5a1.5 1.5 0 0 0-1-.5C4.7 3 4 3.7 4 4.5V17a5 5 0 0 0 5 5h6a5 5 0 0 0 5-5v-2H4"/><path d="M8 6h4"/></svg> 4 Baths</span>
-                <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 3 3 21"/><path d="M21 3h-6M21 3v6M3 21h6M3 21v-6"/></svg> 4,100 sqft</span>
-              </div>
-            </article>
-
-            <article class="property-card" data-status="rent" data-type="office" data-beds="0" data-price="6000" data-area="2700" data-date="2026-08-03">
-              <div class="property-card__media">
-                <span class="badge badge--rent">For Rent</span>
                 <button class="fav-btn" data-fav="p8" aria-label="Save to favorites"><svg viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/></svg></button>
-                <a href="property-detail.html"><img src="https://images.unsplash.com/photo-1497366754035-f200968a6e72?auto=format&fit=crop&w=800&q=75" alt="Modern office interior" loading="lazy"></a>
-                <div class="property-card__price">$6,000 <small>/mo</small></div>
+                <a href="property-detail.html"><img src="https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?auto=format&fit=crop&w=800&q=75" alt="Bright city condo" loading="lazy"></a>
+                <div class="property-card__price">$1,050,000</div>
               </div>
               <div class="property-card__body">
-                <h3><a href="property-detail.html">Class A Office Suite</a></h3>
-                <p class="property-card__loc"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg> The Loop, Chicago, IL</p>
-              </div>
-              <div class="property-card__meta">
-                <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="16" height="20" x="4" y="2" rx="2"/><path d="M9 22v-4h6v4"/><path d="M8 6h.01M16 6h.01M12 6h.01M12 10h.01M12 14h.01M16 10h.01M16 14h.01M8 10h.01M8 14h.01"/></svg> Office</span>
-                <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 3 3 21"/><path d="M21 3h-6M21 3v6M3 21h6M3 21v-6"/></svg> 2,700 sqft</span>
-              </div>
-            </article>
-
-            <article class="property-card" data-status="sale" data-type="apartment" data-beds="2" data-price="475000" data-area="780" data-date="2026-08-06">
-              <div class="property-card__media">
-                <span class="badge">For Sale</span>
-                <button class="fav-btn" data-fav="p9" aria-label="Save to favorites"><svg viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/></svg></button>
-                <a href="property-detail.html"><img src="https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?auto=format&fit=crop&w=800&q=75" alt="Bright two-bedroom condo" loading="lazy"></a>
-                <div class="property-card__price">$475,000</div>
-              </div>
-              <div class="property-card__body">
-                <h3><a href="property-detail.html">Bright Two-Bedroom Condo</a></h3>
-                <p class="property-card__loc"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg> Little Italy, San Diego, CA</p>
+                <h3><a href="property-detail.html">Nob Hill Condo</a></h3>
+                <p class="property-card__loc"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg> Nob Hill, San Francisco, CA</p>
               </div>
               <div class="property-card__meta">
                 <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 20v-8a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v8"/><path d="M4 10V6a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v4"/><path d="M2 17h20"/></svg> 2 Beds</span>
                 <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 6 6.5 3.5a1.5 1.5 0 0 0-1-.5C4.7 3 4 3.7 4 4.5V17a5 5 0 0 0 5 5h6a5 5 0 0 0 5-5v-2H4"/><path d="M8 6h4"/></svg> 2 Baths</span>
-                <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 3 3 21"/><path d="M21 3h-6M21 3v6M3 21h6M3 21v-6"/></svg> 780 sqft</span>
+                <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 3 3 21"/><path d="M21 3h-6M21 3v6M3 21h6M3 21v-6"/></svg> 1,100 sqft</span>
+              </div>
+            </article>
+
+            <article class="property-card" data-type="luxury" data-beds="5" data-price="1980000" data-area="4200" data-date="2026-08-06">
+              <div class="property-card__media">
+                <span class="badge">For Sale</span>
+                <button class="fav-btn" data-fav="p9" aria-label="Save to favorites"><svg viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/></svg></button>
+                <a href="property-detail.html"><img src="https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?auto=format&fit=crop&w=800&q=75" alt="Estate home with pool" loading="lazy"></a>
+                <div class="property-card__price">$1,980,000</div>
+              </div>
+              <div class="property-card__body">
+                <h3><a href="property-detail.html">Villa Park Estate</a></h3>
+                <p class="property-card__loc"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg> Villa Park, CA</p>
+              </div>
+              <div class="property-card__meta">
+                <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 20v-8a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v8"/><path d="M4 10V6a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v4"/><path d="M2 17h20"/></svg> 5 Beds</span>
+                <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 6 6.5 3.5a1.5 1.5 0 0 0-1-.5C4.7 3 4 3.7 4 4.5V17a5 5 0 0 0 5 5h6a5 5 0 0 0 5-5v-2H4"/><path d="M8 6h4"/></svg> 5 Baths</span>
+                <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 3 3 21"/><path d="M21 3h-6M21 3v6M3 21h6M3 21v-6"/></svg> 4,200 sqft</span>
               </div>
             </article>
 
@@ -292,7 +365,7 @@
 
           <div class="no-results" id="noResults" hidden>
             <strong>No matching results found</strong>
-            Try adjusting or clearing some filters to see more properties.
+            Try adjusting or clearing some filters to see more homes.
           </div>
         </div>
 
@@ -309,42 +382,45 @@
             <span class="logo-mark" aria-hidden="true">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
             </span>
-            <span>Home<em>Lander</em></span>
+            <span>Sean<em>Truong</em></span>
           </a>
-          <p>A trusted real estate platform with over 15 years of experience, connecting thousands of buyers and sellers every year.</p>
+          <p>Sean Truong is a Realtor® with First Team Real Estate, helping families buy and sell homes across Orange County and the San Francisco Bay Area — in English and Vietnamese.</p>
         </div>
         <div class="footer-col">
-          <h4>Quick Links</h4>
+          <h4>Buy &amp; Sell</h4>
           <ul>
-            <li><a href="index.html">Home</a></li>
-            <li><a href="properties.html">Properties</a></li>
-            <li><a href="agents.html">Agents</a></li>
-            <li><a href="contact.html">Contact</a></li>
+            <li><a href="properties.html">Property Search</a></li>
+            <li><a href="index.html#featured">Featured Homes</a></li>
+            <li><a href="contact.html">Home Valuation</a></li>
+            <li><a href="contact.html">Buyer Consultation</a></li>
+            <li><a href="contact.html">Seller Consultation</a></li>
           </ul>
         </div>
         <div class="footer-col">
-          <h4>Property Types</h4>
+          <h4>Areas</h4>
           <ul>
-            <li><a href="properties.html">Apartments</a></li>
-            <li><a href="properties.html">Houses</a></li>
-            <li><a href="properties.html">Villas</a></li>
-            <li><a href="properties.html">Offices</a></li>
+            <li><a href="properties.html?keyword=Irvine">Irvine</a></li>
+            <li><a href="properties.html?keyword=Newport%20Beach">Newport Beach</a></li>
+            <li><a href="properties.html?keyword=Anaheim%20Hills">Anaheim Hills</a></li>
+            <li><a href="properties.html?keyword=San%20Francisco">San Francisco</a></li>
+            <li><a href="properties.html?keyword=San%20Jose">San Jose</a></li>
           </ul>
         </div>
         <div class="footer-col">
-          <h4>Contact Us</h4>
+          <h4>Contact</h4>
           <div class="contact-lines">
-            <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg> 1200 Congress Ave, Austin, TX 78701</span>
-            <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg> (800) 555-0199</span>
-            <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg> info@homelander.us</span>
+            <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg> 2600 Michelson Dr, Suite 100, Irvine, CA 92612</span>
+            <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg> (714) 555-0134</span>
+            <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg> sean@seantruonghomes.com</span>
+            <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M2 12h20"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg> Planning an international move? Visit <a href="https://wwpath.us" style="color: var(--gray-300); text-decoration: underline;">Worldwide Path</a> — our strategic immigration resource.</span>
           </div>
         </div>
       </div>
       <div class="footer-bottom">
-        <p>© 2026 HomeLander. All rights reserved.</p>
+        <p>© 2026 Sean Truong · First Team Real Estate. All rights reserved.</p>
         <div class="socials">
           <a href="#" aria-label="Facebook"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg></a>
-          <a href="#" aria-label="Twitter"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M22 4s-.7 2.1-2 3.4c1.6 10-9.4 17.3-18 11.6 2.2.1 4.4-.6 6-2C3 15.5.5 9.6 3 5c2.2 2.6 5.6 4.1 9 4-.9-4.2 4-6.6 7-3.8 1.1 0 3-1.2 3-1.2z"/></svg></a>
+          <a href="#" aria-label="LinkedIn"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-4 0v7h-4v-7a6 6 0 0 1 6-6zM2 9h4v12H2z"/><circle cx="4" cy="4" r="2"/></svg></a>
           <a href="#" aria-label="Instagram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="20" height="20" x="2" y="2" rx="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" x2="17.51" y1="6.5" y2="6.5"/></svg></a>
           <a href="#" aria-label="Youtube"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M23 12s0-3.85-.5-5.68a2.9 2.9 0 0 0-2-2C18.88 4 12 4 12 4s-6.88 0-8.5.32a2.9 2.9 0 0 0-2 2C1 8.15 1 12 1 12s0 3.85.5 5.68a2.9 2.9 0 0 0 2 2C5.12 20 12 20 12 20s6.88 0 8.5-.32a2.9 2.9 0 0 0 2-2C23 15.85 23 12 23 12Zm-13 3.27V8.73L15.5 12Z"/></svg></a>
         </div>
@@ -356,6 +432,9 @@
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m18 15-6-6-6 6"/></svg>
   </button>
 
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
   <script src="js/main.js"></script>
+  <script src="js/animations.js"></script>
 </body>
 </html>

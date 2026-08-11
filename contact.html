@@ -3,37 +3,121 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Contact Us — HomeLander</title>
-  <meta name="description" content="Get in touch with HomeLander for buying, selling, and renting real estate.">
+  <title>Contact | Sean Truong Real Estate</title>
+  <meta name="description" content="Schedule a buyer or seller consultation with Sean Truong, First Team Real Estate — Orange County and Bay Area.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/mobile.css">
 </head>
 <body>
 
   <!-- ================= HEADER ================= -->
   <header class="site-header" id="siteHeader">
     <div class="container header-inner">
-      <a href="index.html" class="logo" aria-label="HomeLander - Home">
+      <a href="index.html" class="logo" aria-label="Sean Truong - Home">
         <span class="logo-mark" aria-hidden="true">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
         </span>
-        <span>Home<em>Lander</em></span>
+        <span>Sean<em>Truong</em></span>
       </a>
+
       <nav class="main-nav" id="mainNav" aria-label="Main navigation">
         <ul>
-          <li><a href="index.html">Home</a></li>
-          <li><a href="properties.html">Properties</a></li>
-          <li><a href="agents.html">Agents</a></li>
+          <li class="has-dropdown">
+            <button type="button" class="nav-link" aria-expanded="false">Buy
+              <svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg>
+            </button>
+            <div class="dropdown">
+              <a href="properties.html">Property Search</a>
+              <a href="index.html#featured">Featured Homes</a>
+              <a href="properties.html">New Listings</a>
+              <a href="#">Open Houses</a>
+              <a href="#">Buying Process</a>
+              <a href="#">Financing Resources</a>
+            </div>
+          </li>
+          <li class="has-dropdown">
+            <button type="button" class="nav-link" aria-expanded="false">Sell
+              <svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg>
+            </button>
+            <div class="dropdown">
+              <a href="contact.html">Home Valuation</a>
+              <a href="#">Selling Process</a>
+              <a href="#">Marketing Strategy</a>
+              <a href="contact.html">Seller Consultation</a>
+            </div>
+          </li>
+          <li class="has-dropdown">
+            <button type="button" class="nav-link" aria-expanded="false">Luxury
+              <svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg>
+            </button>
+            <div class="dropdown">
+              <a href="properties.html?type=luxury">Luxury Properties</a>
+              <a href="#">Estate Homes</a>
+              <a href="#">Luxury Communities</a>
+              <a href="#">Private &amp; Off-Market</a>
+            </div>
+          </li>
+          <li class="has-dropdown">
+            <button type="button" class="nav-link" aria-expanded="false">Areas
+              <svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg>
+            </button>
+            <div class="dropdown dropdown--mega">
+              <div class="mega-col">
+                <span class="dropdown-heading">Southern California</span>
+                <a href="properties.html?keyword=Irvine">Irvine</a>
+                <a href="properties.html?keyword=Newport%20Beach">Newport Beach</a>
+                <a href="properties.html?keyword=Tustin">Tustin &amp; North Tustin</a>
+                <a href="properties.html?keyword=Villa%20Park">Villa Park</a>
+                <a href="properties.html?keyword=Anaheim%20Hills">Anaheim Hills</a>
+                <a href="properties.html?keyword=Orange">Orange</a>
+                <a href="properties.html?keyword=Garden%20Grove">Garden Grove</a>
+                <a href="properties.html">Greater Orange County</a>
+              </div>
+              <div class="mega-col">
+                <span class="dropdown-heading">Northern California</span>
+                <a href="properties.html?keyword=San%20Francisco">San Francisco</a>
+                <a href="properties.html?keyword=San%20Jose">San Jose</a>
+                <a href="properties.html?keyword=Silicon%20Valley">Silicon Valley</a>
+                <a href="properties.html?keyword=Bay%20Area">Bay Area</a>
+              </div>
+            </div>
+          </li>
+          <li class="has-dropdown">
+            <button type="button" class="nav-link" aria-expanded="false">Resources
+              <svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg>
+            </button>
+            <div class="dropdown">
+              <a href="#">Buyer Guide</a>
+              <a href="#">Seller Guide</a>
+              <a href="#">Market Updates</a>
+              <a href="#">Real Estate Blog</a>
+              <a href="#">Mortgage &amp; Closing Costs</a>
+              <a href="#">Escrow &amp; Title</a>
+              <a href="#">Property Tax</a>
+            </div>
+          </li>
+          <li class="has-dropdown">
+            <button type="button" class="nav-link" aria-expanded="false">Relocation
+              <svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg>
+            </button>
+            <div class="dropdown">
+              <a href="#">Moving to California</a>
+              <a href="#">Buying as a Foreign Buyer</a>
+              <a href="#">Vietnamese Buyers</a>
+              <a href="#">School &amp; Community Resources</a>
+              <a href="#">Relocation Services</a>
+            </div>
+          </li>
+          <li><a href="about.html">About Sean</a></li>
           <li><a href="contact.html" class="is-active" aria-current="page">Contact</a></li>
         </ul>
       </nav>
+
       <div class="header-actions">
-        <a href="contact.html" class="btn btn--primary">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg>
-          Add Listing
-        </a>
+        <a href="contact.html" class="btn btn--primary">Schedule Consultation</a>
         <button class="nav-toggle" id="navToggle" aria-expanded="false" aria-controls="mainNav" aria-label="Open menu">
           <svg class="icon-menu" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 6h16M4 12h16M4 18h16"/></svg>
           <svg class="icon-close" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M18 6 6 18M6 6l12 12"/></svg>
@@ -46,7 +130,7 @@
     <!-- ================= PAGE HERO ================= -->
     <section class="page-hero">
       <div class="container">
-        <h1>Contact Us</h1>
+        <h1>Schedule a Consultation</h1>
         <nav class="breadcrumb" aria-label="Breadcrumb">
           <a href="index.html">Home</a>
           <span class="sep">/</span>
@@ -66,8 +150,8 @@
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg>
             </div>
             <div>
-              <h3>Main Office</h3>
-              <p>1200 Congress Ave, Suite 300,<br>Austin, TX 78701</p>
+              <h3>Office</h3>
+              <p>First Team Real Estate<br>2600 Michelson Dr, Suite 100,<br>Irvine, CA 92612</p>
             </div>
           </div>
           <div class="info-card reveal">
@@ -76,7 +160,7 @@
             </div>
             <div>
               <h3>Phone</h3>
-              <p>(800) 555-0199 (24/7)<br>(512) 555-0134</p>
+              <p>(714) 555-0134<br>Calls &amp; texts welcome — English or Vietnamese</p>
             </div>
           </div>
           <div class="info-card reveal">
@@ -85,7 +169,7 @@
             </div>
             <div>
               <h3>Email</h3>
-              <p>info@homelander.us<br>support@homelander.us</p>
+              <p>sean@seantruonghomes.com</p>
             </div>
           </div>
           <div class="info-card reveal">
@@ -93,16 +177,16 @@
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
             </div>
             <div>
-              <h3>Office Hours</h3>
-              <p>Monday — Saturday: 8:00 AM — 6:00 PM<br>Sunday: 9:00 AM — 12:00 PM</p>
+              <h3>Availability</h3>
+              <p>Monday — Saturday: 8:00 AM — 7:00 PM<br>Sunday: By appointment</p>
             </div>
           </div>
         </div>
 
         <!-- Form -->
         <div class="detail-card reveal" style="margin-top: 0;">
-          <h2>Send Us a Message</h2>
-          <p style="margin-bottom: 22px;">Fill out the form below and the HomeLander team will get back to you within 24 business hours.</p>
+          <h2>Tell Sean About Your Goals</h2>
+          <p style="margin-bottom: 22px;">Fill out the form below and Sean will personally get back to you within 24 hours.</p>
           <form class="form-grid js-validate" novalidate>
             <div class="row-2">
               <div class="field">
@@ -123,22 +207,23 @@
                 <p class="field-error">Please enter a valid email address.</p>
               </div>
               <div class="field">
-                <label for="ctTopic">Subject</label>
+                <label for="ctTopic">I'm Interested In</label>
                 <select id="ctTopic" name="topic">
-                  <option value="buy">Buying a Property</option>
-                  <option value="rent">Renting a Property</option>
-                  <option value="sell">Selling / Listing a Property</option>
-                  <option value="career">Partnership / Careers</option>
+                  <option value="buyer">Buyer Consultation</option>
+                  <option value="seller">Seller Consultation</option>
+                  <option value="valuation">Free Home Valuation</option>
+                  <option value="luxury">Luxury &amp; Off-Market Homes</option>
+                  <option value="relocation">Relocation / Foreign Buyer</option>
                   <option value="other">Other</option>
                 </select>
               </div>
             </div>
             <div class="field">
               <label for="ctMsg">Message <span class="req">*</span></label>
-              <textarea id="ctMsg" name="message" rows="6" required placeholder="Tell us what you're looking for..."></textarea>
+              <textarea id="ctMsg" name="message" rows="6" required placeholder="Tell Sean what you're looking for — areas, timeline, budget..."></textarea>
               <p class="field-error">Please enter your message.</p>
             </div>
-            <p class="form-success">Thank you! Your message has been sent successfully. We'll get back to you shortly.</p>
+            <p class="form-success">Thank you! Your message has been sent. Sean will get back to you within 24 hours.</p>
             <div>
               <button type="submit" class="btn btn--primary">
                 Send Message
@@ -152,7 +237,7 @@
 
       <!-- Map -->
       <div class="container" style="margin-top: 48px;">
-        <div class="map-placeholder reveal" style="aspect-ratio: 16 / 5;" role="img" aria-label="HomeLander office location map (placeholder)">
+        <div class="map-placeholder reveal" style="aspect-ratio: 16 / 5;" role="img" aria-label="Office location map (placeholder)">
           <svg class="pin" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3" fill="#fff"/></svg>
           <small>Map placeholder — Google Maps integration coming in a later phase</small>
         </div>
@@ -169,42 +254,45 @@
             <span class="logo-mark" aria-hidden="true">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
             </span>
-            <span>Home<em>Lander</em></span>
+            <span>Sean<em>Truong</em></span>
           </a>
-          <p>A trusted real estate platform with over 15 years of experience, connecting thousands of buyers and sellers every year.</p>
+          <p>Sean Truong is a Realtor® with First Team Real Estate, helping families buy and sell homes across Orange County and the San Francisco Bay Area — in English and Vietnamese.</p>
         </div>
         <div class="footer-col">
-          <h4>Quick Links</h4>
+          <h4>Buy &amp; Sell</h4>
           <ul>
-            <li><a href="index.html">Home</a></li>
-            <li><a href="properties.html">Properties</a></li>
-            <li><a href="agents.html">Agents</a></li>
-            <li><a href="contact.html">Contact</a></li>
+            <li><a href="properties.html">Property Search</a></li>
+            <li><a href="index.html#featured">Featured Homes</a></li>
+            <li><a href="contact.html">Home Valuation</a></li>
+            <li><a href="contact.html">Buyer Consultation</a></li>
+            <li><a href="contact.html">Seller Consultation</a></li>
           </ul>
         </div>
         <div class="footer-col">
-          <h4>Property Types</h4>
+          <h4>Areas</h4>
           <ul>
-            <li><a href="properties.html">Apartments</a></li>
-            <li><a href="properties.html">Houses</a></li>
-            <li><a href="properties.html">Villas</a></li>
-            <li><a href="properties.html">Offices</a></li>
+            <li><a href="properties.html?keyword=Irvine">Irvine</a></li>
+            <li><a href="properties.html?keyword=Newport%20Beach">Newport Beach</a></li>
+            <li><a href="properties.html?keyword=Anaheim%20Hills">Anaheim Hills</a></li>
+            <li><a href="properties.html?keyword=San%20Francisco">San Francisco</a></li>
+            <li><a href="properties.html?keyword=San%20Jose">San Jose</a></li>
           </ul>
         </div>
         <div class="footer-col">
-          <h4>Contact Us</h4>
+          <h4>Contact</h4>
           <div class="contact-lines">
-            <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg> 1200 Congress Ave, Austin, TX 78701</span>
-            <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg> (800) 555-0199</span>
-            <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg> info@homelander.us</span>
+            <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg> 2600 Michelson Dr, Suite 100, Irvine, CA 92612</span>
+            <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg> (714) 555-0134</span>
+            <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg> sean@seantruonghomes.com</span>
+            <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M2 12h20"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg> Planning an international move? Visit <a href="https://wwpath.us" style="color: var(--gray-300); text-decoration: underline;">Worldwide Path</a> — our strategic immigration resource.</span>
           </div>
         </div>
       </div>
       <div class="footer-bottom">
-        <p>© 2026 HomeLander. All rights reserved.</p>
+        <p>© 2026 Sean Truong · First Team Real Estate. All rights reserved.</p>
         <div class="socials">
           <a href="#" aria-label="Facebook"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg></a>
-          <a href="#" aria-label="Twitter"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M22 4s-.7 2.1-2 3.4c1.6 10-9.4 17.3-18 11.6 2.2.1 4.4-.6 6-2C3 15.5.5 9.6 3 5c2.2 2.6 5.6 4.1 9 4-.9-4.2 4-6.6 7-3.8 1.1 0 3-1.2 3-1.2z"/></svg></a>
+          <a href="#" aria-label="LinkedIn"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-4 0v7h-4v-7a6 6 0 0 1 6-6zM2 9h4v12H2z"/><circle cx="4" cy="4" r="2"/></svg></a>
           <a href="#" aria-label="Instagram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="20" height="20" x="2" y="2" rx="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" x2="17.51" y1="6.5" y2="6.5"/></svg></a>
           <a href="#" aria-label="Youtube"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M23 12s0-3.85-.5-5.68a2.9 2.9 0 0 0-2-2C18.88 4 12 4 12 4s-6.88 0-8.5.32a2.9 2.9 0 0 0-2 2C1 8.15 1 12 1 12s0 3.85.5 5.68a2.9 2.9 0 0 0 2 2C5.12 20 12 20 12 20s6.88 0 8.5-.32a2.9 2.9 0 0 0 2-2C23 15.85 23 12 23 12Zm-13 3.27V8.73L15.5 12Z"/></svg></a>
         </div>
@@ -216,6 +304,9 @@
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m18 15-6-6-6 6"/></svg>
   </button>
 
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
   <script src="js/main.js"></script>
+  <script src="js/animations.js"></script>
 </body>
 </html>
