@@ -204,12 +204,33 @@
     });
   }
 
+  /* ---------- 7b. Populate Area selects with U.S. states ---------- */
+  // Data comes from js/us-states.js (generated from data/us-states.json).
+  // Option value carries the state name plus ", XX" so the text filter
+  // matches either the spelled-out name or the "City, XX" listing format.
+  if (window.US_STATES && window.US_STATES.length) {
+    ["sArea", "fArea"].forEach(function (id) {
+      var select = document.getElementById(id);
+      if (!select) return;
+      var group = document.createElement("optgroup");
+      group.label = "All U.S. States";
+      window.US_STATES.forEach(function (state) {
+        var opt = document.createElement("option");
+        opt.value = state.name + "|, " + state.abbreviation;
+        opt.textContent = state.name + " (" + state.abbreviation + ")";
+        group.appendChild(opt);
+      });
+      select.appendChild(group);
+    });
+  }
+
   /* ---------- 8. Filters + sorting (listings page) ---------- */
   var filterForm = document.getElementById("filterForm");
   var listingGrid = document.getElementById("listingGrid");
 
   if (filterForm && listingGrid) {
     var fKeyword = document.getElementById("fKeyword");
+    var fArea = document.getElementById("fArea");
     var fType = document.getElementById("fType");
     var fBeds = document.getElementById("fBeds");
     var fPrice = document.getElementById("fPrice");
@@ -245,6 +266,10 @@
 
     function applyFilters() {
       var kw = normalize(fKeyword.value.trim());
+      // Area value may hold several cities separated by "|" (e.g. "Bay Area")
+      var areaTerms = fArea && fArea.value
+        ? fArea.value.split("|").map(function (t) { return normalize(t.trim()); })
+        : [];
       var type = fType.value;
       var minBeds = parseInt(fBeds.value, 10) || 0;
       var maxPrice = fPrice ? parseFloat(fPrice.value) : Infinity;
@@ -258,6 +283,7 @@
 
         var ok = true;
         if (kw && text.indexOf(kw) === -1) ok = false;
+        if (areaTerms.length && !areaTerms.some(function (t) { return text.indexOf(t) !== -1; })) ok = false;
         if (type && cType !== type) ok = false;
         if (minBeds && cBeds < minBeds) ok = false;
         if (cPrice > maxPrice) ok = false;
@@ -292,7 +318,7 @@
       applyFilters();
     });
 
-    [fType, fBeds, fPrice].forEach(function (el) {
+    [fArea, fType, fBeds, fPrice].forEach(function (el) {
       if (el) el.addEventListener("change", applyFilters);
     });
 
@@ -313,10 +339,26 @@
       });
     }
 
-    // Pick up search params from the home page (?keyword=&type=)
+    // Pick up search params from the home page (?keyword=&area=&type=)
     var params = new URLSearchParams(window.location.search);
     var hasParams = false;
-    if (params.get("keyword")) { fKeyword.value = params.get("keyword"); hasParams = true; }
+    if (params.get("keyword")) {
+      // Area links (?keyword=Irvine) predate the area select — route city names
+      // into the Area dropdown when they match an option, else keep as keyword.
+      var kwParam = params.get("keyword");
+      var matched = false;
+      if (fArea) {
+        Array.prototype.forEach.call(fArea.options, function (opt) {
+          if (!matched && opt.value && opt.value.toLowerCase() === kwParam.toLowerCase()) {
+            fArea.value = opt.value;
+            matched = true;
+          }
+        });
+      }
+      if (!matched) fKeyword.value = kwParam;
+      hasParams = true;
+    }
+    if (params.get("area") && fArea) { fArea.value = params.get("area"); hasParams = true; }
     if (params.get("type")) { fType.value = params.get("type"); hasParams = true; }
     if (hasParams) applyFilters();
 

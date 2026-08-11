@@ -449,42 +449,76 @@ html.gsap-on .reveal { opacity: 1; transform: none; transition: none; }
 /* Search bar */
 .search-bar {
   margin: 44px auto 0;
-  max-width: 900px;
+  max-width: 1000px;
   background: var(--white);
   border-radius: var(--radius);
   box-shadow: var(--shadow-lg);
-  padding: 14px;
+  padding: 16px;
   display: grid;
-  grid-template-columns: 2fr 1fr 1fr auto;
-  gap: 10px;
+  /* minmax(0, …) lets selects with long options shrink instead of
+     blowing the grid out of the white panel */
+  grid-template-columns: minmax(0, 1.3fr) minmax(0, 1.15fr) minmax(0, 1fr) minmax(0, 1fr) auto;
+  gap: 12px;
   text-align: left;
 }
-.search-bar .field { display: flex; flex-direction: column; gap: 4px; }
+.search-bar .field {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  min-width: 0;
+}
 .search-bar label {
-  font-size: 0.68rem;
+  font-size: 0.66rem;
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.1em;
   color: var(--gray-500);
   padding-left: 2px;
+  white-space: nowrap;
 }
 .search-bar input,
 .search-bar select {
-  height: 46px;
+  width: 100%;
+  min-width: 0;
+  height: 48px;
   border: 1px solid var(--gray-200);
   border-radius: var(--radius-sm);
   padding: 0 12px;
   background: var(--white);
-  transition: border-color var(--dur) var(--ease);
+  font-size: 0.9rem;
+  color: var(--gray-900);
+  transition: border-color var(--dur) var(--ease), box-shadow var(--dur) var(--ease);
+  cursor: pointer;
 }
+.search-bar input { cursor: text; }
+.search-bar select {
+  appearance: none;
+  -webkit-appearance: none;
+  background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%236b7482' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 12px center;
+  background-size: 16px;
+  padding-right: 36px;
+  text-overflow: ellipsis;
+}
+.search-bar input::placeholder { color: var(--gray-400); }
 .search-bar input:hover, .search-bar select:hover { border-color: var(--gray-400); }
-.search-bar input:focus, .search-bar select:focus { border-color: var(--navy-600); outline: none; }
-.search-bar .btn { align-self: end; min-height: 46px; }
+.search-bar input:focus, .search-bar select:focus {
+  border-color: var(--navy-600);
+  box-shadow: 0 0 0 3px rgba(29, 69, 119, 0.12);
+  outline: none;
+}
+.search-bar .btn {
+  align-self: end;
+  min-height: 48px;
+  padding-inline: 24px;
+  white-space: nowrap;
+}
 
 @media (max-width: 900px) {
-  .search-bar { grid-template-columns: 1fr 1fr; }
+  .search-bar { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); }
   .search-bar .field--keyword { grid-column: 1 / -1; }
-  .search-bar .btn { grid-column: 1 / -1; }
+  .search-bar .btn { width: 100%; }
 }
 
 /* Stats strip */
