@@ -1,5 +1,5 @@
 /**
- * Gom mọi module của khu quản trị (đăng nhập, phân quyền, nhân viên, blog, trang, thư viện, liên hệ, menu, cài đặt).
+ * Gom mọi module của khu quản trị (đăng nhập, phân quyền, nhân viên, blog, trang, thư viện, liên hệ, menu, cài đặt, nhà đăng bán).
  * Dùng bởi: src/app.module.ts.
  */
 import { Module } from '@nestjs/common';
@@ -17,6 +17,7 @@ import { ContactModule } from './contact/contact.module';
 import { DashboardModule } from './dashboard/dashboard.module';
 import { MenuItemsModule } from './menu-items/menu-items.module';
 import { SettingsModule } from './settings/settings.module';
+import { PropertiesModule } from './properties/properties.module';
 
 @Module({
   imports: [
@@ -34,6 +35,7 @@ import { SettingsModule } from './settings/settings.module';
     DashboardModule,
     MenuItemsModule,
     SettingsModule,
+    PropertiesModule,
   ],
   exports: [
     AuthModule,

@@ -1,7 +1,7 @@
 /**
  * Định dạng hiển thị của nhà đăng bán: giá đầy đủ / rút gọn, diện tích, địa điểm ngắn, địa chỉ đầy đủ.
  * Dùng bởi: property/PropertyCard.tsx, trang /properties, /properties/[slug], bộ lọc giá.
- * Lưu ý: tách khỏi properties.ts để component client dùng được mà không kéo theo file dữ liệu mẫu.
+ * Lưu ý: tách khỏi properties.ts để component client dùng được mà không kéo theo code gọi API phía server.
  */
 import type { Property } from "@/types/property";
 

@@ -27,6 +27,8 @@ import { MenuItem } from 'src/modules/admin/menu-items/menu-item.entity';
 import { SectionDefinition } from 'src/modules/admin/pages/entities/section-definition.entity';
 import { SectionDefinitionSeed } from './seeds/section-definition.seed';
 import { MenuSeed } from './seeds/menu.seed';
+import { Property } from 'src/modules/admin/properties/entities/property.entity';
+import { PropertySeed } from './seeds/property.seed';
 
 @Module({
   imports: [
@@ -42,6 +44,7 @@ import { MenuSeed } from './seeds/menu.seed';
       PageSection,
       SectionDefinition,
       MenuItem,
+      Property,
     ]),
     DiscoveryModule,
     RolesModule,
@@ -57,6 +60,7 @@ import { MenuSeed } from './seeds/menu.seed';
     PageSeed,
     SectionDefinitionSeed,
     MenuSeed,
+    PropertySeed,
   ],
 })
 export class SeedingModule {}

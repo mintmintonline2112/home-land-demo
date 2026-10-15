@@ -26,6 +26,17 @@ export const adminNavigation: AdminNavGroup[] = [
     ],
   },
   {
+    label: 'Bất động sản',
+    items: [
+      {
+        label: 'Nhà đăng bán',
+        href: adminRoutes.properties.list,
+        icon: 'property',
+        permission: 'PROPERTY_LIST',
+      },
+    ],
+  },
+  {
     label: 'Nội dung',
     items: [
       {

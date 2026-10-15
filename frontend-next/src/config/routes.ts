@@ -21,6 +21,7 @@ export const adminRoutes = {
   pageSections: adminCrudRoutes('page-sections'),
   menus: adminCrudRoutes('menus'),
   library: adminPath('library'),
+  properties: adminCrudRoutes('properties'),
 
   contacts: adminPath('contacts'),
   contactPage: adminPath('contact-page'),

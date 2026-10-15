@@ -28,7 +28,7 @@ home-land-demo/
 | Trang | Nguồn nội dung |
 |---|---|
 | `/` , `/about`, `/contact` | Section CMS (Admin → Trang / Section), nội dung mặc định ở `backend/.../seeds/page.seed.ts` |
-| `/properties`, `/properties/<slug>` | **Tạm** đọc `frontend-next/src/content/demo-properties.json` (9 nhà mẫu của demo) qua `_lib/properties.ts` — khi backend có module Properties chỉ cần đổi 2 hàm `getProperties` / `getProperty` sang API |
+| `/properties`, `/properties/<slug>`, mục Featured Homes | Admin → **Nhà đăng bán** (bảng `properties`, API `GET /api/client/properties`); 9 nhà mẫu của demo nằm ở `backend/.../seeds/property.seed.ts` |
 | `/news`, `/news/<slug>` | Bài viết (Admin → Bài viết) |
 | Menu, logo, liên hệ, màu | Admin → Menu / Cài đặt / Trang Liên hệ (trống thì dùng mặc định trong `frontend-next/src/config/`) |
 

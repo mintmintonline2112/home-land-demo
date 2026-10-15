@@ -2,7 +2,7 @@
  * Trang chi tiết nhà (/properties/<slug>): breadcrumb, tên + địa chỉ + giá, bộ ảnh, tổng quan, mô tả, tiện ích, bảng thông số, vị trí;
  * cột phải là thẻ môi giới + form hẹn xem nhà + thẻ gọi điện; cuối trang là nhà cùng vùng.
  * Dùng bởi: Next.js App Router (route động /properties/[slug]).
- * Lưu ý: nhà lấy từ _lib/properties.ts (tạm là dữ liệu mẫu); thông tin môi giới lấy từ resolveContact (Admin → Trang Liên hệ, trống thì config/contact.ts).
+ * Lưu ý: nhà lấy từ _lib/properties.ts (API backend); thông tin môi giới lấy từ resolveContact (Admin → Trang Liên hệ, trống thì config/contact.ts).
  */
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";

@@ -1,5 +1,5 @@
 /**
- * Chạy lần lượt các seed: quyền → vai trò → nhân viên → blog → trang → định nghĩa section → menu.
+ * Chạy lần lượt các seed: quyền → vai trò → nhân viên → blog → trang → định nghĩa section → menu → nhà đăng bán.
  * Dùng bởi: src/seed.ts (qua seeding.module.ts).
  * Lưu ý: giữ đúng thứ tự — vai trò cần quyền, nhân viên cần vai trò.
  */
@@ -11,6 +11,7 @@ import { BlogSeed } from './seeds/blog.seed';
 import { PageSeed } from './seeds/page.seed';
 import { SectionDefinitionSeed } from './seeds/section-definition.seed';
 import { MenuSeed } from './seeds/menu.seed';
+import { PropertySeed } from './seeds/property.seed';
 
 @Injectable()
 export class SeedingService {
@@ -22,6 +23,7 @@ export class SeedingService {
     private readonly pageSeed: PageSeed,
     private readonly sectionDefinitionSeed: SectionDefinitionSeed,
     private readonly menuSeed: MenuSeed,
+    private readonly propertySeed: PropertySeed,
   ) {}
 
   async run(): Promise<void> {
@@ -33,5 +35,6 @@ export class SeedingService {
     await this.pageSeed.run();
     await this.sectionDefinitionSeed.run();
     await this.menuSeed.run();
+    await this.propertySeed.run();
   }
 }

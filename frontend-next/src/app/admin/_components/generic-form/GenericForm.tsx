@@ -1,7 +1,7 @@
 'use client';
 
 /**
- * Form dùng chung của admin dựng từ danh sách field (text, select, richtext, ảnh, video, tags…), có nhóm gập/mở và cột ảnh bìa.
+ * Form dùng chung của admin dựng từ danh sách field (text, select, richtext, ảnh, bộ ảnh, video, tags…), có nhóm gập/mở và cột ảnh bìa.
  * Dùng bởi: các màn *Form.tsx trong app/admin/(protected) (bài viết, danh mục, trang, section, menu, nhân sự).
  * Lưu ý: chỉ gọi watch() toàn form khi có field dùng `renderExtra` (watch làm form re-render theo mỗi thay đổi).
  * Ảnh bìa hỏi nén trước khi nhận (hủy thì giữ ảnh cũ); ảnh đã qua hộp thoại thì backend không nén lại.
@@ -16,6 +16,7 @@ import { resolveImageUrl } from '@/app/admin/_lib/image-url';
 import { RichTextEditor } from '@/app/admin/_components/rich-text-editor/RichTextEditor';
 import { LibraryPicker } from '@/app/admin/_components/library-picker/LibraryPicker';
 import { VideoInput, type VideoOrientation } from './VideoInput';
+import { GalleryInput, type GalleryImage } from './GalleryInput';
 import { useImageCompressConfirm } from '@/app/admin/_components/image-compress-dialog/useImageCompressConfirm';
 import type { GenericFormField, GenericFormGroup } from './types';
 
@@ -181,6 +182,12 @@ export function GenericForm<T extends FieldValues>({
             value={(watch(field.key as never) as unknown as string) ?? ''}
             onChange={(nextValue) => setValue(field.key as never, nextValue as never, { shouldDirty: true })}
             placeholder={field.placeholder}
+            disabled={isDisabled(field)}
+          />
+        ) : field.type === 'gallery' ? (
+          <GalleryInput
+            value={(watch(field.key as never) as unknown as GalleryImage[]) ?? []}
+            onChange={(nextValue) => setValue(field.key as never, nextValue as never, { shouldDirty: true })}
             disabled={isDisabled(field)}
           />
         ) : field.type === 'video' ? (

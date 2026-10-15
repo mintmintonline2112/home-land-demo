@@ -1,7 +1,7 @@
 /**
  * Kiểu dữ liệu nhà đăng bán (listing) mà site public hiển thị: thẻ nhà, trang chi tiết, bộ lọc tìm kiếm.
  * Dùng bởi: app/(site)/_lib/properties.ts, sections property-grid, trang properties và properties/[slug].
- * Lưu ý: khớp với file mẫu src/content/demo-properties.json; khi backend có module Properties thì API trả đúng hình dạng này.
+ * Lưu ý: API backend (client/properties) trả hơi khác (description là văn bản, isFeatured…); _lib/properties.ts (toProperty) đổi sang kiểu này.
  */
 export type PropertyType = "house" | "condo" | "townhouse" | "luxury";
 

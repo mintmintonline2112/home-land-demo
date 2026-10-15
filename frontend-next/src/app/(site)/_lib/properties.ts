@@ -1,31 +1,81 @@
 /**
- * Nguồn dữ liệu nhà đăng bán cho site public: lấy danh sách / một nhà / nhà nổi bật / nhà cùng vùng, lọc theo ô tìm kiếm, sắp xếp.
+ * Nguồn dữ liệu nhà đăng bán cho site public: lấy danh sách / một nhà / nhà nổi bật / nhà cùng vùng từ API, lọc theo ô tìm kiếm, sắp xếp.
  * Dùng bởi: sections/property-grid, trang /properties, /properties/[slug], src/app/sitemap.ts.
- * Lưu ý: tạm đọc src/content/demo-properties.json (nhà mẫu của bản demo). Khi backend có module Properties chỉ cần đổi
- * getProperties / getProperty sang apiFetch("client/properties…"), phần lọc giữ nguyên. Định dạng giá / địa chỉ ở property-format.ts.
+ * Lưu ý: API `client/properties` trả toàn bộ nhà đang hiện (ít nhà nên lọc ngay tại đây), cache 60 giây theo tag "properties"
+ * (backend báo revalidate khi admin sửa). API lỗi thì trả rỗng — không hiện nhà mẫu để tránh đăng nhà đã bán.
+ * toProperty đổi dữ liệu API (description là văn bản, ảnh có thể là uploads/...) sang kiểu Property của giao diện.
  */
-import demoJson from "@/content/demo-properties.json";
+import { ApiError, apiFetch } from "@/api/api-fetch";
 import { KEYWORD_ALIASES } from "@/config/property-search";
 import type { Property, PropertyQuery, PropertySort } from "@/types/property";
+import { toMediaUrl } from "./cms";
 
-const DEMO_PROPERTIES = (demoJson as unknown as { properties: Property[] }).properties;
+const PROPERTIES_REVALIDATE_SECONDS = 60;
+
+const PROPERTIES_REQUEST_INIT = {
+  next: { revalidate: PROPERTIES_REVALIDATE_SECONDS, tags: ["properties"] },
+};
+
+type ApiProperty = Omit<Property, "description" | "featured" | "images" | "amenities" | "listedAt"> & {
+  description: string | null;
+  isFeatured: boolean;
+  amenities: string[] | null;
+  images: Array<{ src: string; alt?: string }> | null;
+  listedAt: string | null;
+  neighborhood: string | null;
+  typeLabel: string | null;
+  listingId: string | null;
+};
+
+function toProperty(item: ApiProperty): Property {
+  return {
+    ...item,
+    neighborhood: item.neighborhood ?? undefined,
+    typeLabel: item.typeLabel ?? "",
+    listingId: item.listingId ?? "",
+    featured: Boolean(item.isFeatured),
+    listedAt: item.listedAt ?? "",
+    description: (item.description ?? "")
+      .split(/\n{2,}/)
+      .map((paragraph) => paragraph.trim())
+      .filter(Boolean),
+    amenities: item.amenities ?? [],
+    images: (item.images ?? [])
+      .filter((image) => image.src)
+      .map((image) => ({ src: toMediaUrl(image.src) ?? image.src, alt: image.alt ?? "" })),
+  };
+}
 
 export async function getProperties(): Promise<Property[]> {
-  return DEMO_PROPERTIES;
+  try {
+    const items = await apiFetch<ApiProperty[]>("client/properties", PROPERTIES_REQUEST_INIT);
+    return (items ?? []).map(toProperty);
+  } catch {
+    return [];
+  }
 }
 
 export async function getProperty(slug: string): Promise<Property | null> {
-  return DEMO_PROPERTIES.find((property) => property.slug === slug) ?? null;
+  try {
+    const item = await apiFetch<ApiProperty | null>(
+      `client/properties/slug/${encodeURIComponent(slug)}`,
+      PROPERTIES_REQUEST_INIT,
+    );
+    return item ? toProperty(item) : null;
+  } catch (error) {
+    if (error instanceof ApiError && error.status === 404) return null;
+    return null;
+  }
 }
 
 export async function getFeaturedProperties(limit = 6): Promise<Property[]> {
-  return DEMO_PROPERTIES.filter((property) => property.featured).slice(0, limit);
+  return (await getProperties()).filter((property) => property.featured).slice(0, limit);
 }
 
 export async function getRelatedProperties(property: Property, limit = 3): Promise<Property[]> {
-  return DEMO_PROPERTIES.filter(
-    (candidate) => candidate.slug !== property.slug && candidate.region === property.region,
-  ).slice(0, limit);
+  return (await getProperties())
+    .filter((candidate) => candidate.slug !== property.slug && candidate.region === property.region)
+    .slice(0, limit);
 }
 
 const normalize = (text: string) => text.trim().toLowerCase();

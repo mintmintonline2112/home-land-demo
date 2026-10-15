@@ -6,6 +6,7 @@ import type { ReactNode, SVGProps } from 'react';
 
 export type AdminIconName =
   | 'dashboard'
+  | 'property'
   | 'article'
   | 'category'
   | 'page'
@@ -25,6 +26,7 @@ export type AdminIconName =
   | 'refresh';
 
 const ICON_SHAPES: Record<AdminIconName, ReactNode> = {
+  property: <><path d="M3 10.5 12 3l9 7.5V21H3z"/><path d="M9 21v-7h6v7"/></>,
   dashboard: <><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></>,
   article: <><path d="M6 3h9l4 4v14H6z"/><path d="M15 3v5h5M9 12h6M9 16h6"/></>,
   category: <><path d="M3 6h7l2 3h9v10H3z"/><path d="M3 6V4h7l2 2"/></>,

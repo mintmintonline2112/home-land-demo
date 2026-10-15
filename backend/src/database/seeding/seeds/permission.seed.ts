@@ -21,6 +21,7 @@ import { AdminContactController } from 'src/modules/admin/contact/admin-contact.
 import { MenuItemsController } from 'src/modules/admin/menu-items/menu-items.controller';
 import { SettingsController } from 'src/modules/admin/settings/settings.controller';
 import { NotificationController } from 'src/modules/admin/notifications/notification.controller';
+import { PropertiesController } from 'src/modules/admin/properties/properties.controller';
 
 const PERMISSIONS_METADATA_KEY = 'permissions';
 const ENTITY_METADATA_KEY = 'entity';
@@ -53,6 +54,7 @@ export class PermissionSeed {
       MenuItemsController,
       SettingsController,
       NotificationController,
+      PropertiesController,
     ];
 
     const actionLabels: Record<string, string> = {
@@ -79,6 +81,7 @@ export class PermissionSeed {
       LIBRARY: 'Library',
       CONTACT: 'Contact',
       NOTIFICATION: 'Notification',
+      PROPERTY: 'Property',
     };
 
     const permissionsToInsert: Partial<Permission>[] = [];

@@ -1,5 +1,5 @@
 /*
- * Giao diện khu quản trị Prime Nuts CMS: token màu --admin-*, shell, sidebar, dashboard, login và các component dùng chung (bảng, phân trang,
+ * Giao diện khu quản trị Sean Truong CMS: token màu --admin-*, shell, sidebar, dashboard, login và các component dùng chung (bảng, phân trang,
  * form, chuông thông báo, thư viện, cài đặt, page section…).
  * Dùng bởi: app/admin/layout.tsx.
  * Lưu ý: bảng màu đồng bộ với :root của site (styles/base.css). Khối tinh chỉnh ở cuối file cố ý đè các rule phía trên — giữ thứ tự rule.
@@ -3161,3 +3161,11 @@ body .swal2-html-container {
   background: #e9e4d8;
 }
 .me-focal-frame img { display: block; width: 100%; height: 100%; object-fit: cover; }
+
+.gf-gallery { display: flex; flex-direction: column; gap: 10px; }
+.gf-gallery-list { display: flex; flex-direction: column; gap: 8px; margin: 0; padding: 0; list-style: none; }
+.gf-gallery-item { display: grid; grid-template-columns: 96px minmax(0, 1fr) auto; align-items: center; gap: 10px; }
+.gf-gallery-thumb { position: relative; width: 96px; aspect-ratio: 3 / 2; overflow: hidden; border-radius: 6px; background: #eef1f5; }
+.gf-gallery-thumb img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.gf-gallery-badge { position: absolute; left: 4px; top: 4px; padding: 1px 6px; border-radius: 4px; background: rgba(20, 51, 92, 0.85); color: #fff; font-size: 10px; font-weight: 600; }
+.gf-gallery-actions { display: flex; gap: 4px; }

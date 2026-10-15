@@ -1,7 +1,7 @@
 /**
  * Kiểu dữ liệu của GenericForm: loại field, field, nhóm field, lựa chọn của ô select.
  * Dùng bởi: GenericForm.tsx, _lib/publish-status.ts, seo-fields.ts, translation-fields.ts và các màn *Form.tsx của admin.
- * Lưu ý: field `video` lưu hướng video vào `orientationKey` (mặc định `${key}Orientation`); `renderExtra` nhận toàn bộ giá trị form.
+ * Lưu ý: field `gallery` có giá trị là mảng {src, alt} (GalleryInput.tsx). Field `video` lưu hướng video vào `orientationKey` (mặc định `${key}Orientation`); `renderExtra` nhận toàn bộ giá trị form.
  */
 import type { ReactNode } from 'react';
 import type { RegisterOptions } from 'react-hook-form';
@@ -20,7 +20,8 @@ export type GenericFieldType =
   | 'video'
   | 'date'
   | 'tel'
-  | 'tags';
+  | 'tags'
+  | 'gallery';
 
 export interface GenericSelectOption {
   label: string;
