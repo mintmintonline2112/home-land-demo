@@ -3,7 +3,7 @@
 /**
  * Ô "Sắp xếp" trên đầu danh sách nhà (/properties): đổi lựa chọn thì đổi tham số sort trên URL, giữ nguyên các bộ lọc khác.
  * Dùng bởi: app/(site)/properties/page.tsx.
- * Lưu ý: dùng router.replace + scroll: false để không nhảy lên đầu trang; "newest" là mặc định nên bỏ khỏi URL.
+ * Lưu ý: dùng router.replace + scroll: false để không nhảy lên đầu trang; "newest" là mặc định nên bỏ khỏi URL; đổi cách sắp xếp thì về trang 1.
  */
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { SORT_OPTIONS } from "@/config/property-search";
@@ -15,6 +15,7 @@ export function SortSelect({ value }: { value: string }) {
 
   function handleSortChange(nextSort: string) {
     const params = new URLSearchParams(searchParams.toString());
+    params.delete("page");
     if (nextSort === "newest") params.delete("sort");
     else params.set("sort", nextSort);
     const query = params.toString();

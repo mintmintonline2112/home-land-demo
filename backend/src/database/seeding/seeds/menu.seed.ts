@@ -60,6 +60,7 @@ const MENU_TREE: SeedMenuItem[] = [
       areaChild('Anaheim Hills', 'Anaheim Hills'),
       areaChild('Orange', 'Orange'),
       areaChild('Garden Grove', 'Garden Grove'),
+      areaChild('Westminster (Little Saigon)', 'Westminster'),
       areaChild('San Francisco', 'San Francisco'),
       areaChild('San Jose', 'San Jose'),
       areaChild('Silicon Valley', 'Silicon Valley'),

@@ -55,6 +55,7 @@ export const SITE_MENU_ITEMS: SiteMenuItem[] = [
       areaLink("Anaheim Hills", "Anaheim Hills"),
       areaLink("Orange", "Orange"),
       areaLink("Garden Grove", "Garden Grove"),
+      areaLink("Westminster (Little Saigon)", "Westminster"),
       areaLink("San Francisco", "San Francisco"),
       areaLink("San Jose", "San Jose"),
       areaLink("Silicon Valley", "Silicon Valley"),

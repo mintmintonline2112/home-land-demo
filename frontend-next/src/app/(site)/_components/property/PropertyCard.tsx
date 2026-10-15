@@ -48,11 +48,11 @@ export function PropertyCard({ property, className }: { property: Property; clas
       <div className="mx-5 flex flex-wrap gap-x-5 gap-y-2 border-t border-line py-4 text-sm font-medium text-ink-soft">
         <span className={META_ITEM}>
           <Icon name="bed" />
-          {property.beds} Beds
+          {property.beds} {property.beds === 1 ? "Bed" : "Beds"}
         </span>
         <span className={META_ITEM}>
           <Icon name="bath" />
-          {property.baths} Baths
+          {property.baths} {property.baths === 1 ? "Bath" : "Baths"}
         </span>
         <span className={META_ITEM}>
           <Icon name="area" />

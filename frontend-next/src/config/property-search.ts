@@ -18,6 +18,7 @@ const ORANGE_COUNTY_CITIES = [
   "Anaheim Hills",
   "Orange",
   "Garden Grove",
+  "Westminster",
 ];
 
 export const AREA_GROUPS: SearchOptionGroup[] = [
@@ -31,6 +32,7 @@ export const AREA_GROUPS: SearchOptionGroup[] = [
       { value: "Anaheim Hills", label: "Anaheim Hills" },
       { value: "Orange", label: "Orange" },
       { value: "Garden Grove", label: "Garden Grove" },
+      { value: "Westminster", label: "Westminster (Little Saigon)" },
       { value: ORANGE_COUNTY_CITIES.join("|"), label: "Greater Orange County" },
     ],
   },
