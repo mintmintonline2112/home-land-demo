@@ -62,7 +62,6 @@ export const propertyCrawlService = {
   resume: (id: number, input: { additionalPages: number; additionalListings: number }) => adminApi.post<CrawlRun>(`${ENDPOINT}/${id}/resume`, input),
   cancel: (id: number) => adminApi.post<CrawlRun>(`${ENDPOINT}/${id}/cancel`),
   items: (id: number, page: number) => adminApi.get<CrawlItemsPage>(`${ENDPOINT}/${id}/items?page=${page}`),
-  selection: (id: number) => adminApi.get<{ itemIds: number[]; count: number }>(`${ENDPOINT}/${id}/selection`),
   import: (id: number, itemIds: number[], publish: boolean) =>
     adminApi.post<{ created: number; updated: number; skipped: number }>(`${ENDPOINT}/${id}/import`, { itemIds, publish }),
 };

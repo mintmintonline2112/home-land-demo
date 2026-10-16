@@ -5,13 +5,12 @@ Mở **Admin → Bất động sản → Thu thập nhà** (`/admin/property-cra
 1. Dán URL trang tìm kiếm Zillow, mỗi dòng một URL. Nút **Điền URL 58 county California** tạo các điểm bắt đầu theo county.
 2. Chọn **Trang bắt đầu trên Zillow** (mặc định 1) và số trang / listing tối đa. Ví dụ bắt đầu 6, lấy 5 trang sẽ xử lý trang 6–10 nếu nguồn còn trang và chưa chạm giới hạn listing. Preset county dùng trang bắt đầu 1, tối đa 300 trang / 10.000 listing.
 3. Bắt đầu và xem tiến độ. Worker xử lý từng trang, chờ 3 giây giữa các lượt xử lý; có thể đóng trang quản trị.
-4. Mở liên kết nguồn, kiểm tra dữ liệu và chọn listing. Mỗi trang xem trước có 50 tin; checkbox đầu bảng hoặc nút **Chọn tất cả … nhà chưa nhập trong lượt này** chọn toàn bộ nhà chưa nhập ở mọi trang của lượt. Nút **Chọn nhà chưa nhập trên trang này** chỉ thêm các nhà ở trang đang xem; chuyển trang giữ nguyên lựa chọn. **Bỏ chọn tất cả** xóa lựa chọn của cả lượt.
+4. Mở liên kết nguồn, kiểm tra dữ liệu và chọn listing. Mỗi trang xem trước có tối đa 50 tin; checkbox đầu bảng hoặc nút **Chọn tất cả trên trang này** chỉ chọn nhà chưa nhập trong các dòng đang hiển thị. Chuyển trang hoặc đổi lượt sẽ bỏ lựa chọn. Nút **Bỏ chọn** xóa lựa chọn của trang hiện tại.
 5. Mặc định nhà mới được lưu ẩn. Bật **Hiển thị ngay các nhà mới sau khi nhập** nếu muốn xuất bản. Nhà cũ giữ trạng thái hiện/ẩn.
 
-Nhà có nhãn **Đã nhập** được loại khỏi chọn tất cả. Khi cả lượt đã được nhập, giao diện báo rõ không còn nhà mới để chọn.
-Chọn tất cả lấy danh sách tại thời điểm bấm; listing phát sinh thêm trong lúc crawler chạy cần bấm chọn tất cả lại.
-Các lựa chọn thuộc riêng từng lượt, đổi lượt sẽ bỏ lựa chọn cũ. Khi nhập nhiều hơn 100 nhà, giao diện gửi từng lô tối đa 100,
-hiển thị số đã xử lý; lô thành công bỏ chọn, lô lỗi và các lô chưa chạy vẫn được chọn để thử lại. Không tự gọi nhập trong kiểm thử giao diện thật.
+Nhà có nhãn **Đã nhập** được loại khỏi chọn tất cả. Nếu trang hiện tại đã nhập hết nhưng trang khác còn nhà, giao diện hướng dẫn chuyển trang.
+Số nhà đã chọn luôn chỉ tính các dòng chưa nhập trên trang hiện tại, tối đa 50, kể cả khi lượt có hàng nghìn listing.
+Nhập thành công bỏ chọn; nhập lỗi giữ các lựa chọn của trang đó để thử lại. Không tự gọi nhập trong kiểm thử giao diện thật.
 
 ## Lấy tiếp các trang sau
 
@@ -114,5 +113,5 @@ node scripts/check-property-crawl-ui.mjs
 
 Script dùng Chrome/Edge headless, đăng nhập tài khoản seed (có thể đổi bằng `CRAWL_CHECK_EMAIL` / `CRAWL_CHECK_PASSWORD`),
 kiểm tra preset county, chọn tin và bố cục 1440/390px. Không bấm nhập hoặc tạo lượt crawl.
-Đặt `CRAWL_CHECK_SELECTION=1` để dùng API mô phỏng kiểm tra chọn toàn lượt qua nhiều trang, bỏ chọn từng phần,
-nhập hơn 100 nhà và phục hồi sau lỗi lô; không ghi vào dữ liệu thật.
+Đặt `CRAWL_CHECK_SELECTION=1` để dùng API mô phỏng kiểm tra chọn riêng 45/50/25 nhà trên từng trang,
+chuyển trang bỏ chọn, chỉ nhập các dòng đang hiển thị và phục hồi sau lỗi; không ghi vào dữ liệu thật.

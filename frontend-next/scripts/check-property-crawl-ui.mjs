@@ -1,7 +1,7 @@
 /**
  * Kiểm tra màn hình crawl bằng Chrome/Edge headless qua CDP: preset county, chọn tin và bố cục desktop/mobile.
  * Dùng bởi: node scripts/check-property-crawl-ui.mjs; cần frontend/API local đang chạy và tài khoản seed hoặc CRAWL_CHECK_EMAIL/PASSWORD.
- * Lưu ý: mặc định chỉ đọc; CRAWL_CHECK_SELECTION=1 dùng API mô phỏng để thử chọn toàn lượt và nhập nhiều lô, không ghi dữ liệu thật.
+ * Lưu ý: mặc định chỉ đọc; CRAWL_CHECK_SELECTION=1 dùng API mô phỏng để thử chọn tối đa 50 dòng trên từng trang, không ghi dữ liệu thật.
  */
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
@@ -50,7 +50,7 @@ function installSelectionFixtures() {
     data: { title: `Selection test ${index + 1}`, price: 1000000, beds: 3, baths: 2, sqft: 1200, status: 'For Sale', images: [] },
     fetchedAt: new Date().toISOString(), propertyId: index < 5 ? 1000 + index : null,
   }));
-  const state = { imports: [], failNextSecondBatch: true };
+  const state = { imports: [], failNextImport: true, selectionRequests: 0 };
   window.__crawlSelectionCheck = state;
   const run = { id: 990001, status: 'completed', pages: 3, found: 125, skipped: 0, maxPages: 3, maxListings: 200,
     pendingUrls: [], visitedUrls: ['https://www.zillow.com/ca/'], messages: [], createdAt: new Date().toISOString(),
@@ -62,8 +62,8 @@ function installSelectionFixtures() {
     const url = new URL(typeof input === 'string' ? input : input.url, location.href);
     if (!url.pathname.includes('/admin/property-crawl')) return originalFetch(input, init);
     if (url.pathname.endsWith('/selection')) {
-      const itemIds = records.filter((item) => !item.propertyId).map((item) => item.id);
-      return json({ itemIds, count: itemIds.length });
+      state.selectionRequests++;
+      return json(null, 400);
     }
     if (url.pathname.endsWith('/items')) {
       const page = Number(url.searchParams.get('page') || 1);
@@ -73,7 +73,7 @@ function installSelectionFixtures() {
     if (url.pathname.endsWith('/import')) {
       const body = JSON.parse(init.body);
       state.imports.push(body);
-      if (state.imports.length === 2 && state.failNextSecondBatch) { state.failNextSecondBatch = false; return json(null, 503); }
+      if (state.failNextImport) { state.failNextImport = false; return json(null, 503); }
       let created = 0;
       for (const item of records) {
         if (body.itemIds.includes(item.id) && !item.propertyId) { item.propertyId = item.id; created++; }
@@ -84,41 +84,50 @@ function installSelectionFixtures() {
   };
 }
 
-async function checkGlobalSelection() {
+async function checkPageSelection() {
   const clickButton = (text) => evaluate(`Array.from(document.querySelectorAll('button')).find(button => button.textContent.includes(${JSON.stringify(text)})).click()`);
   const selectedCount = (count) => evaluate(`Array.from(document.querySelectorAll('button')).some(button => button.textContent === 'Nhập ${count} nhà đã chọn' && ${count ? '!button.disabled' : 'button.disabled'})`);
   await evaluate(`document.querySelector('thead input[type=checkbox]').click()`);
-  await waitFor(() => selectedCount(120), 'chọn 120 nhà chưa nhập trên cả 3 trang');
+  await waitFor(() => selectedCount(45), 'chỉ chọn 45 nhà chưa nhập trong 50 dòng trang đầu');
   assert.equal(await evaluate(`Array.from(document.querySelectorAll('tbody input:disabled')).length`), 5);
   assert.equal(await evaluate(`document.querySelector('thead input').checked`), true);
   await evaluate(`document.querySelector('tbody input:not(:disabled)').click()`);
-  await waitFor(() => selectedCount(119), 'bỏ chọn một nhà');
+  await waitFor(() => selectedCount(44), 'bỏ chọn một nhà');
   assert.equal(await evaluate(`document.querySelector('thead input').indeterminate`), true);
-  await clickButton('Chọn tất cả 120');
-  await waitFor(() => selectedCount(120), 'chọn lại toàn lượt');
+  await clickButton('Chọn tất cả trên trang này');
+  await waitFor(() => selectedCount(45), 'chọn lại trang hiện tại');
   await clickButton('Trang sau');
-  await waitFor(() => evaluate(`document.querySelector('tbody strong').textContent === 'Selection test 51'`), 'trang xem trước thứ hai');
-  assert.equal(await selectedCount(120), true);
-  assert.equal(await evaluate(`Array.from(document.querySelectorAll('tbody input')).every(input => input.checked)`), true);
-  await clickButton('Bỏ chọn tất cả');
-  await waitFor(() => selectedCount(0), 'bỏ chọn toàn lượt');
-  await clickButton('Chọn nhà chưa nhập trên trang này');
+  await waitFor(() => evaluate(`document.querySelector('tbody strong')?.textContent === 'Selection test 51'`), 'trang xem trước thứ hai');
+  assert.equal(await selectedCount(0), true);
+  assert.equal(await evaluate(`Array.from(document.querySelectorAll('tbody input')).every(input => !input.checked)`), true);
+  await evaluate(`document.querySelector('thead input').click()`);
   await waitFor(() => selectedCount(50), 'chọn trang hiện tại');
   await clickButton('Trang trước');
-  await waitFor(() => evaluate(`document.querySelector('tbody strong').textContent === 'Selection test 1'`), 'trở lại trang đầu');
-  await clickButton('Chọn nhà chưa nhập trên trang này');
-  await waitFor(() => selectedCount(95), 'giữ lựa chọn từ trang khác');
-  await clickButton('Chọn tất cả 120');
-  await waitFor(() => selectedCount(120), 'chuẩn bị nhập nhiều lô');
-  await clickButton('Nhập 120 nhà đã chọn');
-  await waitFor(() => selectedCount(20), 'giữ 20 nhà chưa xử lý khi lô thứ hai lỗi');
-  assert.deepEqual(await evaluate('window.__crawlSelectionCheck.imports.map(body => body.itemIds.length)'), [100, 20]);
-  await clickButton('Nhập 20 nhà đã chọn');
-  await waitFor(() => selectedCount(0), 'thử lại các nhà còn lại');
-  assert.deepEqual(await evaluate('window.__crawlSelectionCheck.imports.map(body => body.itemIds.length)'), [100, 20, 20]);
+  await waitFor(() => evaluate(`document.querySelector('tbody strong')?.textContent === 'Selection test 1'`), 'trở lại trang đầu');
+  assert.equal(await selectedCount(0), true);
+  await clickButton('Trang sau');
+  await waitFor(() => evaluate(`document.querySelector('tbody strong')?.textContent === 'Selection test 51'`), 'trở lại trang hai');
+  assert.equal(await selectedCount(0), true);
+  await clickButton('Chọn tất cả trên trang này');
+  await waitFor(() => selectedCount(50), 'chuẩn bị nhập đúng 50 dòng đang hiển thị');
+  await clickButton('Nhập 50 nhà đã chọn');
+  await waitFor(() => evaluate(`document.body.textContent.includes('Các nhà trên trang này vẫn được chọn để thử lại')`), 'báo nhập thất bại');
+  await waitFor(() => selectedCount(50), 'giữ lựa chọn trang hiện tại sau lỗi');
+  await clickButton('Nhập 50 nhà đã chọn');
+  await waitFor(() => selectedCount(0), 'thử lại trang hiện tại');
+  assert.deepEqual(await evaluate('window.__crawlSelectionCheck.imports.map(body => body.itemIds.length)'), [50, 50]);
+  assert.equal(await evaluate('window.__crawlSelectionCheck.imports.every(body => body.itemIds.every(id => id >= 10051 && id <= 10100))'), true);
   assert.equal(await evaluate('window.__crawlSelectionCheck.imports.some(body => body.itemIds.some(id => id < 10006))'), false);
-  await waitFor(() => evaluate(`document.body.textContent.includes('Tất cả nhà trong lượt này đã có trong CMS')`), 'giải thích trạng thái đã nhập hết');
+  await waitFor(() => evaluate(`document.body.textContent.includes('Các nhà trên trang này đã được nhập')`), 'trang hiện tại đã nhập hết dù trang khác còn nhà');
   assert.equal(await evaluate(`document.querySelector('thead input').disabled`), true);
+  await clickButton('Trang sau');
+  await waitFor(() => evaluate(`document.querySelector('tbody strong')?.textContent === 'Selection test 101'`), 'trang cuối');
+  await clickButton('Chọn tất cả trên trang này');
+  await waitFor(() => selectedCount(25), 'chọn 25 dòng trang cuối');
+  await clickButton('Bỏ chọn');
+  await waitFor(() => selectedCount(0), 'bỏ chọn trang hiện tại');
+  assert.equal(await evaluate('window.__crawlSelectionCheck.selectionRequests'), 0);
+  assert.equal(await evaluate(`document.body.textContent.includes('Chọn tất cả 120 nhà chưa nhập trong lượt này')`), false);
 }
 
 try {
@@ -165,7 +174,7 @@ try {
   assert.equal(await evaluate(`Boolean(document.querySelector('[aria-label="Thống kê worker"]'))`), true);
   assert.equal(await evaluate('document.querySelector("input[type=checkbox]").checked'), false, 'Mặc định không xuất bản');
   assert.equal(await evaluate(`Array.from(document.querySelectorAll('tbody a')).some(link => link.href.startsWith('https://www.zillow.com/'))`), true);
-  if (process.env.CRAWL_CHECK_SELECTION === '1') await checkGlobalSelection();
+  if (process.env.CRAWL_CHECK_SELECTION === '1') await checkPageSelection();
   for (const width of [1440, 390]) {
     await command('Emulation.setDeviceMetricsOverride', { width, height: 1000, deviceScaleFactor: 1, mobile: width === 390 });
     if (process.env.CRAWL_CHECK_SELECTION === '1') await evaluate(`document.querySelector('[aria-label="Xem trước listing"]').scrollIntoView({block:'start'})`);
@@ -177,7 +186,7 @@ try {
   }
   assert.deepEqual(errors, [], 'Không có lỗi JavaScript');
   const selectionResult = process.env.CRAWL_CHECK_SELECTION === '1'
-    ? 'API mô phỏng: chọn 120 nhà qua 3 trang, checkbox một phần, nhập 100+20, giữ lựa chọn sau lỗi và thử lại'
+    ? 'API mô phỏng: chọn riêng 45/50/25 nhà trên từng trang, đổi trang bỏ chọn, chỉ nhập 50 dòng đang hiển thị, giữ lựa chọn sau lỗi'
     : `listing thật, ${canSelect ? 'chọn tin' : 'khóa tin đã nhập'}`;
   console.log(`PASS: đăng nhập, preset 58 county, thống kê worker, ${selectionResult}, mặc định không xuất bản, desktop/mobile. Ảnh: ${artifacts}`);
 } finally {

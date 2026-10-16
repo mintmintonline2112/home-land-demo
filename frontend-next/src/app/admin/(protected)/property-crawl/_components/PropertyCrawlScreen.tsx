@@ -2,8 +2,8 @@
 
 /**
  * Màn hình crawl Zillow: chọn phạm vi, theo dõi tiến độ, xem nguồn và nhập các nhà được chọn vào CMS.
- * Dùng bởi: property-crawl/page.tsx; checkbox đầu bảng chọn toàn lượt, giữ lựa chọn qua trang, nhập theo lô tối đa 100.
- * Lưu ý: mặc định nhà mới ở trạng thái ẩn; nhà đã nhập không được chọn lại, lô nhập thất bại giữ nguyên các lựa chọn còn lại.
+ * Dùng bởi: property-crawl/page.tsx; checkbox đầu bảng chỉ chọn nhà chưa nhập trong tối đa 50 dòng đang hiển thị.
+ * Lưu ý: đổi trang hoặc lượt sẽ bỏ chọn; nhà đã nhập bị khóa, nhập lỗi giữ lựa chọn của trang hiện tại.
  */
 import Link from 'next/link';
 import { useState, type FormEvent } from 'react';
@@ -33,7 +33,7 @@ export function PropertyCrawlScreen() {
   const [additionalListings, setAdditionalListings] = useState(500);
   const [activeId, setActiveId] = useState<number | null>(null);
   const [page, setPage] = useState(1);
-  const [selection, setSelection] = useState<{ runId: number | null; ids: number[] }>({ runId: null, ids: [] });
+  const [selection, setSelection] = useState<{ runId: number | null; page: number; ids: number[] }>({ runId: null, page: 1, ids: [] });
   const [importProgress, setImportProgress] = useState<{ processed: number; total: number } | null>(null);
   const [publish, setPublish] = useState(false);
   const [busy, setBusy] = useState(false);
@@ -47,29 +47,29 @@ export function PropertyCrawlScreen() {
     queryFn: () => propertyCrawlService.items(active!.id, page), enabled: canRead && Boolean(active),
     refetchInterval: active?.status === 'running' || active?.status === 'queued' ? 4000 : false,
   });
-  const selected = selection.runId === active?.id ? selection.ids : [];
   const unimportedTotal = items.data?.unimportedTotal ?? 0;
   const pageItemIds = items.data?.items.filter((item) => !item.propertyId).map((item) => item.id) ?? [];
-  const allSelected = unimportedTotal > 0 && selected.length === unimportedTotal;
+  const selected = selection.runId === active?.id && selection.page === page ? selection.ids.filter((id) => pageItemIds.includes(id)) : [];
+  const allSelected = pageItemIds.length > 0 && pageItemIds.every((id) => selected.includes(id));
 
   function setSelected(next: number[] | ((current: number[]) => number[])) {
     const runId = active?.id ?? null;
-    setSelection((current) => ({ runId, ids: typeof next === 'function' ? next(current.runId === runId ? current.ids : []) : next }));
+    setSelection((current) => ({ runId, page, ids: (typeof next === 'function' ? next(current.runId === runId && current.page === page ? current.ids : []) : next).filter((id) => pageItemIds.includes(id)) }));
   }
 
-  function selectRun(id: number) { setActiveId(id); setPage(1); setSelection({ runId: id, ids: [] }); setImportProgress(null); }
+  function selectRun(id: number) { setActiveId(id); setPage(1); setSelection({ runId: id, page: 1, ids: [] }); setImportProgress(null); }
 
-  async function handleSelectAll() {
+  function handleSelectAll() {
     if (!active || busy || !canImport) return;
     setActiveId(active.id);
     setImportProgress(null);
-    setBusy(true);
-    try {
-      const result = await propertyCrawlService.selection(active.id);
-      setSelection({ runId: active.id, ids: result.itemIds });
-      if (!result.count) toast.info('Tất cả nhà trong lượt này đã được nhập vào CMS.');
-    } catch (error) { toast.error(getErrorMessage(error)); }
-    finally { setBusy(false); }
+    setSelected(pageItemIds);
+  }
+
+  function changePreviewPage(nextPage: number) {
+    setPage(nextPage);
+    setSelection({ runId: active?.id ?? null, page: nextPage, ids: [] });
+    setImportProgress(null);
   }
 
   async function handleStart(event: FormEvent<HTMLFormElement>) {
@@ -108,26 +108,16 @@ export function PropertyCrawlScreen() {
     if (!active || !selected.length) return;
     const runId = active.id;
     const itemIds = [...selected];
-    const counts = { created: 0, updated: 0, skipped: 0 };
-    let processed = 0;
     setActiveId(runId);
     setImportProgress({ processed: 0, total: itemIds.length });
     setBusy(true);
     try {
-      for (let offset = 0; offset < itemIds.length; offset += 100) {
-        const batch = itemIds.slice(offset, offset + 100);
-        const result = await propertyCrawlService.import(runId, batch, publish);
-        counts.created += result.created;
-        counts.updated += result.updated;
-        counts.skipped += result.skipped;
-        processed += batch.length;
-        const completedIds = new Set(batch);
-        setSelection((current) => current.runId === runId ? { ...current, ids: current.ids.filter((id) => !completedIds.has(id)) } : current);
-        setImportProgress({ processed, total: itemIds.length });
-      }
-      toast.success(`Đã tạo ${counts.created}, cập nhật ${counts.updated}, bỏ qua ${counts.skipped} nhà.`);
+      const result = await propertyCrawlService.import(runId, itemIds, publish);
+      setSelection({ runId, page, ids: [] });
+      setImportProgress({ processed: itemIds.length, total: itemIds.length });
+      toast.success(`Đã tạo ${result.created}, cập nhật ${result.updated}, bỏ qua ${result.skipped} nhà.`);
     } catch (error) {
-      toast.error(`Đã xử lý ${processed}/${itemIds.length} nhà. ${getErrorMessage(error)} Các nhà còn lại vẫn được chọn để thử lại.`);
+      toast.error(`${getErrorMessage(error)} Các nhà trên trang này vẫn được chọn để thử lại.`);
     } finally {
       await queryClient.invalidateQueries({ queryKey: ['property-crawl-items'] });
       await queryClient.invalidateQueries({ queryKey: PROPERTY_QUERY_KEY });
@@ -226,11 +216,12 @@ export function PropertyCrawlScreen() {
           <button type="button" className="admin-primary-button" onClick={handleImport} disabled={busy || !selected.length || !canImport}>{busy && importProgress ? `Đang nhập ${importProgress.processed}/${importProgress.total} nhà…` : `Nhập ${selected.length} nhà đã chọn`}</button>
         </div>
         <div className="flex flex-wrap items-center gap-3" aria-label="Chọn nhà để nhập">
-          <button type="button" className="admin-secondary-button" disabled={busy || !canImport || !unimportedTotal} onClick={handleSelectAll}>Chọn tất cả {unimportedTotal} nhà chưa nhập trong lượt này</button>
-          <button type="button" className="admin-secondary-button" disabled={busy || !canImport || !pageItemIds.length} onClick={() => setSelected((current) => [...new Set([...current, ...pageItemIds])])}>Chọn nhà chưa nhập trên trang này</button>
-          <button type="button" className="admin-secondary-button" disabled={busy || !selected.length} onClick={() => setSelected([])}>Bỏ chọn tất cả</button>
+          <button type="button" className="admin-secondary-button" disabled={busy || !canImport || !pageItemIds.length} onClick={handleSelectAll}>Chọn tất cả trên trang này</button>
+          <button type="button" className="admin-secondary-button" disabled={busy || !selected.length} onClick={() => setSelected([])}>Bỏ chọn</button>
         </div>
-        <p role="status" className="text-sm text-slate-600">Đã chọn {selected.length} nhà trong cả lượt · {unimportedTotal} chưa nhập · {items.data?.importedTotal ?? 0} đã nhập. Lựa chọn được giữ khi chuyển trang.</p>
+        <p role="status" className="text-sm text-slate-600">Đã chọn {selected.length}/{pageItemIds.length} nhà chưa nhập trên trang này (tối đa 50 dòng). Chuyển trang sẽ bỏ lựa chọn.</p>
+        <p className="text-sm text-slate-600">Tổng lượt crawl: {unimportedTotal} chưa nhập · {items.data?.importedTotal ?? 0} đã nhập.</p>
+        {items.data && unimportedTotal > 0 && items.data.items.length > 0 && !pageItemIds.length && <p className="rounded-lg bg-slate-50 p-3 text-sm">Các nhà trên trang này đã được nhập. Chuyển sang trang sau để chọn các nhà chưa nhập.</p>}
         {items.data && !unimportedTotal && <p className="rounded-lg bg-slate-50 p-3 text-sm">{items.data.total ? 'Tất cả nhà trong lượt này đã có trong CMS nên không còn nhà mới để chọn. Bấm “Đã nhập” ở từng dòng để xem hoặc sửa nhà.' : 'Chưa có nhà để chọn trong lượt này.'}</p>}
         {importProgress && <p role="status" className="text-sm">Đã xử lý {importProgress.processed}/{importProgress.total} nhà đã chọn.</p>}
         <label className="flex items-center gap-2 text-sm"><input type="checkbox" checked={publish} onChange={(event) => setPublish(event.target.checked)} disabled={busy || !canImport} />Hiển thị ngay các nhà mới sau khi nhập</label>
@@ -241,7 +232,7 @@ export function PropertyCrawlScreen() {
         <div className="overflow-x-auto">
           <table className="w-full text-left text-sm">
             <thead><tr className="border-b border-slate-200">
-              <th className="p-3"><input type="checkbox" aria-label="Chọn toàn bộ nhà chưa nhập trong lượt crawl" title="Chọn toàn bộ nhà chưa nhập của lượt này, bao gồm các trang khác" ref={(element) => { if (element) element.indeterminate = selected.length > 0 && !allSelected; }} disabled={busy || !canImport || !unimportedTotal} checked={allSelected} onChange={(event) => { if (event.target.checked) void handleSelectAll(); else setSelected([]); }} /></th>
+              <th className="p-3"><input type="checkbox" aria-label="Chọn tất cả nhà chưa nhập trên trang hiện tại" title="Chỉ chọn các nhà chưa nhập trong tối đa 50 dòng đang hiển thị" ref={(element) => { if (element) element.indeterminate = selected.length > 0 && !allSelected; }} disabled={busy || !canImport || !pageItemIds.length} checked={allSelected} onChange={(event) => { if (event.target.checked) handleSelectAll(); else setSelected([]); }} /></th>
               <th className="p-3">Nhà / nguồn</th><th className="p-3">Giá</th><th className="p-3">Thông số</th><th className="p-3">Thu thập lúc</th><th className="p-3">CMS</th>
             </tr></thead>
             <tbody>{items.data?.items.map((item) => <tr key={item.id} className="border-b border-slate-100 align-top">
@@ -255,9 +246,9 @@ export function PropertyCrawlScreen() {
           </table>
         </div>
         <div className="flex items-center justify-between gap-3">
-          <button type="button" className="admin-secondary-button" disabled={busy || page <= 1} onClick={() => setPage(page - 1)}>Trang trước</button>
+          <button type="button" className="admin-secondary-button" disabled={busy || page <= 1} onClick={() => changePreviewPage(page - 1)}>Trang trước</button>
           <span>Trang xem trước {page}/{items.data?.totalPages ?? 1}</span>
-          <button type="button" className="admin-secondary-button" disabled={busy || !items.data || page >= items.data.totalPages} onClick={() => setPage(page + 1)}>Trang sau</button>
+          <button type="button" className="admin-secondary-button" disabled={busy || !items.data || page >= items.data.totalPages} onClick={() => changePreviewPage(page + 1)}>Trang sau</button>
         </div>
       </section>}
     </div>
