@@ -1,14 +1,21 @@
 /**
- * API công khai nhà đăng bán (/api/client/properties): toàn bộ nhà đang hiện, và chi tiết theo slug; có cache.
- * Dùng bởi: frontend-next/src/app/(site)/_lib/properties.ts.
- * Lưu ý: trả cả danh sách (số nhà ít) để website tự lọc / sắp xếp theo ô tìm kiếm; nhà ẩn (isActive = 0) không bao giờ lộ ra.
+ * API công khai nhà đăng bán (/api/client/properties): tìm + lọc + chia trang, điểm ghim bản đồ, thẻ nhỏ theo id, chi tiết theo slug,
+ * danh sách slug cho sitemap; mọi kết quả có cache theo namespace properties.
+ * Dùng bởi: frontend-next/src/app/(site)/_lib/properties.ts (trang /properties, bản đồ, Featured Homes, trang chi tiết, sitemap).
+ * Lưu ý: tham số tìm kiếm đọc qua parsePropertySearch (modules/admin/properties/property-search.ts); nhà ẩn (isActive = 0)
+ * không bao giờ lộ ra. Route cố định (map, slugs, id/:id, slug/:slug) phải khai trước nếu sau này thêm route động.
  */
-import { Controller, Get, Param } from '@nestjs/common';
+import { Controller, Get, Param, ParseIntPipe, Query } from '@nestjs/common';
 import { Public } from 'src/common/decorators/public.decorator';
 import { AppCacheService } from 'src/common/cache/app-cache.service';
 import { CACHE_NS } from 'src/common/cache/cache-keys';
 import { Property } from 'src/modules/admin/properties/entities/property.entity';
-import { PropertiesService } from 'src/modules/admin/properties/properties.service';
+import {
+  PropertiesService,
+  type MapPointResult,
+  type PropertyPage,
+} from 'src/modules/admin/properties/properties.service';
+import { parsePropertySearch } from 'src/modules/admin/properties/property-search';
 
 @Controller('client/properties')
 export class ClientPropertiesController {
@@ -19,10 +26,32 @@ export class ClientPropertiesController {
 
   @Public()
   @Get()
-  findAll(): Promise<Property[]> {
-    return this.cache.wrap(CACHE_NS.properties, 'list', () =>
-      this.propertiesService.findActive(),
+  search(@Query() query: Record<string, unknown>): Promise<PropertyPage> {
+    const search = parsePropertySearch(query);
+    return this.cache.wrap(CACHE_NS.properties, `search:${JSON.stringify(search)}`, () =>
+      this.propertiesService.searchActive(search),
     );
+  }
+
+  @Public()
+  @Get('map')
+  findMapPoints(@Query() query: Record<string, unknown>): Promise<MapPointResult> {
+    const search = parsePropertySearch(query);
+    return this.cache.wrap(CACHE_NS.properties, `map:${JSON.stringify(search)}`, () =>
+      this.propertiesService.findMapPoints(search),
+    );
+  }
+
+  @Public()
+  @Get('slugs')
+  findSlugs(): Promise<Array<Pick<Property, 'slug' | 'updatedAt'>>> {
+    return this.cache.wrap(CACHE_NS.properties, 'slugs', () => this.propertiesService.findActiveSlugs());
+  }
+
+  @Public()
+  @Get('id/:id')
+  findById(@Param('id', ParseIntPipe) id: number): Promise<Property | null> {
+    return this.cache.wrap(CACHE_NS.properties, `id:${id}`, () => this.propertiesService.findActiveById(id));
   }
 
   @Public()

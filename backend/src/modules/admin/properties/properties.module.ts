@@ -7,11 +7,12 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { Property } from './entities/property.entity';
 import { PropertiesController } from './properties.controller';
 import { PropertiesService } from './properties.service';
+import { PropertyGeocoderService } from './property-geocoder.service';
 
 @Module({
   imports: [TypeOrmModule.forFeature([Property])],
   controllers: [PropertiesController],
-  providers: [PropertiesService],
+  providers: [PropertiesService, PropertyGeocoderService],
   exports: [PropertiesService],
 })
 export class PropertiesModule {}

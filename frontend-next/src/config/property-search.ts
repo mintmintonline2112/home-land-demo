@@ -1,7 +1,8 @@
 /**
  * Lựa chọn của ô tìm nhà: khu vực (chia nhóm Nam / Bắc California), loại nhà, khoảng giá, số phòng ngủ, cách sắp xếp, nhãn vùng.
- * Dùng bởi: hero (bố cục search), trang /properties (bộ lọc), app/(site)/_lib/properties.ts.
- * Lưu ý: value của khu vực có thể là nhiều thành phố nối bằng "|" (VD Bay Area); _lib/properties.ts so khớp từng tên với thành phố / khu phố của nhà.
+ * Dùng bởi: hero (bố cục search), trang /properties (thanh lọc + sắp xếp), Footer, section property-grid.
+ * Lưu ý: value của khu vực có thể là nhiều thành phố nối bằng "|" (VD Bay Area); backend so khớp từng tên với thành phố / khu phố của nhà,
+ * và tự hiểu từ khoá "Orange County" / "Bay Area" / "Silicon Valley" (backend property-search.ts — thêm thành phố thì sửa cả hai nơi).
  * Giá trong PRICE_RANGES tính bằng nghìn USD ("800-1200" = $800k — $1.2M, "2000+" = trên $2M).
  */
 import type { PropertyRegion, PropertySort } from "@/types/property";
@@ -19,7 +20,14 @@ const ORANGE_COUNTY_CITIES = [
   "Orange",
   "Garden Grove",
   "Westminster",
+  "Costa Mesa",
+  "Huntington Beach",
+  "Fountain Valley",
 ];
+
+const SILICON_VALLEY_CITIES = ["San Jose", "Palo Alto", "Mountain View", "Sunnyvale", "Cupertino", "Santa Clara"];
+
+const BAY_AREA_CITIES = ["San Francisco", "Oakland", "Berkeley", "Fremont", ...SILICON_VALLEY_CITIES];
 
 export const AREA_GROUPS: SearchOptionGroup[] = [
   {
@@ -33,6 +41,9 @@ export const AREA_GROUPS: SearchOptionGroup[] = [
       { value: "Orange", label: "Orange" },
       { value: "Garden Grove", label: "Garden Grove" },
       { value: "Westminster", label: "Westminster (Little Saigon)" },
+      { value: "Costa Mesa", label: "Costa Mesa" },
+      { value: "Huntington Beach", label: "Huntington Beach" },
+      { value: "Fountain Valley", label: "Fountain Valley" },
       { value: ORANGE_COUNTY_CITIES.join("|"), label: "Greater Orange County" },
     ],
   },
@@ -41,17 +52,14 @@ export const AREA_GROUPS: SearchOptionGroup[] = [
     options: [
       { value: "San Francisco", label: "San Francisco" },
       { value: "San Jose", label: "San Jose" },
-      { value: "San Jose|Palo Alto|Mountain View|Sunnyvale", label: "Silicon Valley" },
-      { value: "San Francisco|San Jose|Oakland|Berkeley", label: "Bay Area" },
+      { value: "Oakland", label: "Oakland" },
+      { value: "Berkeley", label: "Berkeley" },
+      { value: "Fremont", label: "Fremont" },
+      { value: SILICON_VALLEY_CITIES.join("|"), label: "Silicon Valley" },
+      { value: BAY_AREA_CITIES.join("|"), label: "Bay Area" },
     ],
   },
 ];
-
-export const KEYWORD_ALIASES: Record<string, string> = {
-  "silicon valley": "San Jose|Palo Alto|Mountain View|Sunnyvale",
-  "bay area": "San Francisco|San Jose|Oakland|Berkeley",
-  "orange county": ORANGE_COUNTY_CITIES.join("|"),
-};
 
 export const PROPERTY_TYPES: SearchOption[] = [
   { value: "house", label: "House" },
@@ -71,8 +79,6 @@ export const BED_OPTIONS: SearchOption[] = [1, 2, 3, 4, 5].map((beds) => ({
   value: String(beds),
   label: `${beds}+`,
 }));
-
-export const MAX_PRICE_RANGE = { min: 500_000, max: 3_000_000, step: 50_000 } as const;
 
 export const SORT_OPTIONS: Array<{ value: PropertySort; label: string }> = [
   { value: "newest", label: "Newest First" },

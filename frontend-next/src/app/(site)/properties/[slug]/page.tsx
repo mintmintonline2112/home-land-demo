@@ -1,5 +1,5 @@
 /**
- * Trang chi tiết nhà (/properties/<slug>): breadcrumb, tên + địa chỉ + giá, bộ ảnh, tổng quan, mô tả, tiện ích, bảng thông số, vị trí;
+ * Trang chi tiết nhà (/properties/<slug>): breadcrumb, tên + địa chỉ + giá, bộ ảnh, tổng quan, mô tả, tiện ích, bảng thông số, bản đồ vị trí;
  * cột phải là thẻ môi giới + form hẹn xem nhà + thẻ gọi điện; cuối trang là nhà cùng vùng.
  * Dùng bởi: Next.js App Router (route động /properties/[slug]).
  * Lưu ý: nhà lấy từ _lib/properties.ts (API backend); thông tin môi giới lấy từ resolveContact (Admin → Trang Liên hệ, trống thì config/contact.ts).
@@ -11,21 +11,18 @@ import { PropertyInquiryForm } from "@/app/(site)/_components/forms";
 import { PropertyCard } from "@/app/(site)/_components/property/PropertyCard";
 import { Icon } from "@/app/(site)/_components/sections/_shared/icons";
 import { Breadcrumbs, CARD, Eyebrow, SECTION } from "@/app/(site)/_components/ui";
-import { getProperties, getProperty, getRelatedProperties } from "@/app/(site)/_lib/properties";
+import { getProperty, getRelatedProperties } from "@/app/(site)/_lib/properties";
 import { formatArea, formatFullAddress, formatPrice } from "@/app/(site)/_lib/property-format";
 import { buildPageMetadata } from "@/app/(site)/_lib/seo";
 import { siteRoutes } from "@/config/routes";
 import { getSiteSettings, resolveContact } from "@/settings/site-settings";
 import { cn } from "@/utils/cn";
+import { LocationMap } from "../_components/LocationMap";
 import { PropertyGallery } from "../_components/PropertyGallery";
 
 type PropertyParams = Promise<{ slug: string }>;
 
 const PANEL_TITLE = "mb-5 border-b border-line pb-4 text-xl font-bold text-navy-900";
-
-export async function generateStaticParams() {
-  return (await getProperties()).map((property) => ({ slug: property.slug }));
-}
 
 export async function generateMetadata({ params }: { params: PropertyParams }): Promise<Metadata> {
   const { slug } = await params;
@@ -161,12 +158,23 @@ export default async function PropertyDetailPage({ params }: { params: PropertyP
               </Panel>
 
               <Panel title="Location">
-                <div className="relative grid aspect-[16/7] place-items-center bg-[linear-gradient(135deg,var(--cream)_0%,var(--line)_100%)]">
-                  <span className="grid h-12 w-12 place-items-center bg-navy-800 text-light">
-                    <Icon name="pin" className="h-6 w-6" />
-                  </span>
-                  <p className="absolute bottom-3 m-0 px-4 text-center text-xs text-ink-faint">{formatFullAddress(property)}</p>
-                </div>
+                {property.latitude !== null && property.longitude !== null ? (
+                  <LocationMap
+                    latitude={property.latitude}
+                    longitude={property.longitude}
+                    label={`Map of ${formatFullAddress(property)}`}
+                  />
+                ) : (
+                  <div className="grid aspect-[16/7] place-items-center bg-[linear-gradient(135deg,var(--cream)_0%,var(--line)_100%)]">
+                    <span className="grid h-12 w-12 place-items-center bg-navy-800 text-light">
+                      <Icon name="pin" className="h-6 w-6" />
+                    </span>
+                  </div>
+                )}
+                <p className="mt-3 mb-0 flex items-center gap-2 text-sm text-ink-faint">
+                  <Icon name="pin" className="h-4 w-4" />
+                  {formatFullAddress(property)}
+                </p>
               </Panel>
             </div>
 

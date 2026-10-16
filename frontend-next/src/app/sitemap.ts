@@ -5,7 +5,7 @@
  */
 import type { MetadataRoute } from "next";
 import { getBlogCategories, getBlogPosts } from "@/app/(site)/_lib/cms";
-import { getProperties } from "@/app/(site)/_lib/properties";
+import { getPropertySlugs } from "@/app/(site)/_lib/properties";
 import { toAbsoluteUrl } from "@/app/(site)/_lib/seo";
 import { siteRoutes } from "@/config/routes";
 
@@ -49,9 +49,9 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     priority: 0.7,
   }));
 
-  const propertyEntries: MetadataRoute.Sitemap = (await getProperties()).map((property) => ({
+  const propertyEntries: MetadataRoute.Sitemap = (await getPropertySlugs()).map((property) => ({
     url: toAbsoluteUrl(siteRoutes.property(property.slug)),
-    lastModified: toValidDate(property.listedAt, now),
+    lastModified: toValidDate(property.updatedAt, now),
     changeFrequency: "weekly",
     priority: 0.8,
   }));

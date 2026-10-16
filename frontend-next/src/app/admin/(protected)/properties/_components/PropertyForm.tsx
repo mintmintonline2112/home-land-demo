@@ -4,7 +4,8 @@
  * Form tạo / sửa nhà đăng bán: thông tin chính + bộ ảnh + mô tả + tiện ích, rồi các nhóm Địa chỉ, Thông số, SEO.
  * Dùng bởi: properties/create/page.tsx, properties/edit/[id]/page.tsx.
  * Lưu ý: ô chữ tuỳ chọn bị xoá trắng thì gửi null để backend xoá giá trị cũ (NULLABLE_KEYS); ô số để trống thì gửi 0 (năm xây trống = null).
- * Tiện ích nhập dạng thẻ, lưu thành mảng chuỗi; mô tả là văn bản thường, mỗi đoạn cách nhau một dòng trống.
+ * Tiện ích nhập dạng thẻ, lưu thành mảng chuỗi; mô tả là văn bản thường, mỗi đoạn cách nhau một dòng trống. Toạ độ để trống thì backend
+ * tự lấy từ địa chỉ khi lưu (ghim nhà trên bản đồ website).
  */
 
 import { useEffect, useMemo, useState } from 'react';
@@ -44,6 +45,8 @@ interface FormValues {
   city: string;
   state: string;
   zip: string;
+  latitude: string;
+  longitude: string;
   beds: number | string;
   baths: number | string;
   sqft: number | string;
@@ -77,6 +80,8 @@ const EMPTY_FORM_VALUES: FormValues = {
   city: '',
   state: 'CA',
   zip: '',
+  latitude: '',
+  longitude: '',
   beds: '',
   baths: '',
   sqft: '',
@@ -101,6 +106,8 @@ const NULLABLE_KEYS = [
   'address',
   'neighborhood',
   'zip',
+  'latitude',
+  'longitude',
   'yearBuilt',
   'lotSize',
   'facing',
@@ -111,7 +118,7 @@ const NULLABLE_KEYS = [
 ];
 
 const GROUPS: GenericFormGroup[] = [
-  { id: 'location', title: 'Địa chỉ', description: 'Thành phố / khu phố dùng cho bộ lọc khu vực ngoài website' },
+  { id: 'location', title: 'Địa chỉ', description: 'Thành phố / khu phố dùng cho bộ lọc khu vực; toạ độ dùng để ghim nhà trên bản đồ' },
   { id: 'specs', title: 'Thông số', description: 'Hiện ở mục Overview và Property Details của trang chi tiết' },
   { id: 'seo', title: 'SEO', collapsed: true },
 ];
@@ -122,6 +129,11 @@ const toWholeNumber = (value: number | string) => {
 };
 
 const toNullableText = (value: string) => value.trim() || null;
+
+const toCoordinate = (value: string, limit: number) => {
+  const parsed = Number.parseFloat(value.replace(',', '.'));
+  return value.trim() && Number.isFinite(parsed) && Math.abs(parsed) <= limit ? parsed : null;
+};
 
 export function PropertyForm({ id }: { id?: number }) {
   const router = useRouter();
@@ -158,6 +170,8 @@ export function PropertyForm({ id }: { id?: number }) {
       city: data.city ?? '',
       state: data.state ?? 'CA',
       zip: data.zip ?? '',
+      latitude: data.latitude != null ? String(data.latitude) : '',
+      longitude: data.longitude != null ? String(data.longitude) : '',
       beds: data.beds ?? '',
       baths: data.baths ?? '',
       sqft: data.sqft ?? '',
@@ -214,6 +228,15 @@ export function PropertyForm({ id }: { id?: number }) {
       { key: 'city', label: 'Thành phố', type: 'text', required: true, group: 'location', placeholder: 'VD: Irvine' },
       { key: 'state', label: 'Bang', type: 'text', group: 'location', placeholder: 'CA' },
       { key: 'zip', label: 'ZIP', type: 'text', group: 'location', placeholder: 'VD: 92603' },
+      {
+        key: 'latitude',
+        label: 'Vĩ độ (latitude)',
+        type: 'text',
+        group: 'location',
+        placeholder: 'VD: 33.6412',
+        hint: 'Để trống thì khi lưu hệ thống tự tìm toạ độ từ địa chỉ; không tìm thấy thì ghim ở giữa thành phố. Lấy toạ độ chính xác: chuột phải vào nhà trên Google Maps.',
+      },
+      { key: 'longitude', label: 'Kinh độ (longitude)', type: 'text', group: 'location', placeholder: 'VD: -117.7997' },
 
       { key: 'beds', label: 'Phòng ngủ', type: 'number', group: 'specs' },
       { key: 'baths', label: 'Phòng tắm', type: 'number', group: 'specs' },
@@ -266,6 +289,8 @@ export function PropertyForm({ id }: { id?: number }) {
           city: values.city.trim(),
           state: values.state.trim().toUpperCase() || 'CA',
           zip: toNullableText(values.zip),
+          latitude: toCoordinate(values.latitude, 90),
+          longitude: toCoordinate(values.longitude, 180),
           beds: toWholeNumber(values.beds),
           baths: toWholeNumber(values.baths),
           sqft: toWholeNumber(values.sqft),

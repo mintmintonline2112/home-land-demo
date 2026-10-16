@@ -1,12 +1,14 @@
 /**
  * Seed 31 nhà đăng bán mẫu (9 nhà của bản demo homeland + 22 nhà thêm cho đủ nội dung) ở Orange County và Bay Area; ảnh tạm là link Unsplash.
  * Dùng bởi: database/seeding/seeding.service.ts.
- * Lưu ý: chỉ thêm theo slug — nhà đã có (kể cả admin đã sửa / xoá mềm) giữ nguyên, nên chạy lại db:seed an toàn.
+ * Lưu ý: chỉ thêm theo slug — nhà đã có (kể cả admin đã sửa / xoá mềm) giữ nguyên, nên chạy lại db:seed an toàn; riêng nhà chưa có
+ * toạ độ thì được bổ sung toạ độ gần đúng theo thành phố (modules/admin/properties/california-places.ts) để hiện trên bản đồ.
  */
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { DeepPartial, Repository } from 'typeorm';
 import { Property } from 'src/modules/admin/properties/entities/property.entity';
+import { coordinatesOf } from 'src/modules/admin/properties/california-places';
 
 const DEMO_PROPERTIES: DeepPartial<Property>[] = [
   {
@@ -1824,18 +1826,26 @@ export class PropertySeed {
 
   async run(): Promise<void> {
     let createdCount = 0;
+    let locatedCount = 0;
     for (const property of DEMO_PROPERTIES) {
+      const coordinates = coordinatesOf(String(property.city), String(property.slug));
       const existing = await this.propertyRepo.findOne({
         where: { slug: property.slug },
         withDeleted: true,
       });
-      if (existing) continue;
-      await this.propertyRepo.save(this.propertyRepo.create(property));
+      if (existing) {
+        if (coordinates && (existing.latitude === null || existing.longitude === null)) {
+          await this.propertyRepo.update(existing.id, coordinates);
+          locatedCount++;
+        }
+        continue;
+      }
+      await this.propertyRepo.save(this.propertyRepo.create({ ...property, ...(coordinates ?? {}) }));
       createdCount++;
     }
     console.log(
-      createdCount > 0
-        ? `--- [Seed] Properties: created ${createdCount} listing(s).`
+      createdCount + locatedCount > 0
+        ? `--- [Seed] Properties: created ${createdCount} listing(s), added map coordinates to ${locatedCount}.`
         : '--- [Seed] Properties: nothing missing, skipping.',
     );
   }

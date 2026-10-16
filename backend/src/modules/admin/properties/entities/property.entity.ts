@@ -3,7 +3,8 @@
  * Dùng bởi: properties.service.ts, properties.controller.ts, modules/client/properties, database/seeding (property.seed.ts).
  * Lưu ý: description là văn bản thường, các đoạn cách nhau bằng một dòng trống; amenities là mảng chuỗi; images là mảng {src, alt}
  * (src là link https hoặc đường dẫn uploads/... của Thư viện), ảnh đầu tiên là ảnh bìa. type / region là mã cố định khớp
- * frontend-next/src/config/property-search.ts. TypeORM nạp entity theo mẫu tên *.entity.ts, không đổi tên file.
+ * frontend-next/src/config/property-search.ts. latitude / longitude trống thì nhà không hiện trên bản đồ (vẫn có trong danh sách).
+ * TypeORM nạp entity theo mẫu tên *.entity.ts, không đổi tên file.
  */
 import { Column, Entity, Index } from 'typeorm';
 import { BaseEntity } from 'src/common/base/base.entity';
@@ -23,6 +24,7 @@ export type PropertyImage = { src: string; alt: string };
 
 @Entity('properties')
 @Index('IDX_properties_listing', ['isActive', 'sortOrder'])
+@Index('IDX_properties_location', ['latitude', 'longitude'])
 export class Property extends BaseEntity {
   @Column({ type: 'varchar', length: 255 })
   title: string;
@@ -62,6 +64,12 @@ export class Property extends BaseEntity {
 
   @Column({ type: 'varchar', length: 255, nullable: true })
   address: string | null;
+
+  @Column({ type: 'double', nullable: true })
+  latitude: number | null;
+
+  @Column({ type: 'double', nullable: true })
+  longitude: number | null;
 
   @Column({ type: 'int', unsigned: true })
   price: number;

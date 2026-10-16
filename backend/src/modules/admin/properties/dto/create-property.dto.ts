@@ -13,8 +13,10 @@ import {
   IsIn,
   IsInt,
   IsNotEmpty,
+  IsNumber,
   IsOptional,
   IsString,
+  Max,
   MaxLength,
   Min,
   ValidateNested,
@@ -108,6 +110,22 @@ export class CreatePropertyDto {
   @IsString()
   @MaxLength(255)
   address?: string | null;
+
+  @ApiPropertyOptional({ example: 33.6412, description: 'Trống thì tự lấy từ địa chỉ khi lưu' })
+  @IsOptional()
+  @Type(() => Number)
+  @IsNumber()
+  @Min(-90)
+  @Max(90)
+  latitude?: number | null;
+
+  @ApiPropertyOptional({ example: -117.7997, description: 'Trống thì tự lấy từ địa chỉ khi lưu' })
+  @IsOptional()
+  @Type(() => Number)
+  @IsNumber()
+  @Min(-180)
+  @Max(180)
+  longitude?: number | null;
 
   @ApiProperty({ example: 1850000 })
   @Type(() => Number)

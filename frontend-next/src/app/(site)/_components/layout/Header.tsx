@@ -3,7 +3,8 @@
 /**
  * Header site public: thanh trắng dính đầu trang — logo, menu CMS có menu thả xuống (mục nhiều con chia 2 cột), nút "Schedule Consultation".
  * Dùng bởi: app/(site)/layout.tsx.
- * Lưu ý: dưới 1100px menu thu vào nút ☰, menu con thành accordion. Mục có con mở bằng bấm (và rê chuột trên desktop);
+ * Lưu ý: chiều cao thanh = biến CSS --header-height (styles/base.css) — trang /properties dựa vào đó để bản đồ vừa khít màn hình.
+ * Dưới 1100px menu thu vào nút ☰, menu con thành accordion. Mục có con mở bằng bấm (và rê chuột trên desktop);
  * bấm ra ngoài / Esc / đổi trang thì đóng hết. Mục `showSubmenu: false` hiện như link thường dù có con.
  */
 import Link from "next/link";
@@ -72,7 +73,7 @@ export function Header({ menu, brand }: { menu: SiteMenuItem[]; brand?: BrandPro
         isScrolled && "shadow-soft",
       )}
     >
-      <div className="mx-auto flex w-[min(1320px,100%-3rem)] items-center justify-between gap-6 py-4 max-[640px]:w-[min(1320px,100%-2.2rem)]">
+      <div className="mx-auto flex w-[min(1320px,100%-3rem)] h-(--header-height) items-center justify-between gap-6 max-[640px]:w-[min(1320px,100%-2.2rem)]">
         <Brand {...brand} />
 
         <nav

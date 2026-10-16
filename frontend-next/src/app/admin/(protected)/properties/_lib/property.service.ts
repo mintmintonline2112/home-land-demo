@@ -23,6 +23,8 @@ export interface Property {
   city: string;
   state: string;
   zip: string | null;
+  latitude: number | null;
+  longitude: number | null;
   address: string | null;
   price: number;
   beds: number;

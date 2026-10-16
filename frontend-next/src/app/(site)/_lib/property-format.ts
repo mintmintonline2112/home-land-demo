@@ -17,4 +17,6 @@ export const formatLocation = (property: Property) =>
   [property.neighborhood, property.city, property.state].filter(Boolean).join(", ");
 
 export const formatFullAddress = (property: Property) =>
-  `${property.address}, ${[property.neighborhood, property.city].filter(Boolean).join(", ")}, ${property.state} ${property.zip}`;
+  [property.address, property.neighborhood, property.city, [property.state, property.zip].filter(Boolean).join(" ")]
+    .filter(Boolean)
+    .join(", ");

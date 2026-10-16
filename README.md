@@ -28,11 +28,29 @@ home-land-demo/
 | Trang | Nguồn nội dung |
 |---|---|
 | `/` , `/about`, `/contact` | Section CMS (Admin → Trang / Section), nội dung mặc định ở `backend/.../seeds/page.seed.ts` |
-| `/properties`, `/properties/<slug>`, mục Featured Homes | Admin → **Nhà đăng bán** (bảng `properties`, API `GET /api/client/properties`); 9 nhà mẫu của demo nằm ở `backend/.../seeds/property.seed.ts` |
+| `/properties` (bản đồ + danh sách kiểu Zillow), `/properties/<slug>`, mục Featured Homes | Admin → **Nhà đăng bán** (bảng `properties`); API công khai `GET /api/client/properties` (lọc + chia trang ở backend), `/map` (điểm ghim), `/id/:id`, `/slug/:slug`, `/slugs`. Nhà mẫu ở `backend/.../seeds/property.seed.ts` |
 | `/news`, `/news/<slug>` | Bài viết (Admin → Bài viết) |
 | Menu, logo, liên hệ, màu | Admin → Menu / Cài đặt / Trang Liên hệ (trống thì dùng mặc định trong `frontend-next/src/config/`) |
 
 Form liên hệ và form "Request a Showing" gửi về `POST /api/client/contact` (Admin → Liên hệ).
+
+### Bản đồ & toạ độ nhà
+
+- Bản đồ dùng **MapLibre** + nền **OpenFreeMap** (miễn phí, không cần key); đổi nền bằng `NEXT_PUBLIC_MAP_STYLE_URL`
+  (cấu hình ở `frontend-next/src/config/map.ts`).
+- Admin lưu nhà mà để trống toạ độ thì backend tự lấy toạ độ từ địa chỉ (US Census Geocoder, miễn phí); không tìm thấy thì
+  ghim ở giữa thành phố — nhập toạ độ tay trong form nếu cần chính xác.
+
+### Dữ liệu demo (CHỈ máy dev)
+
+```bash
+cd backend
+npm run demo:listings                 # tạo 500 nhà giả (slug "demo-…", mã tin "DEMO-…") rải khắp OC + Bay Area
+npm run demo:listings -- --count=3000 # đổi số lượng
+npm run demo:listings -- --remove     # xoá sạch nhà giả
+```
+
+Lệnh từ chối chạy khi `NODE_ENV=production` — nhà giả không được lên website thật.
 
 ## Nội dung & component (CMS)
 

@@ -1,6 +1,6 @@
 /**
  * DataSource TypeORM cho CLI migration (db:run, db:revert, db:gen…) và script chạy ngoài Nest.
- * Dùng bởi: các lệnh `npm run db:*` trong package.json, src/database/backfill-seo-slugs.ts.
+ * Dùng bởi: các lệnh `npm run db:*` trong package.json, src/scripts/demo-listings.ts (`npm run demo:listings`).
  * Lưu ý: glob tính theo __dirname (đổi \ thành / cho Windows) để chạy được cả dev qua ts-node (src/database)
  * lẫn bản build (dist/database) — db:run:prod trên VPS không cần ts-node / devDependencies.
  */
