@@ -90,4 +90,5 @@ export const SORT_OPTIONS: Array<{ value: PropertySort; label: string }> = [
 export const REGION_LABELS: Record<PropertyRegion, string> = {
   "orange-county": "Orange County",
   "bay-area": "Bay Area",
+  california: "California",
 };

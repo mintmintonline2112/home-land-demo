@@ -239,7 +239,7 @@ export function PropertyForm({ id }: { id?: number }) {
       { key: 'longitude', label: 'Kinh độ (longitude)', type: 'text', group: 'location', placeholder: 'VD: -117.7997' },
 
       { key: 'beds', label: 'Phòng ngủ', type: 'number', group: 'specs' },
-      { key: 'baths', label: 'Phòng tắm', type: 'number', group: 'specs' },
+      { key: 'baths', label: 'Phòng tắm', type: 'number', step: 0.25, group: 'specs' },
       { key: 'sqft', label: 'Diện tích (sqft)', type: 'number', group: 'specs' },
       { key: 'garage', label: 'Chỗ đậu xe trong garage', type: 'number', group: 'specs' },
       { key: 'stories', label: 'Số tầng', type: 'number', group: 'specs' },
@@ -292,7 +292,7 @@ export function PropertyForm({ id }: { id?: number }) {
           latitude: toCoordinate(values.latitude, 90),
           longitude: toCoordinate(values.longitude, 180),
           beds: toWholeNumber(values.beds),
-          baths: toWholeNumber(values.baths),
+          baths: Math.max(0, Math.round((Number(values.baths) || 0) * 100) / 100),
           sqft: toWholeNumber(values.sqft),
           garage: toWholeNumber(values.garage),
           stories: toWholeNumber(values.stories) || 1,

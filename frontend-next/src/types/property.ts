@@ -6,7 +6,7 @@
  */
 export type PropertyType = "house" | "condo" | "townhouse" | "luxury";
 
-export type PropertyRegion = "orange-county" | "bay-area";
+export type PropertyRegion = "orange-county" | "bay-area" | "california";
 
 export type PropertyImage = { src: string; alt: string };
 

@@ -277,6 +277,7 @@ export function GenericForm<T extends FieldValues>({
         ) : (
           <input
             type={field.type === 'number' ? 'number' : field.type === 'date' ? 'date' : field.type === 'tel' ? 'tel' : field.type === 'email' ? 'email' : 'text'}
+            step={field.type === 'number' ? field.step : undefined}
             {...register(field.key as never, buildRules(field))}
             placeholder={field.placeholder}
             autoComplete={field.autocomplete}

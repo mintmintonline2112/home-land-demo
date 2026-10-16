@@ -143,8 +143,9 @@ export class CreatePropertyDto {
   @ApiPropertyOptional({ example: 4 })
   @IsOptional()
   @Type(() => Number)
-  @IsInt()
+  @IsNumber({ maxDecimalPlaces: 2 })
   @Min(0)
+  @Max(255)
   baths?: number;
 
   @ApiPropertyOptional({ example: 3800 })

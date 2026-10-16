@@ -15,6 +15,11 @@ export interface Property {
   title: string;
   slug: string;
   listingId: string | null;
+  source?: string | null;
+  sourceKey?: string | null;
+  sourceUrl?: string | null;
+  sourceBroker?: string | null;
+  lastCrawledAt?: string | null;
   status: string;
   type: string;
   typeLabel: string | null;
@@ -56,6 +61,7 @@ export const PROPERTY_TYPE_OPTIONS = [
 ];
 
 export const PROPERTY_REGION_OPTIONS = [
+  { label: 'California (toàn bang)', value: 'california' },
   { label: 'Orange County', value: 'orange-county' },
   { label: 'Bay Area', value: 'bay-area' },
 ];

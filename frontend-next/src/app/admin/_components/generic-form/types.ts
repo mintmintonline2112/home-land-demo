@@ -60,6 +60,7 @@ export interface GenericFormField {
 
   rules?: RegisterOptions;
   minLength?: number;
+  step?: number | 'any';
 
   className?: string;
 

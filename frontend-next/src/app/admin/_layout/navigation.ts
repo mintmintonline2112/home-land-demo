@@ -34,6 +34,12 @@ export const adminNavigation: AdminNavGroup[] = [
         icon: 'property',
         permission: 'PROPERTY_LIST',
       },
+      {
+        label: 'Thu thập nhà',
+        href: adminRoutes.propertyCrawl,
+        icon: 'refresh',
+        permission: 'PROPERTY_LIST',
+      },
     ],
   },
   {
