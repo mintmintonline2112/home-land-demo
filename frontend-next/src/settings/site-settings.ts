@@ -85,6 +85,7 @@ export function resolveContact(settings: SiteSettings) {
     title: SITE_CONTACT.title,
     website: SITE_CONTACT.website,
     photo: toPublicMediaHref(SITE_CONTACT.photo),
+    portrait: toPublicMediaHref(SITE_CONTACT.portrait),
     about: SITE_CONTACT.about,
   };
 }

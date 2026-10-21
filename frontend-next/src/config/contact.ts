@@ -1,7 +1,7 @@
 /**
- * Thông tin liên hệ + hồ sơ môi giới mặc định của Sean Truong Real Estate (văn phòng, email, điện thoại, giờ làm việc, website, ảnh đại diện).
+ * Thông tin liên hệ + hồ sơ môi giới mặc định của Sean Truong Real Estate (văn phòng, email, điện thoại, giờ làm việc, website, ảnh đại diện vuông + ảnh chân dung).
  * Dùng bởi: settings/site-settings.ts (resolveContact), layout/Footer.tsx, trang chi tiết nhà (properties/[slug]), ContactPageScreen.tsx, SettingsScreen.tsx.
- * Lưu ý: chỉ dùng khi Admin → Trang Liên hệ → Thông tin công ty để trống ô tương ứng. photo là ảnh trong Thư viện (backend/uploads),
+ * Lưu ý: chỉ dùng khi Admin → Trang Liên hệ → Thông tin công ty để trống ô tương ứng. photo / portrait là ảnh trong Thư viện (backend/uploads),
  * resolveContact đổi thành link tuyệt đối.
  */
 export const SITE_CONTACT = {
@@ -16,6 +16,7 @@ export const SITE_CONTACT = {
   hours: "Monday — Saturday: 8:00 AM — 7:00 PM · Sunday: By appointment",
   website: "https://seantruongre.com",
   photo: "uploads/team/sean-truong-avatar.jpg",
+  portrait: "uploads/team/sean-truong.jpg",
   about:
     "Sean Truong is a Realtor® with First Team Real Estate, helping families buy and sell homes across Orange County and the San Francisco Bay Area — in English and Vietnamese.",
 } as const;

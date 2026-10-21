@@ -17,9 +17,9 @@ import { ValuationForm } from "./_components/ValuationForm";
 const HERO_IMAGE = "https://images.unsplash.com/photo-1613977257363-707ba9348227?auto=format&fit=crop&w=2000&q=80";
 
 const AGENT_BADGES = [
-  { icon: "shield", label: "Trusted agent" },
-  { icon: "pin", label: "Local expert" },
-  { icon: "clock", label: "Prompt response" },
+  { icon: "shield", label: "Trusted agent", text: "First Team" },
+  { icon: "pin", label: "Local expert", text: "OC & Bay Area" },
+  { icon: "clock", label: "Prompt response", text: "Within 24 hours" },
 ];
 
 export async function generateMetadata(): Promise<Metadata> {
@@ -76,26 +76,42 @@ export default async function HomeValuationPage() {
             <ValuationForm agentName={agent.name} agentPhone={agent.phone} agentPhoneHref={agent.phoneHref} />
           </div>
 
-          <div className="reveal mx-auto mt-10 grid max-w-240 items-center gap-6 border border-line bg-cream p-[clamp(1.5rem,3vw,2rem)] sm:grid-cols-[auto_minmax(0,1fr)]">
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src={agent.photo} alt={agent.name} className="h-28 w-28 object-cover" loading="lazy" />
-            <div>
-              <p className="m-0 mb-1 text-xs font-bold tracking-md text-navy-700 uppercase">Get the best price for your home</p>
-              <h3 className="mb-1 text-xl font-bold text-navy-900">{agent.name}</h3>
-              <p className="mb-4 text-sm text-ink-faint">{agent.title}</p>
-              <ul className="mb-5 flex flex-wrap gap-x-6 gap-y-2">
+          <div className="reveal mx-auto mt-10 grid max-w-240 overflow-hidden border border-line bg-paper shadow-soft sm:grid-cols-[16rem_minmax(0,1fr)]">
+            <figure className="relative m-0 bg-cream max-sm:aspect-4/3">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img src={agent.portrait} alt={agent.name} className="absolute inset-0 h-full w-full object-cover object-[50%_15%]" loading="lazy" />
+              <figcaption className="absolute inset-x-0 bottom-0 bg-[linear-gradient(0deg,color-mix(in_oklab,var(--navy-900)_85%,transparent),transparent)] px-5 pt-10 pb-4 text-light">
+                <strong className="block text-base">{agent.name}</strong>
+                <span className="text-xs text-light/75">{agent.title}</span>
+              </figcaption>
+            </figure>
+
+            <div className="p-[clamp(1.5rem,3.5vw,2.5rem)]">
+              <p className="m-0 mb-3 text-xs font-bold tracking-md text-navy-700 uppercase">Get the best price for your home</p>
+              <h3 className="mb-3 text-2xl font-bold text-navy-900">Schedule a free consultation</h3>
+              <p className="mb-6 max-w-150 text-sm leading-relaxed text-ink-soft">
+                Want more than a number? Meet with {agent.name} for a detailed pricing strategy, a walkthrough of recent sales near you and
+                a plan to sell for top dollar.
+              </p>
+              <ul className="mb-7 grid gap-4 border-y border-line py-5 sm:grid-cols-3">
                 {AGENT_BADGES.map((badge) => (
-                  <li key={badge.label} className="flex items-center gap-2 text-sm font-semibold text-navy-900">
-                    <Icon name={badge.icon} className="h-4 w-4 text-navy-700" />
-                    {badge.label}
+                  <li key={badge.label} className="flex items-start gap-3">
+                    <span className="grid h-9 w-9 shrink-0 place-items-center bg-navy-50 text-navy-800">
+                      <Icon name={badge.icon} className="h-4.5 w-4.5" />
+                    </span>
+                    <span>
+                      <span className="block text-sm font-bold text-navy-900">{badge.label}</span>
+                      <span className="block text-xs text-ink-faint">{badge.text}</span>
+                    </span>
                   </li>
                 ))}
               </ul>
               <div className="flex flex-wrap gap-3">
-                <Link href={siteRoutes.contactTopic("sell")} className="btn btn-primary btn-sm">
+                <Link href={siteRoutes.contactTopic("sell")} className="btn btn-primary">
+                  <Icon name="calendar" />
                   Schedule a Consultation
                 </Link>
-                <a href={agent.phoneHref} className="btn btn-ghost-dark btn-sm">
+                <a href={agent.phoneHref} className="btn btn-ghost-dark">
                   <Icon name="phone" />
                   {agent.phone}
                 </a>
