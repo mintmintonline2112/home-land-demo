@@ -149,8 +149,8 @@ try {
   };
   await command('Page.enable');
   await command('Runtime.enable');
-  const base = process.env.CRAWL_CHECK_SITE ?? 'http://localhost:3007';
-  const api = process.env.CRAWL_CHECK_API ?? 'http://localhost:3014/api';
+  const base = process.env.CRAWL_CHECK_SITE ?? 'http://localhost:3008';
+  const api = process.env.CRAWL_CHECK_API ?? 'http://localhost:3016/api';
   await command('Page.navigate', { url: `${base}/admin/login` });
   await waitFor(() => evaluate('Boolean(document.querySelector("input[type=password]"))'), 'trang đăng nhập');
   const credentials = { email: process.env.CRAWL_CHECK_EMAIL ?? 'admin@gmail.com', password: process.env.CRAWL_CHECK_PASSWORD ?? 'admin#123' };
