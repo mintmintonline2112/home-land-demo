@@ -1,6 +1,5 @@
 /**
- * Trang CMS tự do (/<slug>, VD /about): mọi Page admin tạo ngoài các trang chuẩn — dải tiêu đề navy (eyebrow, tiêu đề, lead, ảnh nền nếu có)
- * + breadcrumb, rồi từng section qua SectionRenderer.
+ * Trang CMS tự do (/<slug>, VD /about): mọi Page admin tạo ngoài các trang chuẩn — dải tiêu đề navy + breadcrumb, rồi từng section qua SectionRenderer.
  * Dùng bởi: Next.js App Router (route động /[slug]).
  * Lưu ý: slug của trang chuẩn (RESERVED_SLUGS) trả 404, riêng "home" chuyển về "/". API lỗi thì dùng bản dự phòng nếu slug có trong
  * cms-fallback.json (VD about).
@@ -56,7 +55,6 @@ export default async function CmsGenericPage({
   return (
     <>
       <PageHero
-        eyebrow={page.eyebrow}
         title={page.title}
         lead={page.lead}
         crumbs={[{ label: page.title }]}
