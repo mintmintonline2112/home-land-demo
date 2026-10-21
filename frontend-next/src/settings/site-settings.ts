@@ -47,12 +47,15 @@ export function brandNameOf(settings: SiteSettings): string {
   return settings.brandName?.trim() || DEFAULT_BRAND_NAME;
 }
 
-export function faviconHrefOf(settings: SiteSettings): string {
-  const path = settings.faviconUrl?.trim();
-  if (!path) return DEFAULT_FAVICON;
+function toPublicMediaHref(path: string): string {
   if (/^https?:\/\//.test(path) || path.startsWith("/images/")) return path;
   const apiOrigin = env.publicApiUrl.replace(/\/api$/, "");
   return `${apiOrigin}${path.startsWith("/") ? "" : "/"}${path}`;
+}
+
+export function faviconHrefOf(settings: SiteSettings): string {
+  const path = settings.faviconUrl?.trim();
+  return path ? toPublicMediaHref(path) : DEFAULT_FAVICON;
 }
 
 export const POST_TITLE_MIN = 28;
@@ -81,7 +84,7 @@ export function resolveContact(settings: SiteSettings) {
     office: SITE_CONTACT.office,
     title: SITE_CONTACT.title,
     website: SITE_CONTACT.website,
-    photo: SITE_CONTACT.photo,
+    photo: toPublicMediaHref(SITE_CONTACT.photo),
     about: SITE_CONTACT.about,
   };
 }

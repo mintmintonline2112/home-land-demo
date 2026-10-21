@@ -1,7 +1,8 @@
 /**
  * Nội dung mặc định của website Sean Truong Real Estate (trang + section) — nguồn nội dung DUY NHẤT, component không có chữ mặc định.
  * Dùng bởi: database/seeding/seeding.service.ts; src/scripts/export-content.ts (`npm run content:export` sinh bản dự phòng cho frontend).
- * Lưu ý: nội dung lấy từ bản demo homeland (thư mục frontend/); ảnh tạm dùng link Unsplash của bản demo.
+ * Lưu ý: nội dung lấy từ bản demo homeland (thư mục frontend/); ảnh chân dung của Sean nằm trong Thư viện (backend/uploads/team/),
+ * các ảnh còn lại tạm dùng link Unsplash của bản demo.
  * sectionKey = id neo trên trang; metadata._component = component trong registry frontend, metadata.layout = bố cục.
  * Chỉ thêm theo slug / sectionKey, không đè chỉnh sửa của admin — chạy lại db:seed an toàn.
  */
@@ -20,7 +21,7 @@ export type PageDefinition = {
 const unsplash = (photoId: string, width = 800) =>
   `https://images.unsplash.com/photo-${photoId}?auto=format&fit=crop&w=${width}&q=80`;
 
-const SEAN_PHOTO = unsplash('1560250097-0b93528c311a');
+const SEAN_PHOTO = 'uploads/team/sean-truong.jpg';
 
 const areaHref = (keyword: string) => `/properties?keyword=${encodeURIComponent(keyword)}`;
 

@@ -241,7 +241,7 @@
         "metadata": {
           "_component": "profile",
           "background": "tint",
-          "image": "https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=crop&w=800&q=80",
+          "image": "uploads/team/sean-truong.jpg",
           "imageAlt": "Sean Truong, Realtor with First Team Real Estate",
           "role": "Realtor® · First Team Real Estate",
           "highlights": [
@@ -333,7 +333,7 @@
         "metadata": {
           "_component": "profile",
           "background": "plain",
-          "image": "https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=crop&w=800&q=80",
+          "image": "uploads/team/sean-truong.jpg",
           "imageAlt": "Sean Truong, Realtor with First Team Real Estate",
           "role": "Serving Orange County & the Bay Area",
           "highlights": [
