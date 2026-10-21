@@ -136,7 +136,7 @@ export const PAGES: PageDefinition[] = [
         metadata: {
           _component: 'cta-banner',
           ctaLabel: 'Get Your Home Valuation',
-          ctaHref: '/contact?topic=valuation',
+          ctaHref: '/home-valuation',
         },
         sortOrder: 6,
       },

@@ -2,7 +2,8 @@
 
 /**
  * Các form public gửi API backend `client/contact`: form tư vấn trang Liên hệ (ContactForm) và form hỏi về một căn nhà (PropertyInquiryForm).
- * Dùng bởi: sections/contact/ContactPanel.client.tsx, trang properties/[slug].
+ * Dùng bởi: sections/contact/ContactPanel.client.tsx, trang properties/[slug]; home-valuation/_components/ValuationForm.tsx dùng lại
+ * postContact, INPUT, RequiredLabel, ErrorLine.
  * Lưu ý: backend bắt buộc fullname, email, phone, message ≥ 10 ký tự; "I'm Interested In" và tên căn nhà gửi vào `subject`.
  * Nhãn ô nhập tiếng Anh cố định vì site chỉ có tiếng Anh; chữ tiêu đề / mô tả / danh sách chủ đề do nơi gọi truyền vào.
  */
@@ -14,12 +15,12 @@ const FIELD_ROW = "grid grid-cols-2 gap-x-4 max-[640px]:grid-cols-1";
 const FIELD = "mb-4";
 const LABEL = "mb-2 block text-xs font-semibold text-navy-900";
 const REQUIRED_MARK = "text-danger";
-const INPUT =
+export const INPUT =
   "w-full border border-line bg-paper px-4 py-3 font-main text-sm text-ink transition-[border-color,box-shadow] duration-180 ease-brand placeholder:text-ink-faint/70 focus:border-navy-700 focus:ring-3 focus:ring-navy-700/10 focus:outline-none";
 const TEXTAREA = cn(INPUT, "min-h-32 resize-y");
 const FORM_ERROR = "m-0 mb-4 text-sm text-danger";
 
-async function postContact(body: Record<string, string | undefined>) {
+export async function postContact(body: Record<string, string | undefined>) {
   const response = await fetch(`${env.publicApiUrl}/client/contact`, {
     method: "POST",
     headers: { "Content-Type": "application/json", Accept: "application/json" },
@@ -64,7 +65,7 @@ function useContactSubmit(buildBody: (values: Record<string, string>) => Record<
   return { isSending, error, isSent, resetSent: () => setIsSent(false), handleSubmit };
 }
 
-function RequiredLabel({ htmlFor, children, isRequired = true }: { htmlFor: string; children: ReactNode; isRequired?: boolean }) {
+export function RequiredLabel({ htmlFor, children, isRequired = true }: { htmlFor: string; children: ReactNode; isRequired?: boolean }) {
   return (
     <label className={LABEL} htmlFor={htmlFor}>
       {children}
@@ -94,7 +95,7 @@ function SuccessPanel({ title, body, onReset }: { title: string; body: string; o
   );
 }
 
-function ErrorLine({ error }: { error: string | null }) {
+export function ErrorLine({ error }: { error: string | null }) {
   if (!error) return null;
   return (
     <p className={FORM_ERROR} role="alert">

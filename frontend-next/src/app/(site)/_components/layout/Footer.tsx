@@ -51,7 +51,7 @@ export function Footer({
           <Link className={FOOTER_LINK} href={siteRoutes.homeSection("featured")}>
             Featured Homes
           </Link>
-          <Link className={FOOTER_LINK} href={siteRoutes.contactTopic("valuation")}>
+          <Link className={FOOTER_LINK} href={siteRoutes.homeValuation}>
             Home Valuation
           </Link>
           <Link className={FOOTER_LINK} href={siteRoutes.contactTopic("buy")}>

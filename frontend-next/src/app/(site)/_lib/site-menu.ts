@@ -38,7 +38,7 @@ export const SITE_MENU_ITEMS: SiteMenuItem[] = [
     label: "Sell",
     href: siteRoutes.contactTopic("sell"),
     children: [
-      { label: "Home Valuation", href: siteRoutes.contactTopic("valuation") },
+      { label: "Home Valuation", href: siteRoutes.homeValuation },
       { label: "Seller Consultation", href: siteRoutes.contactTopic("sell") },
     ],
   },

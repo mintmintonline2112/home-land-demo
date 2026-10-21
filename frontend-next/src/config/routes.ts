@@ -38,6 +38,7 @@ const PROPERTIES = '/properties';
 const ABOUT = '/about';
 const NEWS = '/news';
 const CONTACT = '/contact';
+const HOME_VALUATION = '/home-valuation';
 
 export const siteRoutes = {
   home: HOME,
@@ -53,6 +54,8 @@ export const siteRoutes = {
   newsCategory: (slug: string) => withQuery(NEWS, { category: slug }),
   newsFiltered: (params: Record<string, string | number | null | undefined>) => withQuery(NEWS, params),
   newsPost: (slug: string) => joinPath(NEWS, slug),
+
+  homeValuation: HOME_VALUATION,
 
   contact: CONTACT,
   contactTopic: (topic: string) => withQuery(CONTACT, { topic }),
