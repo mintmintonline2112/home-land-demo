@@ -6,7 +6,7 @@
  * Dùng bởi: app/(site)/properties/page.tsx (trang server truyền bộ lọc từ URL + trang kết quả đầu tiên để có HTML sẵn cho SEO).
  * Lưu ý: bộ lọc được ghi lại lên URL bằng history.replaceState (không tải lại trang). Điểm bản đồ chỉ tải lại khi đổi bộ lọc,
  * trừ khi backend báo truncated (quá nhiều nhà) thì tải theo khung bản đồ mỗi lần di chuyển. Dưới 1024px bản đồ và danh sách
- * chuyển qua lại bằng nút nổi Map / List.
+ * chuyển qua lại bằng nút nổi Map / List. Lọc giá Luxury (từ $5M) thì tiêu đề đổi thành "Luxury Homes".
  */
 import { useEffect, useMemo, useRef, useState } from "react";
 import { PropertyCard } from "@/app/(site)/_components/property/PropertyCard";
@@ -16,7 +16,7 @@ import {
   searchProperties,
   toPropertyQueryString,
 } from "@/app/(site)/_lib/properties";
-import { SORT_OPTIONS } from "@/config/property-search";
+import { LUXURY_PRICE_RANGE, SORT_OPTIONS } from "@/config/property-search";
 import { siteRoutes } from "@/config/routes";
 import type { MapPoint, Property, PropertyFilters, PropertyPage } from "@/types/property";
 import { cn } from "@/utils/cn";
@@ -261,7 +261,7 @@ export function PropertySearch({
         >
           <div className="mb-5 flex flex-wrap items-end justify-between gap-3">
             <div>
-              <h1 className="mb-1 text-2xl font-bold text-navy-900">{title}</h1>
+              <h1 className="mb-1 text-2xl font-bold text-navy-900">{filters.price === LUXURY_PRICE_RANGE ? "Luxury Homes" : title}</h1>
               <p className="m-0 text-sm text-ink-faint">
                 <strong className="text-navy-900">{total.toLocaleString("en-US")}</strong>{" "}
                 {total === 1 ? "home" : "homes"}

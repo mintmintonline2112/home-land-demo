@@ -2,6 +2,7 @@
  * Menu tĩnh của site public (giống backend menu.seed.ts), kèm kiểu dữ liệu mục menu.
  * Dùng bởi: _lib/menu.ts (dự phòng khi API menu lỗi hoặc CMS chưa có dữ liệu), _components/layout/Header.tsx.
  */
+import { LUXURY_PRICE_RANGE } from "@/config/property-search";
 import { siteRoutes } from "@/config/routes";
 
 export type SiteMenuChild = {
@@ -30,7 +31,7 @@ export const SITE_MENU_ITEMS: SiteMenuItem[] = [
     children: [
       { label: "Property Search", href: siteRoutes.properties },
       { label: "Featured Homes", href: siteRoutes.homeSection("featured") },
-      { label: "Buyer Consultation", href: siteRoutes.contactTopic("buy") },
+      { label: "Luxury", href: siteRoutes.propertiesFiltered({ price: LUXURY_PRICE_RANGE }) },
     ],
   },
   {

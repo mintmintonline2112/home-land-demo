@@ -33,7 +33,7 @@ const MENU_TREE: SeedMenuItem[] = [
     children: [
       { label: 'Property Search', href: '/properties' },
       { label: 'Featured Homes', href: '/#featured' },
-      { label: 'Buyer Consultation', href: '/contact?topic=buy' },
+      { label: 'Luxury', href: '/properties?price=5000%2B' },
     ],
   },
   {

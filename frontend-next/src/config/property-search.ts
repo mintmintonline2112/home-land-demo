@@ -3,7 +3,8 @@
  * Dùng bởi: hero (bố cục search), trang /properties (thanh lọc + sắp xếp), Footer, section property-grid.
  * Lưu ý: value của khu vực có thể là nhiều thành phố nối bằng "|" (VD Bay Area); backend so khớp từng tên với thành phố / khu phố của nhà,
  * và tự hiểu từ khoá "Orange County" / "Bay Area" / "Silicon Valley" (backend property-search.ts — thêm thành phố thì sửa cả hai nơi).
- * Giá trong PRICE_RANGES tính bằng nghìn USD ("800-1200" = $800k — $1.2M, "2000+" = trên $2M).
+ * Giá trong PRICE_RANGES tính bằng nghìn USD ("800-1200" = $800k — $1.2M, "2000+" = trên $2M). Nhà "Luxury" = giá từ $5M
+ * (LUXURY_PRICE_RANGE, dùng cho mục menu Buy → Luxury).
  */
 import type { PropertyRegion, PropertySort } from "@/types/property";
 
@@ -68,11 +69,14 @@ export const PROPERTY_TYPES: SearchOption[] = [
   { value: "luxury", label: "Luxury Estate" },
 ];
 
+export const LUXURY_PRICE_RANGE = "5000+";
+
 export const PRICE_RANGES: SearchOption[] = [
   { value: "0-800", label: "Under $800k" },
   { value: "800-1200", label: "$800k — $1.2M" },
   { value: "1200-2000", label: "$1.2M — $2M" },
   { value: "2000+", label: "Over $2M" },
+  { value: LUXURY_PRICE_RANGE, label: "Luxury — Over $5M" },
 ];
 
 export const BED_OPTIONS: SearchOption[] = [1, 2, 3, 4, 5].map((beds) => ({
