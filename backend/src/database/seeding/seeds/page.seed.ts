@@ -195,6 +195,9 @@ export const PAGES: PageDefinition[] = [
       title: 'About Sean',
       slug: 'about',
       eyebrow: 'Realtor® · First Team Real Estate',
+      lead: 'Local expertise, honest advice and bilingual service for buyers and sellers across Orange County and the Bay Area.',
+      heroImagePath: unsplash('1519046904884-53103b34b206', 2000),
+      heroImagePosition: '50% 60%',
       templateKey: 'about',
       status: PublishStatus.PUBLISHED,
       sortOrder: 3,
@@ -230,6 +233,7 @@ export const PAGES: PageDefinition[] = [
         subheading: 'Professional Background',
         metadata: {
           _component: 'feature-cards',
+          layout: 'split',
           background: 'tint',
           items: [
             { title: 'First Team Real Estate', text: 'Part of one of Southern California\'s leading independent brokerages, with deep market reach and marketing power.', icon: 'home' },
@@ -246,7 +250,8 @@ export const PAGES: PageDefinition[] = [
         subheading: 'Testimonials',
         metadata: {
           _component: 'testimonials',
-          background: 'plain',
+          layout: 'spotlight',
+          background: 'dark',
           items: [
             { text: 'Sean helped us buy our first home in Irvine. He explained everything in Vietnamese for my parents and negotiated $40k under asking. We couldn\'t have done it without him.', title: 'The Nguyen Family', label: 'Buyers · Irvine, CA' },
             { text: 'Our Newport Beach home sold in nine days, over asking, with multiple offers. Sean\'s marketing plan and staging advice made all the difference.', title: 'Mark & Elaine R.', label: 'Sellers · Newport Beach, CA' },
@@ -262,7 +267,8 @@ export const PAGES: PageDefinition[] = [
         content: '<p>Sean connects you with vetted professionals at every step — so nothing falls through the cracks.</p>',
         metadata: {
           _component: 'feature-cards',
-          background: 'tint',
+          layout: 'rows',
+          background: 'plain',
           items: [
             { title: 'Lenders & Financing', text: 'Trusted mortgage partners for conventional, jumbo, and foreign-national loans.', icon: 'dollar' },
             { title: 'Escrow & Title', text: 'Experienced escrow and title officers who keep closings smooth and on schedule.', icon: 'file' },

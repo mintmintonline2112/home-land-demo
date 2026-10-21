@@ -310,7 +310,7 @@
     "slug": "about",
     "status": "published",
     "eyebrow": "Realtor® · First Team Real Estate",
-    "lead": null,
+    "lead": "Local expertise, honest advice and bilingual service for buyers and sellers across Orange County and the Bay Area.",
     "templateKey": "about",
     "sortOrder": 3,
     "metaTitle": "About Sean Truong | First Team Real Estate",
@@ -364,6 +364,7 @@
         "mediaPath": null,
         "metadata": {
           "_component": "feature-cards",
+          "layout": "split",
           "background": "tint",
           "items": [
             {
@@ -405,7 +406,8 @@
         "mediaPath": null,
         "metadata": {
           "_component": "testimonials",
-          "background": "plain",
+          "layout": "spotlight",
+          "background": "dark",
           "items": [
             {
               "text": "Sean helped us buy our first home in Irvine. He explained everything in Vietnamese for my parents and negotiated $40k under asking. We couldn't have done it without him.",
@@ -441,7 +443,8 @@
         "mediaPath": null,
         "metadata": {
           "_component": "feature-cards",
-          "background": "tint",
+          "layout": "rows",
+          "background": "plain",
           "items": [
             {
               "title": "Lenders & Financing",

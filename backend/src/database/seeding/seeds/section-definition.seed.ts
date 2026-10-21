@@ -49,6 +49,11 @@ const BACKGROUND_FIELD: SectionFieldSpec = {
   hint: 'Để trống thì nền tự xen kẽ trắng / xám theo vị trí section trên trang.',
 };
 
+const BACKGROUND_WITH_DARK_FIELD: SectionFieldSpec = {
+  ...BACKGROUND_FIELD,
+  options: [...(BACKGROUND_FIELD.options ?? []), { value: 'dark', label: 'Navy (chữ sáng)' }],
+};
+
 const buildStringListField = (key: string, label: string, hint?: string, layouts?: string[]): SectionFieldSpec => ({
   key, label, type: 'stringList', ...(hint ? { hint } : {}), ...(layouts ? { layouts } : {}),
 });
@@ -156,8 +161,13 @@ const DEFINITIONS: DefinitionSeed[] = [
   {
     pageSlug: 'shared', sectionKey: 'feature-cards', sortOrder: 5,
     label: 'Lưới thẻ icon',
-    description: 'FeatureCards.tsx — thẻ viền mảnh căn giữa: ô icon vuông + tiêu đề + mô tả (VD lý do chọn Sean, mạng lưới đối tác). 4 thẻ thì 4 cột.',
+    description: 'FeatureCards.tsx — các mục icon + tiêu đề + mô tả (VD lý do chọn Sean, mạng lưới đối tác). Bố cục "Thẻ" (4 thẻ thì 4 cột), "Chia đôi" (tiêu đề trái, mục đánh số phải), "Khung chia ô".',
     fields: [
+      buildLayoutField([
+        { value: 'cards', label: 'Thẻ', hint: 'Lưới thẻ viền mảnh căn giữa, ô icon vuông' },
+        { value: 'split', label: 'Chia đôi', hint: 'Tiêu đề bên trái, mục đánh số 01, 02… 2 cột bên phải' },
+        { value: 'rows', label: 'Khung chia ô', hint: 'Một khung trắng chia ô bằng đường kẻ mảnh, icon nền navy' },
+      ]),
       buildItemListField('items', 'Thẻ', [
         { name: 'title', label: 'Tiêu đề', kind: 'text' },
         { name: 'text', label: 'Mô tả', kind: 'textarea' },
@@ -196,14 +206,18 @@ const DEFINITIONS: DefinitionSeed[] = [
   {
     pageSlug: 'shared', sectionKey: 'testimonials', sortOrder: 8,
     label: 'Cảm nhận khách hàng',
-    description: 'Testimonials.tsx — thẻ trích dẫn: lời khách in nghiêng, tên và mô tả ngắn người nói.',
+    description: 'Testimonials.tsx — cảm nhận khách: bố cục "Thẻ" (lưới thẻ trích dẫn) hoặc "Nổi bật" (lời đầu tiên in lớn bên trái, còn lại xếp dọc bên phải; hợp nền Navy).',
     fields: [
+      buildLayoutField([
+        { value: 'cards', label: 'Thẻ', hint: 'Lưới thẻ trích dẫn' },
+        { value: 'spotlight', label: 'Nổi bật', hint: 'Lời trích đầu tiên in lớn, các lời còn lại bên phải' },
+      ]),
       buildItemListField('items', 'Cảm nhận', [
         { name: 'text', label: 'Lời trích (không cần ngoặc kép)', kind: 'textarea' },
         { name: 'title', label: 'Tên khách (VD: The Nguyen Family)', kind: 'text' },
         { name: 'label', label: 'Mô tả (VD: Buyers · Irvine, CA)', kind: 'text' },
       ]),
-      BACKGROUND_FIELD,
+      BACKGROUND_WITH_DARK_FIELD,
     ],
   },
   {
