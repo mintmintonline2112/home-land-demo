@@ -1,7 +1,8 @@
 "use client";
 
 /**
- * Header site public: thanh trắng dính đầu trang — logo, menu CMS có menu thả xuống (mục nhiều con chia 2 cột), nút "Schedule Consultation".
+ * Header site public: thanh trắng dính đầu trang — logo, menu CMS có menu thả xuống (mục nhiều con chia 2 cột; mục trỏ tới /news là
+ * menu Blogs có tab danh mục + bài mới, xem BlogMenuPanel.tsx), nút "Schedule Consultation".
  * Dùng bởi: app/(site)/layout.tsx.
  * Lưu ý: chiều cao thanh = biến CSS --header-height (styles/base.css) — trang /properties dựa vào đó để bản đồ vừa khít màn hình.
  * Dưới 1100px menu thu vào nút ☰, menu con thành accordion. Mục có con mở bằng bấm (và rê chuột trên desktop);
@@ -14,6 +15,7 @@ import type { SiteMenuItem } from "@/app/(site)/_lib/site-menu";
 import { siteRoutes } from "@/config/routes";
 import { cn } from "@/utils/cn";
 import { isActivePath } from "@/utils/route";
+import { BlogMenuPanel, type BlogMenuData } from "./BlogMenuPanel";
 import { Brand, type BrandProps } from "./Brand";
 
 const NAV_LINK =
@@ -24,9 +26,18 @@ const DROPDOWN_LINK =
 
 const MEGA_MENU_MIN_CHILDREN = 8;
 
-const isDesktopViewport = () => window.matchMedia("(min-width: 1101px)").matches;
+const isDesktopViewport = () =>
+  window.matchMedia("(min-width: 1101px)").matches;
 
-export function Header({ menu, brand }: { menu: SiteMenuItem[]; brand?: BrandProps }) {
+export function Header({
+  menu,
+  brand,
+  blogMenu,
+}: {
+  menu: SiteMenuItem[];
+  brand?: BrandProps;
+  blogMenu?: BlogMenuData;
+}) {
   const pathname = usePathname();
   const headerRef = useRef<HTMLElement>(null);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -62,7 +73,8 @@ export function Header({ menu, brand }: { menu: SiteMenuItem[]; brand?: BrandPro
     };
   }, []);
 
-  const isCurrent = (href: string) => !href.includes("?") && isActivePath(pathname, href, siteRoutes.home);
+  const isCurrent = (href: string) =>
+    !href.includes("?") && isActivePath(pathname, href, siteRoutes.home);
 
   return (
     <header
@@ -73,7 +85,7 @@ export function Header({ menu, brand }: { menu: SiteMenuItem[]; brand?: BrandPro
         isScrolled && "shadow-soft",
       )}
     >
-      <div className="mx-auto flex w-[min(1320px,100%-3rem)] h-(--header-height) items-center justify-between gap-6 max-[640px]:w-[min(1320px,100%-2.2rem)]">
+      <div className="mx-auto flex h-(--header-height) w-[min(1320px,100%-3rem)] items-center justify-between gap-6 max-[640px]:w-[min(1320px,100%-2.2rem)]">
         <Brand {...brand} />
 
         <nav
@@ -86,10 +98,19 @@ export function Header({ menu, brand }: { menu: SiteMenuItem[]; brand?: BrandPro
           )}
         >
           {menu.map((item) => {
-            const children = item.showSubmenu === false ? [] : (item.children ?? []);
-            if (children.length === 0) {
+            const children =
+              item.showSubmenu === false ? [] : (item.children ?? []);
+            const isBlogMenu =
+              Boolean(blogMenu) &&
+              item.href.split(/[?#]/)[0] === siteRoutes.news;
+            if (children.length === 0 && !isBlogMenu) {
               return (
-                <Link key={item.key} href={item.href} className={NAV_LINK} aria-current={isCurrent(item.href) ? "page" : undefined}>
+                <Link
+                  key={item.key}
+                  href={item.href}
+                  className={NAV_LINK}
+                  aria-current={isCurrent(item.href) ? "page" : undefined}
+                >
                   {item.label}
                 </Link>
               );
@@ -107,12 +128,17 @@ export function Header({ menu, brand }: { menu: SiteMenuItem[]; brand?: BrandPro
                   type="button"
                   className={NAV_LINK}
                   aria-expanded={isOpen}
-                  onClick={() => setOpenKey(isOpen && !isDesktopViewport() ? null : item.key)}
+                  onClick={() =>
+                    setOpenKey(isOpen && !isDesktopViewport() ? null : item.key)
+                  }
                 >
                   {item.label}
                   <svg
                     viewBox="0 0 24 24"
-                    className={cn("h-3.5 w-3.5 transition-transform duration-200", isOpen && "rotate-180")}
+                    className={cn(
+                      "h-3.5 w-3.5 transition-transform duration-200",
+                      isOpen && "rotate-180",
+                    )}
                     fill="none"
                     stroke="currentColor"
                     strokeWidth="2"
@@ -125,22 +151,36 @@ export function Header({ menu, brand }: { menu: SiteMenuItem[]; brand?: BrandPro
                 </button>
                 <div
                   className={cn(
-                    "absolute top-full left-1/2 z-10 -translate-x-1/2 pt-3 max-[1100px]:static max-[1100px]:translate-x-0 max-[1100px]:pt-1",
+                    "absolute top-full left-1/2 z-10 -translate-x-1/2 pt-[calc(var(--header-height)/2-1.125rem)] max-[1100px]:static max-[1100px]:translate-x-0 max-[1100px]:pt-1",
                     isOpen ? "block" : "hidden",
                   )}
                 >
-                  <div
-                    className={cn(
-                      "border border-line bg-paper py-2 shadow-float max-[1100px]:border-0 max-[1100px]:py-0 max-[1100px]:shadow-none",
-                      isMega ? "grid w-120 grid-cols-2 max-[1100px]:w-full" : "w-60 max-[1100px]:w-full",
-                    )}
-                  >
-                    {children.map((child) => (
-                      <Link key={child.href + child.label} href={child.href} className={DROPDOWN_LINK} onClick={() => setOpenKey(null)}>
-                        {child.label}
-                      </Link>
-                    ))}
-                  </div>
+                  {isBlogMenu && blogMenu ? (
+                    <BlogMenuPanel
+                      data={blogMenu}
+                      onNavigate={() => setOpenKey(null)}
+                    />
+                  ) : (
+                    <div
+                      className={cn(
+                        "border border-line bg-paper py-2 shadow-float max-[1100px]:border-0 max-[1100px]:py-0 max-[1100px]:shadow-none",
+                        isMega
+                          ? "grid w-120 grid-cols-2 max-[1100px]:w-full"
+                          : "w-60 max-[1100px]:w-full",
+                      )}
+                    >
+                      {children.map((child) => (
+                        <Link
+                          key={child.href + child.label}
+                          href={child.href}
+                          className={DROPDOWN_LINK}
+                          onClick={() => setOpenKey(null)}
+                        >
+                          {child.label}
+                        </Link>
+                      ))}
+                    </div>
+                  )}
                 </div>
               </div>
             );
@@ -154,7 +194,10 @@ export function Header({ menu, brand }: { menu: SiteMenuItem[]; brand?: BrandPro
         </nav>
 
         <div className="flex items-center gap-3">
-          <Link href={siteRoutes.contact} className="btn btn-primary text-xs tracking-sm uppercase max-[1100px]:hidden">
+          <Link
+            href={siteRoutes.contact}
+            className="btn btn-primary text-xs tracking-sm uppercase max-[1100px]:hidden"
+          >
             Schedule Consultation
           </Link>
           <button
@@ -165,8 +208,20 @@ export function Header({ menu, brand }: { menu: SiteMenuItem[]; brand?: BrandPro
             aria-label={isMenuOpen ? "Close menu" : "Open menu"}
             onClick={() => setIsMenuOpen((wasOpen) => !wasOpen)}
           >
-            <svg viewBox="0 0 24 24" className="h-6 w-6" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" aria-hidden="true">
-              {isMenuOpen ? <path d="M18 6 6 18M6 6l12 12" /> : <path d="M4 6h16M4 12h16M4 18h16" />}
+            <svg
+              viewBox="0 0 24 24"
+              className="h-6 w-6"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+              strokeLinecap="round"
+              aria-hidden="true"
+            >
+              {isMenuOpen ? (
+                <path d="M18 6 6 18M6 6l12 12" />
+              ) : (
+                <path d="M4 6h16M4 12h16M4 18h16" />
+              )}
             </svg>
           </button>
         </div>

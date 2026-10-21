@@ -63,8 +63,8 @@ export const SITE_MENU_ITEMS: SiteMenuItem[] = [
     ],
   },
   {
-    key: "resources",
-    label: "Resources",
+    key: "blogs",
+    label: "Blogs",
     href: siteRoutes.news,
     children: [
       { label: "Market Updates", href: siteRoutes.newsCategory("market-update") },

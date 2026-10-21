@@ -2,7 +2,7 @@
  * Lớp bọc cache-manager: lấy-hoặc-tính (`wrap`) và xoá cả namespace bằng cách tăng số version (`invalidate`).
  * Dùng bởi: app-cache.module.ts, invalidate-cache.interceptor.ts, controller client, admin-cache.controller.ts.
  * Lưu ý: tăng version = một lần ghi, không xoá key theo wildcard, nên chạy giống nhau trên bộ nhớ và Redis.
- * invalidate() còn gọi POST {STOREFRONT_URL}/api/revalidate (tag = namespace bỏ tiền tố `client:`), không chờ, lỗi thì bỏ qua;
+ * invalidate() còn gọi POST {STOREFRONT_URL}/api/revalidate/ (có dấu "/" cuối vì frontend bật trailingSlash; tag = namespace bỏ tiền tố `client:`), không chờ, lỗi thì bỏ qua;
  * thiếu STOREFRONT_URL hoặc REVALIDATE_SECRET thì không gọi. TTL mục cache 2 phút, key version 7 ngày.
  */
 import { Inject, Injectable } from '@nestjs/common';
@@ -72,7 +72,7 @@ export class AppCacheService {
     const secret = process.env.REVALIDATE_SECRET;
     if (!storefrontUrl || !secret) return;
 
-    void fetch(`${storefrontUrl}/api/revalidate`, {
+    void fetch(`${storefrontUrl}/api/revalidate/`, {
       method: 'POST',
       headers: {
         'content-type': 'application/json',

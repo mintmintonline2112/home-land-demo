@@ -12,7 +12,7 @@ import { CopyGuard } from "@/app/(site)/_components/layout/CopyGuard";
 import { SiteEffects } from "@/app/(site)/_components/layout/SiteEffects";
 import { buildBrandColorsCss } from "@/settings/brand-colors";
 import { toMediaUrl } from "@/app/(site)/_lib/cms";
-import { getSiteMenu } from "@/app/(site)/_lib/menu";
+import { getBlogMenu, getSiteMenu } from "@/app/(site)/_lib/menu";
 import {
   faviconHrefOf,
   FONT_STACKS,
@@ -52,7 +52,7 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 export default async function SiteLayout({ children }: { children: ReactNode }) {
-  const [menu, settings] = await Promise.all([getSiteMenu(), getSiteSettings()]);
+  const [menu, settings, blogMenu] = await Promise.all([getSiteMenu(), getSiteSettings(), getBlogMenu()]);
 
   const fontStack = settings.fontFamily ? FONT_STACKS[settings.fontFamily] : undefined;
 
@@ -79,7 +79,7 @@ export default async function SiteLayout({ children }: { children: ReactNode }) 
       {brandCss ? <style>{brandCss}</style> : null}
       {settings.copyProtection !== false ? <CopyGuard /> : null}
       <SiteEffects />
-      <Header menu={menu} brand={brand} />
+      <Header menu={menu} brand={brand} blogMenu={blogMenu} />
       <main id="main">{children}</main>
       <Footer
         brand={footerBrand}

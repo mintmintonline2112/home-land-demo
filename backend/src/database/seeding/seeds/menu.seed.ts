@@ -1,5 +1,5 @@
 /**
- * Seed menu điều hướng chính của website (Buy, Sell, Luxury, Areas, Resources, About Sean, Contact và mục con).
+ * Seed menu điều hướng chính của website (Buy, Sell, Luxury, Areas, Blogs, About Sean, Contact và mục con).
  * Dùng bởi: database/seeding/seeding.service.ts.
  * Lưu ý: chỉ thêm theo href — mục đã có (kể cả admin đã sửa / ẩn / xoá mềm) giữ nguyên, nên chạy lại db:seed trên production an toàn.
  */
@@ -68,7 +68,7 @@ const MENU_TREE: SeedMenuItem[] = [
     ],
   },
   {
-    label: 'Resources',
+    label: 'Blogs',
     href: '/news',
     children: [
       { label: 'Market Updates', href: '/news?category=market-update' },
