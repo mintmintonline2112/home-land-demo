@@ -1,18 +1,19 @@
 "use client";
 
 /**
- * Form định giá nhà 3 bước trong thẻ nổi ở hero trang /home-valuation: địa chỉ → thông tin căn nhà → thông tin liên hệ, rồi màn cảm ơn
- * kèm tóm tắt và các bước tiếp theo. Thanh tiến trình trên đầu thẻ, bước sau có nút quay lại, giữ nguyên dữ liệu đã nhập.
- * Dùng bởi: app/(site)/home-valuation/page.tsx.
+ * Form định giá nhà trang /home-valuation: thanh nhập địa chỉ lớn ngay trong hero; nhập xong mở hộp thoại (dialog) 2 bước còn lại —
+ * thông tin căn nhà → thông tin liên hệ — rồi màn cảm ơn kèm các bước tiếp theo. Cột trái hộp thoại tóm tắt địa chỉ + môi giới.
+ * Dùng bởi: app/(site)/home-valuation/page.tsx (các nút CTA khác trên trang trỏ về #valuation-form).
  * Lưu ý: gửi một lần ở bước cuối qua postContact (forms.tsx) vào hộp Liên hệ của admin: subject "Home valuation — <địa chỉ>", toàn bộ
  * thông tin căn nhà ghép vào message (backend cần message ≥ 10 ký tự, subject tối đa 255 ký tự nên địa chỉ giới hạn 200).
+ * Dialog dùng showModal() của trình duyệt (Esc để đóng, khoá cuộn trang khi mở); đóng sau khi đã gửi thì form quay về trống.
  */
-import { useState, type FormEvent, type ReactNode } from "react";
+import { useEffect, useRef, useState, type FormEvent, type MouseEvent, type ReactNode } from "react";
 import { ErrorLine, INPUT, RequiredLabel, postContact } from "@/app/(site)/_components/forms";
 import { Icon } from "@/app/(site)/_components/sections/_shared/icons";
 import { cn } from "@/utils/cn";
 
-type ValuationStep = "address" | "details" | "contact" | "sent";
+type DialogStep = "details" | "contact" | "sent";
 
 type HomeDetails = {
   address: string;
@@ -24,11 +25,9 @@ type HomeDetails = {
   timeline: string;
 };
 
-const FORM_STEPS: Array<{ key: ValuationStep; label: string }> = [
-  { key: "address", label: "Address" },
-  { key: "details", label: "Details" },
-  { key: "contact", label: "Contact" },
-];
+export type ValuationAgent = { name: string; title: string; photo: string; phone: string; phoneHref: string };
+
+const PROGRESS_STEPS = ["Address", "Home details", "Contact"];
 
 const PROPERTY_TYPE_CHOICES = ["Single-family home", "Condo", "Townhouse", "Multi-family", "Land / Lot"];
 const BED_CHOICES = ["1", "2", "3", "4", "5+"];
@@ -46,14 +45,14 @@ const EMPTY_DETAILS: HomeDetails = {
   timeline: TIMELINE_CHOICES[1],
 };
 
+const REPORT_CONTENTS = [
+  "A price range built on recent comparable sales",
+  "The nearby homes behind every number",
+  "Pricing and timing advice for your sale",
+];
+
 const FIELD = "mb-4";
 const SELECT = cn(INPUT, "cursor-pointer appearance-none pr-10");
-
-const NEXT_STEPS = [
-  "Sean reviews recent sales and active listings around your address.",
-  "You receive a personalized price range — usually within one business day.",
-  "Optional: a walkthrough to fine-tune the value and plan your sale.",
-];
 
 function readFormValues(form: HTMLFormElement): Record<string, string> | null {
   if (!form.checkValidity()) {
@@ -77,29 +76,41 @@ function buildValuationMessage(details: HomeDetails): string {
     .join("\n");
 }
 
-function StepProgress({ step }: { step: ValuationStep }) {
-  const activeIndex = step === "sent" ? FORM_STEPS.length : FORM_STEPS.findIndex((item) => item.key === step);
+function buildNextSteps(agentName: string) {
+  const firstName = agentName.split(" ")[0];
+  return [
+    `${firstName} reviews recent sales and active listings around your address.`,
+    "You receive a personalized price range — usually within one business day.",
+    "Optional: a walkthrough to fine-tune the value and plan your sale.",
+  ];
+}
+
+function ArrowIcon() {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+      <path d="M5 12h14M12 5l7 7-7 7" />
+    </svg>
+  );
+}
+
+function StepProgress({ step }: { step: DialogStep }) {
+  const activeIndex = step === "details" ? 1 : step === "contact" ? 2 : PROGRESS_STEPS.length;
   return (
     <ol className="mb-7 grid grid-cols-3 gap-2" aria-label="Valuation steps">
-      {FORM_STEPS.map((item, index) => {
+      {PROGRESS_STEPS.map((label, index) => {
         const isDone = index < activeIndex;
         const isActive = index === activeIndex;
         return (
-          <li key={item.key} aria-current={isActive ? "step" : undefined}>
+          <li key={label} aria-current={isActive ? "step" : undefined}>
+            <span className={cn("mb-2 block h-1", isDone || isActive ? "bg-navy-700" : "bg-line")} />
             <span
               className={cn(
-                "mb-2 block h-1 transition-colors duration-300 ease-brand",
-                isDone || isActive ? "bg-navy-700" : "bg-line",
-              )}
-            />
-            <span
-              className={cn(
-                "flex items-center gap-1.5 text-2xs font-bold tracking-sm uppercase",
+                "flex items-center gap-1.5 text-2xs font-bold tracking-sm whitespace-nowrap uppercase",
                 isActive ? "text-navy-900" : isDone ? "text-navy-700" : "text-ink-faint",
               )}
             >
               {isDone ? <Icon name="check" className="h-3 w-3" strokeWidth={3} /> : <span>{index + 1}.</span>}
-              {item.label}
+              {label}
             </span>
           </li>
         );
@@ -111,12 +122,12 @@ function StepProgress({ step }: { step: ValuationStep }) {
 function ChoiceChips({ name, label, choices, defaultValue }: { name: string; label: string; choices: string[]; defaultValue: string }) {
   return (
     <fieldset className={cn("m-0 border-0 p-0", FIELD)}>
-      <legend className="mb-2 block text-xs font-semibold text-navy-900">{label}</legend>
+      <legend className="mb-2 block p-0 text-xs font-semibold text-navy-900">{label}</legend>
       <div className="flex flex-wrap gap-2">
         {choices.map((choice) => (
           <label
             key={choice}
-            className="cursor-pointer border border-line bg-paper px-3 py-2 text-xs font-semibold text-ink-soft transition-colors duration-180 ease-brand hover:border-navy-600 has-checked:border-navy-800 has-checked:bg-navy-800 has-checked:text-light has-focus-visible:ring-3 has-focus-visible:ring-navy-700/20"
+            className="cursor-pointer border border-line bg-paper px-3.5 py-2 text-xs font-semibold text-ink-soft transition-colors duration-180 ease-brand hover:border-navy-600 has-checked:border-navy-800 has-checked:bg-navy-800 has-checked:text-light has-focus-visible:ring-3 has-focus-visible:ring-navy-700/20"
           >
             <input type="radio" name={name} value={choice} defaultChecked={choice === defaultValue} className="sr-only" />
             {choice}
@@ -164,26 +175,62 @@ function BackButton({ onClick }: { onClick: () => void }) {
 
 function StepHeading({ title, text }: { title: string; text: ReactNode }) {
   return (
-    <div className="mb-5">
-      <h2 className="mb-1.5 text-xl font-bold text-navy-900">{title}</h2>
+    <div className="mb-6">
+      <h2 className="mb-1.5 text-2xl font-bold text-navy-900">{title}</h2>
       <p className="m-0 text-sm text-ink-faint">{text}</p>
     </div>
   );
 }
 
-function ArrowIcon() {
+function DialogSummary({ agent, address }: { agent: ValuationAgent; address: string }) {
   return (
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-      <path d="M5 12h14M12 5l7 7-7 7" />
-    </svg>
+    <aside className="relative isolate flex flex-col overflow-hidden bg-navy-900 p-8 text-light max-md:hidden">
+      <span aria-hidden="true" className="absolute -top-24 -right-24 -z-1 h-64 w-64 rounded-full bg-navy-700/40 blur-3xl" />
+      <p className="m-0 mb-3 text-2xs font-bold tracking-lg text-light/60 uppercase">Your valuation</p>
+      <p className="m-0 mb-8 flex items-start gap-2 text-base leading-snug font-semibold text-light">
+        <Icon name="pin" className="mt-0.5 h-4 w-4 text-light/70" />
+        {address}
+      </p>
+      <p className="m-0 mb-3 text-2xs font-bold tracking-lg text-light/60 uppercase">What you&apos;ll receive</p>
+      <ul className="mb-8 grid gap-3">
+        {REPORT_CONTENTS.map((item) => (
+          <li key={item} className="flex items-start gap-2.5 text-sm text-light/85">
+            <Icon name="check" className="mt-0.5 h-4 w-4 text-light" strokeWidth={2.5} />
+            {item}
+          </li>
+        ))}
+      </ul>
+      <div className="mt-auto flex items-center gap-3 border-t border-light/15 pt-6">
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img src={agent.photo} alt="" className="h-12 w-12 object-cover ring-2 ring-light/25" />
+        <p className="m-0 text-xs leading-snug text-light/70">
+          <strong className="block text-sm text-light">{agent.name}</strong>
+          {agent.title}
+        </p>
+      </div>
+    </aside>
   );
 }
 
-export function ValuationForm({ agentName, agentPhone, agentPhoneHref }: { agentName: string; agentPhone: string; agentPhoneHref: string }) {
-  const [step, setStep] = useState<ValuationStep>("address");
+export function ValuationForm({ agent }: { agent: ValuationAgent }) {
+  const dialogRef = useRef<HTMLDialogElement>(null);
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
+  const [step, setStep] = useState<DialogStep>("details");
   const [details, setDetails] = useState<HomeDetails>(EMPTY_DETAILS);
+  const [addressDraft, setAddressDraft] = useState("");
   const [isSending, setIsSending] = useState(false);
   const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    const dialog = dialogRef.current;
+    if (!dialog) return;
+    if (isDialogOpen && !dialog.open) dialog.showModal();
+    if (!isDialogOpen && dialog.open) dialog.close();
+    document.documentElement.style.overflow = isDialogOpen ? "hidden" : "";
+    return () => {
+      document.documentElement.style.overflow = "";
+    };
+  }, [isDialogOpen]);
 
   function handleAddressSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -191,6 +238,8 @@ export function ValuationForm({ agentName, agentPhone, agentPhoneHref }: { agent
     if (!values) return;
     setDetails((current) => ({ ...current, address: values.address.trim() }));
     setStep("details");
+    setError(null);
+    setIsDialogOpen(true);
   }
 
   function handleDetailsSubmit(event: FormEvent<HTMLFormElement>) {
@@ -231,149 +280,182 @@ export function ValuationForm({ agentName, agentPhone, agentPhoneHref }: { agent
     }
   }
 
-  function handleStartOver() {
-    setDetails(EMPTY_DETAILS);
-    setError(null);
-    setStep("address");
+  function handleDialogClose() {
+    setIsDialogOpen(false);
+    if (step === "sent") {
+      setDetails(EMPTY_DETAILS);
+      setAddressDraft("");
+      setStep("details");
+    }
+  }
+
+  function handleBackdropClick(event: MouseEvent<HTMLDialogElement>) {
+    if (event.target === event.currentTarget) handleDialogClose();
   }
 
   return (
-    <div id="valuation-form" className="scroll-mt-28 border border-line bg-paper p-[clamp(1.5rem,3vw,2.25rem)] text-ink shadow-float">
-      <StepProgress step={step} />
-
-      {step === "address" ? (
-        <form key="address" onSubmit={handleAddressSubmit} noValidate>
-          <StepHeading title="Get your free home valuation" text="Start with the property address — it takes less than a minute." />
-          <div className={FIELD}>
-            <RequiredLabel htmlFor="hv-address">Property Address</RequiredLabel>
-            <div className="relative">
-              <Icon name="pin" className="pointer-events-none absolute top-1/2 left-4 h-4.5 w-4.5 -translate-y-1/2 text-navy-700" />
-              <input
-                className={cn(INPUT, "py-3.5 pl-11 text-base")}
-                type="text"
-                id="hv-address"
-                name="address"
-                autoComplete="street-address"
-                placeholder="e.g. 123 Main St, Irvine, CA 92618"
-                defaultValue={details.address}
-                minLength={5}
-                maxLength={200}
-                required
-              />
-            </div>
+    <>
+      <form id="valuation-form" onSubmit={handleAddressSubmit} noValidate className="scroll-mt-36">
+        <label htmlFor="hv-address" className="mb-3 block text-xs font-bold tracking-md text-navy-900 uppercase">
+          Enter your property address
+        </label>
+        <div className="flex items-stretch gap-2 border border-line bg-paper p-2 shadow-float transition-[border-color,box-shadow] duration-180 ease-brand focus-within:border-navy-700 focus-within:ring-4 focus-within:ring-navy-700/10 max-[560px]:flex-col">
+          <div className="relative min-w-0 flex-1">
+            <Icon name="pin" className="pointer-events-none absolute top-1/2 left-4 h-5 w-5 -translate-y-1/2 text-navy-700" />
+            <input
+              className="h-full w-full border-0 bg-transparent py-4 pr-3 pl-12 font-main text-base text-ink placeholder:text-ink-faint/70 focus:outline-none"
+              type="text"
+              id="hv-address"
+              name="address"
+              autoComplete="street-address"
+              placeholder="Street address, city, ZIP"
+              value={addressDraft}
+              onChange={(event) => setAddressDraft(event.target.value)}
+              minLength={5}
+              maxLength={200}
+              required
+            />
           </div>
-          <button type="submit" className="btn btn-primary btn-block">
-            Continue
+          <button type="submit" className="btn btn-primary shrink-0 px-7">
+            Get My Valuation
             <ArrowIcon />
           </button>
-          <p className="mt-4 mb-0 flex items-center justify-center gap-2 text-xs text-ink-faint">
-            <Icon name="shield" className="h-3.5 w-3.5" />
-            Free, private and no obligation to sell.
-          </p>
-        </form>
-      ) : null}
+        </div>
+      </form>
 
-      {step === "details" ? (
-        <form key="details" onSubmit={handleDetailsSubmit} noValidate>
-          <StepHeading
-            title="Tell us about the home"
-            text={
-              <span className="inline-flex items-start gap-1.5">
-                <Icon name="pin" className="mt-0.5 h-3.5 w-3.5 text-navy-700" />
-                {details.address}
-              </span>
-            }
-          />
-          <SelectField id="hv-type" name="propertyType" label="Property Type" choices={PROPERTY_TYPE_CHOICES} defaultValue={details.propertyType} />
-          <div className="grid grid-cols-3 gap-x-3 max-[480px]:grid-cols-2">
-            <SelectField id="hv-beds" name="beds" label="Beds" choices={BED_CHOICES} defaultValue={details.beds} />
-            <SelectField id="hv-baths" name="baths" label="Baths" choices={BATH_CHOICES} defaultValue={details.baths} />
-            <div className={cn(FIELD, "max-[480px]:col-span-2")}>
-              <RequiredLabel htmlFor="hv-sqft" isRequired={false}>
-                Sq Ft
-              </RequiredLabel>
-              <input className={INPUT} type="number" inputMode="numeric" id="hv-sqft" name="sqft" min={100} max={50000} placeholder="Approx." defaultValue={details.sqft} />
-            </div>
-          </div>
-          <ChoiceChips name="condition" label="Condition" choices={CONDITION_CHOICES} defaultValue={details.condition} />
-          <ChoiceChips name="timeline" label="When are you thinking of selling?" choices={TIMELINE_CHOICES} defaultValue={details.timeline} />
-          <div className="mt-2 flex items-center justify-between gap-4">
-            <BackButton onClick={() => setStep("address")} />
-            <button type="submit" className="btn btn-primary">
-              Continue
-              <ArrowIcon />
-            </button>
-          </div>
-        </form>
-      ) : null}
+      <dialog
+        ref={dialogRef}
+        onClose={handleDialogClose}
+        onClick={handleBackdropClick}
+        aria-labelledby="hv-dialog-title"
+        className="m-auto max-h-[calc(100dvh-2rem)] w-[min(58rem,calc(100%-2rem))] overflow-y-auto border-0 bg-paper p-0 text-ink shadow-float backdrop:bg-navy-900/70 backdrop:backdrop-blur-sm"
+      >
+        <div className="grid min-h-136 md:grid-cols-[18.5rem_minmax(0,1fr)]">
+          <DialogSummary agent={agent} address={details.address} />
 
-      {step === "contact" ? (
-        <form key="contact" onSubmit={handleContactSubmit} noValidate>
-          <StepHeading title="Where should we send your valuation?" text="Your report is prepared personally — not by a robot." />
-          <div className={FIELD}>
-            <RequiredLabel htmlFor="hv-name">Full Name</RequiredLabel>
-            <input className={INPUT} type="text" id="hv-name" name="fullname" autoComplete="name" required />
-          </div>
-          <div className="grid grid-cols-2 gap-x-3 max-[480px]:grid-cols-1">
-            <div className={FIELD}>
-              <RequiredLabel htmlFor="hv-email">Email</RequiredLabel>
-              <input className={INPUT} type="email" id="hv-email" name="email" autoComplete="email" required />
-            </div>
-            <div className={FIELD}>
-              <RequiredLabel htmlFor="hv-phone">Phone</RequiredLabel>
-              <input className={INPUT} type="tel" id="hv-phone" name="phone" autoComplete="tel" required />
-            </div>
-          </div>
-          <label className="mb-5 flex cursor-pointer items-start gap-3 text-xs leading-relaxed text-ink-faint">
-            <input type="checkbox" name="consent" required className="mt-0.5 h-4 w-4 shrink-0 accent-navy-800" />
-            <span>
-              I agree to be contacted by {agentName} by phone, email or text about my home valuation. Consent is not a condition of any
-              purchase or sale.
-            </span>
-          </label>
-          <ErrorLine error={error} />
-          <div className="flex items-center justify-between gap-4">
-            <BackButton onClick={() => setStep("details")} />
-            <button type="submit" className="btn btn-primary" disabled={isSending}>
-              {isSending ? "Sending…" : "Unlock My Valuation"}
-              {isSending ? null : <ArrowIcon />}
-            </button>
-          </div>
-        </form>
-      ) : null}
-
-      {step === "sent" ? (
-        <div role="status">
-          <span className="mb-5 grid h-14 w-14 place-items-center bg-navy-800 text-light" aria-hidden="true">
-            <Icon name="check" className="h-7 w-7" strokeWidth={2.5} />
-          </span>
-          <h2 className="mb-2 text-xl font-bold text-navy-900">Your request is in!</h2>
-          <p className="mb-5 text-sm text-ink-soft">
-            {agentName} is preparing a custom valuation for <strong className="text-navy-900">{details.address}</strong>.
-          </p>
-          <ol className="mb-6 grid gap-3 border-y border-line py-5">
-            {NEXT_STEPS.map((nextStep, index) => (
-              <li key={nextStep} className="flex items-start gap-3 text-sm text-ink-soft">
-                <span className="grid h-6 w-6 shrink-0 place-items-center bg-cream text-xs font-bold text-navy-800">{index + 1}</span>
-                {nextStep}
-              </li>
-            ))}
-          </ol>
-          <div className="flex flex-wrap items-center justify-between gap-3">
-            <a href={agentPhoneHref} className="btn btn-ghost-dark btn-sm">
-              <Icon name="phone" />
-              {agentPhone}
-            </a>
+          <div className="relative p-[clamp(1.5rem,4vw,2.75rem)]">
             <button
               type="button"
-              onClick={handleStartOver}
-              className="cursor-pointer border-0 bg-transparent p-0 text-sm font-semibold text-navy-700 underline hover:text-navy-900"
+              onClick={handleDialogClose}
+              aria-label="Close"
+              className="absolute top-4 right-4 grid h-9 w-9 cursor-pointer place-items-center border-0 bg-transparent text-ink-faint hover:bg-cream hover:text-navy-900"
             >
-              Value another home
+              <svg viewBox="0 0 24 24" className="h-5 w-5" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" aria-hidden="true">
+                <path d="M18 6 6 18M6 6l12 12" />
+              </svg>
             </button>
+
+            <StepProgress step={step} />
+
+            {step === "details" ? (
+              <form key="details" onSubmit={handleDetailsSubmit} noValidate>
+                <h2 id="hv-dialog-title" className="sr-only">
+                  Home valuation request
+                </h2>
+                <StepHeading
+                  title="Tell us about the home"
+                  text={
+                    <span className="inline-flex items-start gap-1.5">
+                      <Icon name="pin" className="mt-0.5 h-3.5 w-3.5 text-navy-700" />
+                      {details.address}
+                    </span>
+                  }
+                />
+                <SelectField id="hv-type" name="propertyType" label="Property Type" choices={PROPERTY_TYPE_CHOICES} defaultValue={details.propertyType} />
+                <div className="grid grid-cols-3 gap-x-3 max-[480px]:grid-cols-2">
+                  <SelectField id="hv-beds" name="beds" label="Beds" choices={BED_CHOICES} defaultValue={details.beds} />
+                  <SelectField id="hv-baths" name="baths" label="Baths" choices={BATH_CHOICES} defaultValue={details.baths} />
+                  <div className={cn(FIELD, "max-[480px]:col-span-2")}>
+                    <RequiredLabel htmlFor="hv-sqft" isRequired={false}>
+                      Sq Ft
+                    </RequiredLabel>
+                    <input className={INPUT} type="number" inputMode="numeric" id="hv-sqft" name="sqft" min={100} max={50000} placeholder="Approx." defaultValue={details.sqft} />
+                  </div>
+                </div>
+                <ChoiceChips name="condition" label="Condition" choices={CONDITION_CHOICES} defaultValue={details.condition} />
+                <ChoiceChips name="timeline" label="When are you thinking of selling?" choices={TIMELINE_CHOICES} defaultValue={details.timeline} />
+                <div className="mt-6 flex items-center justify-between gap-4">
+                  <BackButton onClick={handleDialogClose} />
+                  <button type="submit" className="btn btn-primary">
+                    Continue
+                    <ArrowIcon />
+                  </button>
+                </div>
+              </form>
+            ) : null}
+
+            {step === "contact" ? (
+              <form key="contact" onSubmit={handleContactSubmit} noValidate>
+                <h2 id="hv-dialog-title" className="sr-only">
+                  Home valuation request
+                </h2>
+                <StepHeading title="Where should we send your valuation?" text="Your report is prepared personally — never auto-generated." />
+                <div className={FIELD}>
+                  <RequiredLabel htmlFor="hv-name">Full Name</RequiredLabel>
+                  <input className={INPUT} type="text" id="hv-name" name="fullname" autoComplete="name" required />
+                </div>
+                <div className="grid grid-cols-2 gap-x-3 max-[480px]:grid-cols-1">
+                  <div className={FIELD}>
+                    <RequiredLabel htmlFor="hv-email">Email</RequiredLabel>
+                    <input className={INPUT} type="email" id="hv-email" name="email" autoComplete="email" required />
+                  </div>
+                  <div className={FIELD}>
+                    <RequiredLabel htmlFor="hv-phone">Phone</RequiredLabel>
+                    <input className={INPUT} type="tel" id="hv-phone" name="phone" autoComplete="tel" required />
+                  </div>
+                </div>
+                <label className="mb-6 flex cursor-pointer items-start gap-3 text-xs leading-relaxed text-ink-faint">
+                  <input type="checkbox" name="consent" required className="mt-0.5 h-4 w-4 shrink-0 accent-navy-800" />
+                  <span>
+                    I agree to be contacted by {agent.name} by phone, email or text about my home valuation. Consent is not a condition of
+                    any purchase or sale.
+                  </span>
+                </label>
+                <ErrorLine error={error} />
+                <div className="flex items-center justify-between gap-4">
+                  <BackButton onClick={() => setStep("details")} />
+                  <button type="submit" className="btn btn-primary" disabled={isSending}>
+                    {isSending ? "Sending…" : "Unlock My Valuation"}
+                    {isSending ? null : <ArrowIcon />}
+                  </button>
+                </div>
+              </form>
+            ) : null}
+
+            {step === "sent" ? (
+              <div role="status">
+                <h2 id="hv-dialog-title" className="sr-only">
+                  Request received
+                </h2>
+                <span className="mb-5 grid h-14 w-14 place-items-center bg-navy-800 text-light" aria-hidden="true">
+                  <Icon name="check" className="h-7 w-7" strokeWidth={2.5} />
+                </span>
+                <p className="m-0 mb-2 text-2xl font-bold text-navy-900">Your request is in!</p>
+                <p className="mb-6 text-sm text-ink-soft">
+                  {agent.name} is preparing a custom valuation for <strong className="text-navy-900">{details.address}</strong>.
+                </p>
+                <ol className="mb-7 grid gap-3 border-y border-line py-5">
+                  {buildNextSteps(agent.name).map((nextStep, index) => (
+                    <li key={nextStep} className="flex items-start gap-3 text-sm text-ink-soft">
+                      <span className="grid h-6 w-6 shrink-0 place-items-center bg-cream text-xs font-bold text-navy-800">{index + 1}</span>
+                      {nextStep}
+                    </li>
+                  ))}
+                </ol>
+                <div className="flex flex-wrap items-center gap-3">
+                  <button type="button" onClick={handleDialogClose} className="btn btn-primary">
+                    Done
+                  </button>
+                  <a href={agent.phoneHref} className="btn btn-ghost-dark">
+                    <Icon name="phone" />
+                    {agent.phone}
+                  </a>
+                </div>
+              </div>
+            ) : null}
           </div>
         </div>
-      ) : null}
-    </div>
+      </dialog>
+    </>
   );
 }

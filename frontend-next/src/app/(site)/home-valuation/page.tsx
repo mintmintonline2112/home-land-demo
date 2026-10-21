@@ -1,6 +1,7 @@
 /**
- * Trang định giá nhà miễn phí (/home-valuation, menu Sell → Home Valuation): hero ảnh nền + form 3 bước, quy trình 4 bước, so sánh ước tính
- * tự động với định giá của Sean, các yếu tố quyết định giá, thẻ hẹn tư vấn với Sean, câu hỏi thường gặp và dải CTA cuối trang.
+ * Trang định giá nhà miễn phí (/home-valuation, menu Sell → Home Valuation): hero sáng (tiêu đề có chữ nhấn serif, thanh nhập địa chỉ,
+ * ảnh nhà + thẻ báo cáo mẫu), dải cam kết navy, quy trình 4 bước, so sánh ước tính tự động với định giá của Sean, các yếu tố quyết định
+ * giá, thẻ hẹn tư vấn với Sean, câu hỏi thường gặp và dải CTA cuối trang.
  * Dùng bởi: Next.js App Router (route /home-valuation); link từ menu Sell, footer và section sell-cta trang chủ.
  * Lưu ý: chữ trên trang viết cố định ở đây (không qua CMS); thông tin môi giới lấy từ resolveContact. Form gửi vào hộp Liên hệ của admin
  * (xem _components/ValuationForm.tsx), không tính giá tự động.
@@ -8,20 +9,27 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { Icon } from "@/app/(site)/_components/sections/_shared/icons";
-import { Breadcrumbs, CARD, CtaBand, Eyebrow, PHOTO_FRAME, SECTION, SECTION_TINT } from "@/app/(site)/_components/ui";
+import { CARD, CtaBand, Eyebrow, PHOTO_FRAME, SECTION, SECTION_TINT } from "@/app/(site)/_components/ui";
 import { buildPageMetadata } from "@/app/(site)/_lib/seo";
 import { siteRoutes } from "@/config/routes";
 import { getSiteSettings, resolveContact } from "@/settings/site-settings";
 import { cn } from "@/utils/cn";
+import { accentSerif } from "@/fonts/accent-serif-font";
+import { SampleReportCard } from "./_components/SampleReportCard";
 import { ValuationForm } from "./_components/ValuationForm";
 
-const HERO_IMAGE = "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=2000&q=80";
+const HERO_IMAGE = "https://images.unsplash.com/photo-1613977257363-707ba9348227?auto=format&fit=crop&w=1400&q=80";
 const VALUE_FACTORS_IMAGE = "https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=1200&q=80";
 
-const HERO_POINTS = [
-  { icon: "chart", text: "Based on recent sales in your neighborhood" },
-  { icon: "users", text: "Reviewed personally by a local Realtor®" },
-  { icon: "clock", text: "Your price range within one business day" },
+const HERO_ASSURANCES = ["100% free", "No obligation to sell", "Your details stay private"];
+
+const HERO_FACTS = [{ value: "15+ yrs", label: "Local expertise · EN & VI" }];
+
+const TRUST_STRIP = [
+  { icon: "shield", value: "First Team Real Estate", label: "Backed by a leading SoCal brokerage" },
+  { icon: "pin", value: "Orange County & Bay Area", label: "Neighborhood-level pricing" },
+  { icon: "chart", value: "Real comparable sales", label: "Not a public-records formula" },
+  { icon: "clock", value: "Within 24 hours", label: "Personal reply from Sean" },
 ];
 
 const PROCESS_STEPS = [
@@ -104,62 +112,109 @@ export default async function HomeValuationPage() {
 
   return (
     <>
-      <section className="relative isolate overflow-hidden bg-navy-900 text-light">
-        {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img
-          src={HERO_IMAGE}
-          alt=""
-          aria-hidden="true"
-          fetchPriority="high"
-          className="absolute inset-0 -z-2 h-full w-full object-cover"
-        />
+      <section className="relative isolate overflow-hidden bg-[linear-gradient(180deg,var(--cream)_0%,var(--paper)_78%)]">
         <div
           aria-hidden="true"
-          className="absolute inset-0 -z-1 bg-[linear-gradient(100deg,var(--navy-900)_0%,color-mix(in_oklab,var(--navy-900)_88%,transparent)_45%,color-mix(in_oklab,var(--navy-900)_55%,transparent)_100%)]"
+          className="absolute inset-0 -z-1 bg-[linear-gradient(var(--line-soft)_1px,transparent_1px),linear-gradient(90deg,var(--line-soft)_1px,transparent_1px)] mask-[linear-gradient(180deg,black,transparent_70%)] bg-size-[56px_56px]"
         />
-        <div className="site-container grid gap-x-[clamp(2.5rem,5vw,4.5rem)] gap-y-10 py-[clamp(3rem,7vw,5.5rem)] lg:grid-cols-[minmax(0,1fr)_28rem]">
-          <div className="lg:self-end">
-            <div className="reveal mb-8">
-              <Breadcrumbs items={[{ label: "Home", href: siteRoutes.home }, { label: "Sell" }, { label: "Home Valuation" }]} />
-            </div>
-            <Eyebrow gold className="reveal">
-              Free Home Valuation
-            </Eyebrow>
-            <h1 data-headline className="reveal mb-5 text-h1 text-light">
-              What is your home really worth today?
-            </h1>
-            <p className="reveal m-0 max-w-140 text-lg text-light/80">
-              Skip the guesswork of online estimates. Get a market valuation built on real local sales and reviewed by a Realtor® who knows
-              your neighborhood.
-            </p>
-          </div>
-
-          <div className="reveal lg:col-start-2 lg:row-span-2 lg:row-start-1 lg:self-center">
-            <ValuationForm agentName={agent.name} agentPhone={agent.phone} agentPhoneHref={agent.phoneHref} />
-          </div>
-
-          <div className="lg:self-start">
-            <ul className="reveal mb-10 grid gap-3.5">
-              {HERO_POINTS.map((point) => (
-                <li key={point.text} className="flex items-center gap-3.5 text-base text-light/90">
-                  <span className="grid h-9 w-9 shrink-0 place-items-center bg-light/10 text-light ring-1 ring-light/20">
-                    <Icon name={point.icon} className="h-4.5 w-4.5" />
-                  </span>
-                  {point.text}
+        <div className="site-container grid items-center gap-x-[clamp(2.5rem,6vw,5.5rem)] gap-y-14 pt-[clamp(2rem,4vw,3rem)] pb-[clamp(4rem,8vw,6.5rem)] lg:grid-cols-[minmax(0,1.05fr)_minmax(0,1fr)]">
+          <div>
+            <nav aria-label="Breadcrumb" className="reveal mb-[clamp(2rem,5vw,3.5rem)] text-sm text-ink-faint">
+              <ol className="flex flex-wrap items-center gap-2">
+                <li>
+                  <Link href={siteRoutes.home} className="text-ink-soft hover:text-navy-800">
+                    Home
+                  </Link>
                 </li>
-              ))}
-            </ul>
-            <div className="reveal flex items-center gap-4 border-t border-light/15 pt-6">
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src={agent.photo} alt={agent.name} className="h-14 w-14 object-cover ring-2 ring-light/30" />
-              <p className="m-0 text-sm text-light/75">
-                Prepared personally by <strong className="text-light">{agent.name}</strong>
-                <br />
-                {agent.title}
-              </p>
+                <li aria-hidden="true">/</li>
+                <li>Sell</li>
+                <li aria-hidden="true">/</li>
+                <li aria-current="page" className="text-navy-900">
+                  Home Valuation
+                </li>
+              </ol>
+            </nav>
+
+            <p className="reveal m-0 mb-6 inline-flex items-center gap-2.5 border border-line bg-paper py-1.5 pr-3.5 pl-2 text-2xs font-bold tracking-md text-navy-800 uppercase shadow-soft">
+              <span className="bg-navy-800 px-1.5 py-0.5 text-light">Free</span>
+              Complimentary home valuation
+            </p>
+
+            <h1 data-headline className="reveal mb-6 text-h1 leading-[1.08] tracking-tight text-navy-900">
+              What is your home{" "}
+              <em className={cn(accentSerif.className, "font-medium text-navy-700")}>truly worth</em> in today&apos;s market?
+            </h1>
+            <p className="reveal mb-9 max-w-136 text-lg leading-relaxed text-ink-soft">
+              Skip the guesswork of online estimates. Get a precise, personal valuation built on real local sales — prepared by a Realtor®
+              who knows your street.
+            </p>
+
+            <div className="reveal mb-5 max-w-150">
+              <ValuationForm agent={agent} />
             </div>
+            <p className="reveal m-0 mb-10 flex flex-wrap items-center gap-x-5 gap-y-2 text-xs text-ink-faint">
+              {HERO_ASSURANCES.map((assurance) => (
+                <span key={assurance} className="inline-flex items-center gap-1.5">
+                  <Icon name="check" className="h-3.5 w-3.5 text-navy-700" strokeWidth={3} />
+                  {assurance}
+                </span>
+              ))}
+            </p>
+
+            <div className="reveal flex flex-wrap items-center gap-x-6 gap-y-5 border-t border-line pt-7">
+              <div className="flex items-center gap-3.5">
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img src={agent.photo} alt={agent.name} className="h-13 w-13 object-cover shadow-badge ring-2 ring-paper" />
+                <p className="m-0 text-xs leading-snug text-ink-faint">
+                  <strong className="block text-sm text-navy-900">{agent.name}</strong>
+                  {agent.title}
+                </p>
+              </div>
+              {HERO_FACTS.map((fact) => (
+                <p key={fact.label} className="m-0 border-l border-line pl-6 text-xs leading-snug text-ink-faint max-[480px]:border-0 max-[480px]:pl-0">
+                  <strong className="block text-lg leading-tight font-extrabold text-navy-900">{fact.value}</strong>
+                  {fact.label}
+                </p>
+              ))}
+            </div>
+          </div>
+
+          <div className="reveal relative mx-auto w-full max-w-136 lg:mr-0">
+            <span aria-hidden="true" className="absolute -right-5 -bottom-5 -z-1 h-3/4 w-3/4 bg-navy-800 max-sm:-right-2.5 max-sm:-bottom-2.5" />
+            <figure className={cn(PHOTO_FRAME, "aspect-4/5 shadow-float [&_img]:object-[50%_85%]")}>
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img src={HERO_IMAGE} alt="Modern Southern California home with a pool" fetchPriority="high" />
+            </figure>
+            <p className="absolute top-6 -right-4 m-0 flex items-center gap-2.5 bg-paper py-2.5 pr-4 pl-2.5 text-xs font-semibold text-navy-900 shadow-float max-sm:right-3">
+              <span className="grid h-8 w-8 place-items-center bg-navy-50 text-navy-800">
+                <Icon name="clock" className="h-4 w-4" />
+              </span>
+              <span>
+                Reply within
+                <span className="block text-sm font-extrabold">24 hours</span>
+              </span>
+            </p>
+            <SampleReportCard
+              agentName={agent.name}
+              agentPhoto={agent.photo}
+              className="relative z-1 -mt-40 mr-6 ml-auto w-[min(20rem,calc(100%-1.5rem))] sm:-mt-56 lg:absolute lg:bottom-10 lg:-left-14 lg:m-0"
+            />
           </div>
         </div>
+      </section>
+
+      <section className="bg-navy-900 text-light">
+        <ul className="site-container grid grid-cols-4 divide-x divide-light/10 py-8 max-lg:grid-cols-2 max-lg:gap-6 max-lg:divide-x-0 max-sm:grid-cols-1">
+          {TRUST_STRIP.map((item) => (
+            <li key={item.label} className="flex items-center gap-4 px-6 first:pl-0 max-lg:px-0">
+              <Icon name={item.icon} className="h-7 w-7 text-light/70" strokeWidth={1.5} />
+              <span>
+                <span className="block text-base font-bold text-light">{item.value}</span>
+                <span className="block text-xs text-light/60">{item.label}</span>
+              </span>
+            </li>
+          ))}
+        </ul>
       </section>
 
       <section className={SECTION}>
