@@ -1,10 +1,10 @@
 /**
- * Thẻ một căn nhà: ảnh + nhãn trạng thái + nút yêu thích + giá, tên, địa điểm, dải phòng ngủ / phòng tắm / diện tích.
+ * Thẻ một căn nhà: ảnh + nhãn trạng thái (+ nhãn Demo) + nút yêu thích + giá, tên, địa điểm, dải phòng ngủ / phòng tắm / diện tích.
  * Dùng bởi: sections/property-grid (PropertyTabs.client.tsx), trang /properties, phần "You May Also Like" của /properties/[slug].
  * Lưu ý: chỉ là mảnh hiển thị, nhận dữ liệu Property đã có; không tự gọi API.
  */
 import Link from "next/link";
-import { CARD, CARD_HOVER, PHOTO_FRAME, PHOTO_ZOOM } from "@/app/(site)/_components/ui";
+import { CARD, CARD_HOVER, DemoBadge, PHOTO_FRAME, PHOTO_ZOOM } from "@/app/(site)/_components/ui";
 import { Icon } from "@/app/(site)/_components/sections/_shared/icons";
 import { formatArea, formatLocation, formatPrice } from "@/app/(site)/_lib/property-format";
 import { siteRoutes } from "@/config/routes";
@@ -26,8 +26,9 @@ export function PropertyCard({ property, className }: { property: Property; clas
             <img src={cover.src.replace("w=1400", "w=800")} alt={cover.alt} loading="lazy" />
           ) : null}
         </Link>
-        <span className="absolute top-3.5 left-3.5 bg-navy-800 px-3 py-1.5 text-2xs font-bold tracking-sm text-light uppercase">
-          {property.status}
+        <span className="absolute top-3.5 left-3.5 flex items-stretch gap-1.5">
+          <span className="bg-navy-800 px-3 py-1.5 text-2xs font-bold tracking-sm text-light uppercase">{property.status}</span>
+          <DemoBadge />
         </span>
         <FavoriteButton slug={property.slug} className="absolute top-3.5 right-3.5" />
         <span className="absolute bottom-0 left-3.5 bg-navy-800 px-3.5 py-2 text-lg font-bold text-light">

@@ -10,7 +10,7 @@ import type { ReactNode } from "react";
 import { PropertyInquiryForm } from "@/app/(site)/_components/forms";
 import { PropertyCard } from "@/app/(site)/_components/property/PropertyCard";
 import { Icon } from "@/app/(site)/_components/sections/_shared/icons";
-import { Breadcrumbs, CARD, Eyebrow, SECTION } from "@/app/(site)/_components/ui";
+import { Breadcrumbs, CARD, DemoBadge, Eyebrow, SECTION } from "@/app/(site)/_components/ui";
 import { getProperty, getRelatedProperties } from "@/app/(site)/_lib/properties";
 import { formatArea, formatFullAddress, formatPrice } from "@/app/(site)/_lib/property-format";
 import { buildPageMetadata } from "@/app/(site)/_lib/seo";
@@ -89,6 +89,7 @@ export default async function PropertyDetailPage({ params }: { params: PropertyP
         <div className="site-container">
           <div className="reveal mb-8 flex flex-wrap items-end justify-between gap-6">
             <div>
+              <DemoBadge className="mb-3" />
               <h1 className="mb-3 text-h3 text-navy-900">{property.title}</h1>
               <p className="m-0 flex items-center gap-2 text-sm text-ink-faint">
                 <Icon name="pin" />

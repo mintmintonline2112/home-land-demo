@@ -1,11 +1,12 @@
 /**
- * Mảnh giao diện dùng chung toàn site: chuỗi class Tailwind đặt tên (SECTION_*, PHOTO_FRAME, CARD…) + Eyebrow, PageHero, CtaBand.
+ * Mảnh giao diện dùng chung toàn site: chuỗi class Tailwind đặt tên (SECTION_*, PHOTO_FRAME, CARD…) + Eyebrow, PageHero, CtaBand, DemoBadge.
  * Dùng bởi: các page.tsx trong app/(site), sections/_shared/blocks.tsx và nhiều section, property-card.tsx, sections/_template.
  * Lưu ý: class móc `photo-frame`, `section-flow`, `eyebrow` không mang style riêng, là điểm bám cho effects.css / SiteEffects.tsx.
  * HIDE_HEADING_EYEBROWS = false: thiết kế homeland hiện eyebrow trên mọi tiêu đề; đổi thành true thì chỉ section tick "Hiện eyebrow" mới hiện.
  */
 import Link from "next/link";
 import type { ReactNode } from "react";
+import { SHOW_DEMO_LABELS } from "@/config/demo";
 import { siteRoutes } from "@/config/routes";
 import { cn } from "@/utils/cn";
 
@@ -63,6 +64,20 @@ export function Eyebrow({
     >
       {children}
     </p>
+  );
+}
+
+export function DemoBadge({ className }: { className?: string }) {
+  if (!SHOW_DEMO_LABELS) return null;
+  return (
+    <span
+      className={cn(
+        "inline-flex items-center bg-danger px-2 py-1 text-2xs leading-none font-bold tracking-sm text-light uppercase",
+        className,
+      )}
+    >
+      Demo
+    </span>
   );
 }
 

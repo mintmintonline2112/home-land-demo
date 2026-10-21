@@ -9,6 +9,7 @@
  */
 import Link from "next/link";
 import { useState } from "react";
+import { DemoBadge } from "@/app/(site)/_components/ui";
 import { siteRoutes } from "@/config/routes";
 import { cn } from "@/utils/cn";
 
@@ -73,7 +74,7 @@ export function BlogMenuPanel({ data, onNavigate }: { data: BlogMenuData; onNavi
             {visiblePosts.map((post) => (
               <li key={post.slug}>
                 <Link href={siteRoutes.newsPost(post.slug)} onClick={onNavigate} className="group flex gap-4 text-inherit">
-                  <span className="block h-16 w-24 shrink-0 overflow-hidden bg-cream">
+                  <span className="relative block h-16 w-24 shrink-0 overflow-hidden bg-cream">
                     {post.coverUrl ? (
                       // eslint-disable-next-line @next/next/no-img-element
                       <img
@@ -83,6 +84,7 @@ export function BlogMenuPanel({ data, onNavigate }: { data: BlogMenuData; onNavi
                         className="h-full w-full object-cover transition-transform duration-500 ease-brand group-hover:scale-105"
                       />
                     ) : null}
+                    <DemoBadge className="absolute top-1 left-1 px-1.5 py-0.5" />
                   </span>
                   <span className="min-w-0">
                     <span className="mb-1 block text-xs text-ink-faint">{formatPostDate(post.publishedAt)}</span>

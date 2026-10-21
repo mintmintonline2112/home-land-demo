@@ -5,7 +5,7 @@
  * Bài lấy từ API blog (getBlogPosts); API lỗi hoặc chưa có bài thì ẩn cả section.
  */
 import Link from "next/link";
-import { CARD, CARD_HOVER, PHOTO_FRAME, PHOTO_ZOOM } from "@/app/(site)/_components/ui";
+import { CARD, CARD_HOVER, DemoBadge, PHOTO_FRAME, PHOTO_ZOOM } from "@/app/(site)/_components/ui";
 import { getBlogPosts, toMediaUrl } from "@/app/(site)/_lib/cms";
 import { siteRoutes } from "@/config/routes";
 import { cn } from "@/utils/cn";
@@ -52,6 +52,7 @@ export async function PostCards({ section, index = 0 }: SectionProps) {
                   <Link href={href} tabIndex={-1} aria-hidden="true" className={cn(PHOTO_FRAME, PHOTO_ZOOM, "block aspect-[8/5]")}>
                     {/* eslint-disable-next-line @next/next/no-img-element */}
                     <img src={cover} alt="" loading="lazy" />
+                    <DemoBadge className="absolute top-3 left-3" />
                   </Link>
                 ) : null}
                 <div className="flex flex-1 flex-col px-5.5 pt-5 pb-6">

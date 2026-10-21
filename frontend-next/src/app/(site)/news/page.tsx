@@ -7,6 +7,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import {
+  DemoBadge,
   CtaBand,
   PageHero,
   SECTION,
@@ -156,6 +157,7 @@ export default async function NewsPage({
             <article className="reveal mb-[clamp(2.5rem,5vw,3.5rem)] grid grid-cols-[minmax(0,1.15fr)_minmax(0,0.85fr)] items-stretch overflow-hidden border border-navy-800 bg-[linear-gradient(170deg,var(--navy-800)_0%,var(--navy-900)_100%)] text-light shadow-lift max-[900px]:grid-cols-1">
               <div className="p-[clamp(2rem,4vw,3rem)]">
                 <div className={META_ROW}>
+                  <DemoBadge />
                   {featured.category ? (
                     <span className={cn(CATEGORY_TAG, "bg-light text-navy-900")}>
                       {featured.category.name}
@@ -209,6 +211,7 @@ export default async function NewsPage({
                   >
                     <CoverThumb post={post} />
                     <div className={META_ROW}>
+                      <DemoBadge />
                       {post.category ? (
                         <span className={cn(CATEGORY_TAG, "text-navy-700")}>
                           {post.category.name}

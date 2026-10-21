@@ -8,6 +8,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import {
+  DemoBadge,
   CtaBand,
   SECTION_NOTE,
   SECTION_PHOTO,
@@ -82,6 +83,7 @@ export default async function NewsDetailPage({
       <header className="border-b border-line-soft bg-[linear-gradient(180deg,var(--cream-2)_0%,var(--cream)_100%)] pt-[clamp(3rem,6vw,5rem)] pb-[clamp(2.5rem,5vw,3.5rem)]">
         <div className="site-container max-w-208 text-center">
           <div className="reveal mb-6 flex flex-wrap items-center justify-center gap-x-3 gap-y-2 text-xs tracking-md text-ink-faint uppercase">
+            <DemoBadge />
             {post.category ? (
               <Link
                 href={siteRoutes.newsFiltered({

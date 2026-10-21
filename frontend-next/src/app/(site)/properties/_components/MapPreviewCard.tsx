@@ -1,10 +1,11 @@
 /**
- * Thẻ nhà thu gọn nổi trên bản đồ khi bấm một ghim giá: ảnh, giá, phòng ngủ / tắm / diện tích, tên, địa điểm, nút đóng.
+ * Thẻ nhà thu gọn nổi trên bản đồ khi bấm một ghim giá: ảnh (+ nhãn Demo), giá, phòng ngủ / tắm / diện tích, tên, địa điểm, nút đóng.
  * Dùng bởi: properties/_components/PropertySearch.tsx.
  * Lưu ý: property null nghĩa là đang tải thẻ (hiện khung chờ); bấm cả thẻ thì mở trang chi tiết nhà.
  */
 import Link from "next/link";
 import { Icon } from "@/app/(site)/_components/sections/_shared/icons";
+import { DemoBadge } from "@/app/(site)/_components/ui";
 import { formatArea, formatLocation, formatPrice } from "@/app/(site)/_lib/property-format";
 import { siteRoutes } from "@/config/routes";
 import type { Property } from "@/types/property";
@@ -24,7 +25,7 @@ export function MapPreviewCard({ property, onClose }: { property: Property | nul
       </button>
       {property ? (
         <Link href={siteRoutes.property(property.slug)} className="flex text-inherit hover:text-inherit">
-          <div className="w-32 shrink-0 bg-cream">
+          <div className="relative w-32 shrink-0 bg-cream">
             {property.images[0] ? (
               // eslint-disable-next-line @next/next/no-img-element
               <img
@@ -33,6 +34,7 @@ export function MapPreviewCard({ property, onClose }: { property: Property | nul
                 className="h-full w-full object-cover"
               />
             ) : null}
+            <DemoBadge className="absolute top-2 left-2" />
           </div>
           <div className="min-w-0 flex-1 p-3.5 pr-9">
             <p className="m-0 text-lg font-extrabold text-navy-900">{formatPrice(property.price)}</p>
