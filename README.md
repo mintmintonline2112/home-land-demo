@@ -17,9 +17,9 @@ home-land-demo/
 
 1. **Backend:** `cd backend`, tạo `.env` từ `.env.example` (DB `seantruongre`, JWT), rồi
    `npm install`, `npm run db:run && npm run db:seed`, `npm run start:dev`
-   → API `http://localhost:3014/api`, Swagger `/docs`
+   → API `http://localhost:3016/api`, Swagger `/docs`
 2. **Frontend:** `cd frontend-next`, tạo `.env.local` từ `.env.example`, `npm install && npm run dev`
-   → site `http://localhost:3007`, quản trị `/admin`
+   → site `http://localhost:3008`, quản trị `/admin`
    (đăng nhập seed: admin@gmail.com / admin#123)
 3. Bản demo tĩnh: mở `frontend/index.html` trực tiếp trong trình duyệt
 
@@ -68,7 +68,8 @@ Section key là id neo trên trang (`/#featured`), cố định sau khi tạo.
 
 ## Deploy (VPS — aaPanel)
 
-> VPS dùng chung với site khác (VD **terranorah.com**) — kiểm tra `pm2 ls` trước khi chọn tên app / cổng.
+> VPS dùng chung với nhiều site: primenuts (3010/3001), primenutusa (3012/3005), primenutingredients (3014/3007)…
+> Site này dùng cổng **3016 / 3008** — kiểm tra `ss -tlnp` + `pm2 ls` trước khi đổi tên app / cổng.
 > Site này dùng tên app + cổng riêng bên dưới — đừng dùng lại tên/cổng của site kia.
 
 Sơ đồ trên server:
@@ -76,9 +77,9 @@ Sơ đồ trên server:
 | Thành phần | Giá trị |
 |---|---|
 | Code | `/www/wwwroot/seantruongre.com` (git clone repo này) |
-| Node project 1 | `seantruongre_api` — Path `backend/`, Run opt `start:prod`, Port **3014** |
-| Node project 2 | `seantruongre_web` — Path `frontend-next/`, Run opt `start`, Port **3007**, Domain `seantruongre.com` |
-| Nginx (site seantruongre.com) | `location /api` và `location /uploads` → proxy `http://127.0.0.1:3014` |
+| Node project 1 | `seantruongre_api` — Path `backend/`, Run opt `start:prod`, Port **3016** |
+| Node project 2 | `seantruongre_web` — Path `frontend-next/`, Run opt `start`, Port **3008**, Domain `seantruongre.com` |
+| Nginx (site seantruongre.com) | `location /api` và `location /uploads` → proxy `http://127.0.0.1:3016` |
 | Env | `backend/.env` và `frontend-next/.env.local` — chỉ tồn tại trên server, không có trong git |
 | Database | MySQL `seantruongre` (tạo trong panel → Databases) |
 
@@ -110,7 +111,7 @@ Ghi chú:
 
 ### pm2 là tay quản duy nhất (đã chuyển từ 2026-09-10)
 
-2 app chạy bằng **pm2** (`seantruongre_api` cổng 3014, `seantruongre_web` cổng 3007).
+2 app chạy bằng **pm2** (`seantruongre_api` cổng 3016, `seantruongre_web` cổng 3008).
 `deploy.sh` restart qua pm2, tự tạo app nếu pm2 chưa có, và tự kill tiến trình lạ
 đang chiếm cổng trước khi restart.
 
@@ -124,7 +125,7 @@ Lệnh hay dùng:
 pm2 ls                              # trạng thái, cột ↺ phải đứng yên
 pm2 logs seantruongre_web --lines 50   # log app (đổi tên app tuỳ ý)
 pm2 restart seantruongre_api           # restart tay 1 app
-ss -tlnp | grep -E ':(3007|3014)\b' # ai đang giữ 2 cổng — phải là con của pm2
+ss -tlnp | grep -E ':(3008|3016)\b' # ai đang giữ 2 cổng — phải là con của pm2
 ```
 
 Lần đầu cài pm2 trên máy mới:
@@ -137,7 +138,7 @@ pm2 save
 pm2 startup    # chạy tiếp dòng lệnh nó in ra → tự bật lại sau reboot
 ```
 
-Nginx không cần đổi gì vì vẫn proxy vào 127.0.0.1:3007/3014.
+Nginx không cần đổi gì vì vẫn proxy vào 127.0.0.1:3008/3016.
 
 ### Cache
 
@@ -145,10 +146,10 @@ Nội dung sửa từ admin tự cập nhật ra site: backend ping revalidate n
 ngoài ra ISR tự làm mới mỗi **60 giây** — bình thường không phải làm gì.
 
 **Xả cache nội dung thủ công** (khi site hiển thị dữ liệu cũ) — chạy trên VPS,
-phải gọi thẳng port 3007 vì `https://seantruongre.com/api` đã bị nginx chuyển cho backend:
+phải gọi thẳng port 3008 vì `https://seantruongre.com/api` đã bị nginx chuyển cho backend:
 
 ```bash
-curl -X POST http://127.0.0.1:3007/api/revalidate \
+curl -X POST http://127.0.0.1:3008/api/revalidate \
   -H "x-revalidate-secret: <REVALIDATE_SECRET trong frontend-next/.env.local>" \
   -H "Content-Type: application/json" \
   -d '{"tags":["pages","blog-posts","menu","settings"]}'
@@ -163,7 +164,7 @@ rồi restart `seantruongre_web` trong panel.
 
 ### Sự cố thường gặp
 
-- **App pm2 `errored`, cột ↺ tăng liên tục / log báo `EADDRINUSE :::3007|3014`**:
+- **App pm2 `errored`, cột ↺ tăng liên tục / log báo `EADDRINUSE :::3008|3016`**:
   cổng đang bị project cùng tên trong aaPanel chiếm. Vào panel bấm **Stop** project đó,
   rồi `pm2 restart seantruongre_web` (hoặc `_api`). `bash deploy.sh` cũng tự dẹp.
 - **502 Bad Gateway ngay sau deploy**: chỉ là vài giây app đang khởi động lại —

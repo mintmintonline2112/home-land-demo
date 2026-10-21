@@ -7,14 +7,14 @@ Website + trang quản trị CMS cho Prime Nuts USA, dựng theo kiến trúc Ne
 
 ```
 npm install        # hoặc đã có sẵn node_modules
-npm run dev        # http://localhost:3007 (site) · /admin (quản trị)
+npm run dev        # http://localhost:3008 (site) · /admin (quản trị)
 npm run check      # typecheck + lint + lint:layers + lint:sections — chạy trước khi commit
 npm run snapshot / shot / diff:png   # so HTML + ảnh trước/sau khi refactor — xem scripts/README.md
 npm run build && npm start
 ```
 
 Cấu hình `.env.local` (xem `.env.example`): `API_URL` / `NEXT_PUBLIC_API_URL`
-trỏ về backend (`http://localhost:3014/api`), `REVALIDATE_SECRET` khớp backend.
+trỏ về backend (`http://localhost:3016/api`), `REVALIDATE_SECRET` khớp backend.
 
 ## Cấu trúc
 

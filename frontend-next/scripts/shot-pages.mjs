@@ -9,7 +9,7 @@ import fs from "node:fs";
 import os from "node:os";
 import path from "node:path";
 
-const baseUrl = process.env.SNAP_BASE ?? "http://localhost:3007";
+const baseUrl = process.env.SNAP_BASE ?? "http://localhost:3008";
 const outDir = process.argv[2];
 const pagePaths = (process.env.SNAP_PATHS ?? "/,/properties,/about,/contact,/news").split(",");
 const viewportWidths = (process.env.SNAP_WIDTHS ?? "1440,390").split(",").map(Number);

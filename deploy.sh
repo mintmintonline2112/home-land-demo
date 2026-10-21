@@ -11,7 +11,7 @@
 #
 # QUY TẮC: 2 app CHỈ do pm2 quản. Hai project cùng tên trong aaPanel
 # phải để STOPPED (không Delete — xoá là mất domain + SSL + proxy).
-# Nếu panel bật lên, nó tranh cổng 3007/3014 với pm2 → app crash-loop
+# Nếu panel bật lên, nó tranh cổng 3008/3016 với pm2 → app crash-loop
 # (cột ↺ trong `pm2 ls` tăng liên tục). Script tự kill tiến trình
 # không thuộc pm2 đang giữ cổng, nhưng panel phải Stop thì nó mới
 # không bật lại.
@@ -20,8 +20,8 @@ set -euo pipefail
 
 ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 # VPS dùng chung với site khác (VD terranorah.com) — tên app + cổng dưới đây phải riêng
-API_NAME="${API_NAME:-seantruongre_api}"; API_PORT="${API_PORT:-3014}"
-WEB_NAME="${WEB_NAME:-seantruongre_web}"; WEB_PORT="${WEB_PORT:-3007}"
+API_NAME="${API_NAME:-seantruongre_api}"; API_PORT="${API_PORT:-3016}"
+WEB_NAME="${WEB_NAME:-seantruongre_web}"; WEB_PORT="${WEB_PORT:-3008}"
 APP_USER="${APP_USER:-www}"
 
 say()  { printf '\n\033[1;32m==> %s\033[0m\n' "$1"; }

@@ -9,14 +9,14 @@ export const env = {
   apiUrl: trimTrailingSlash(
     process.env.API_URL ??
       process.env.NEXT_PUBLIC_API_URL ??
-      "http://localhost:3014/api",
+      "http://localhost:3016/api",
   ),
   publicApiUrl: trimTrailingSlash(
     process.env.NEXT_PUBLIC_API_URL ??
       process.env.API_URL ??
-      "http://localhost:3014/api",
+      "http://localhost:3016/api",
   ),
   siteUrl: trimTrailingSlash(
-    process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3007",
+    process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3008",
   ),
 } as const;
