@@ -42,7 +42,7 @@ export const SITE_MENU_ITEMS: SiteMenuItem[] = [
       { label: "Seller Consultation", href: siteRoutes.contactTopic("sell") },
     ],
   },
-  { key: "luxury", label: "Luxury", href: siteRoutes.propertiesFiltered({ type: "luxury" }) },
+  { key: "orange-county", label: "Orange County", href: siteRoutes.propertiesFiltered({ keyword: "Orange County" }) },
   {
     key: "areas",
     label: "Areas",
