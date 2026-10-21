@@ -51,6 +51,7 @@ function toProperty(item: ApiProperty): Property {
     listingId: item.listingId ?? "",
     latitude: item.latitude ?? null,
     longitude: item.longitude ?? null,
+    baths: Number(item.baths),
     featured: Boolean(item.isFeatured),
     listedAt: item.listedAt ?? "",
     description: (item.description ?? "")

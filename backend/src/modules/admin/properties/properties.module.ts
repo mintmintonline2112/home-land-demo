@@ -8,11 +8,15 @@ import { Property } from './entities/property.entity';
 import { PropertiesController } from './properties.controller';
 import { PropertiesService } from './properties.service';
 import { PropertyGeocoderService } from './property-geocoder.service';
+import { PropertyCrawlRun } from './crawl/property-crawl-run.entity';
+import { PropertyCrawlItem } from './crawl/property-crawl-item.entity';
+import { PropertyCrawlController } from './crawl/property-crawl.controller';
+import { PropertyCrawlService } from './crawl/property-crawl.service';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([Property])],
-  controllers: [PropertiesController],
-  providers: [PropertiesService, PropertyGeocoderService],
+  imports: [TypeOrmModule.forFeature([Property, PropertyCrawlRun, PropertyCrawlItem])],
+  controllers: [PropertyCrawlController, PropertiesController],
+  providers: [PropertiesService, PropertyGeocoderService, PropertyCrawlService],
   exports: [PropertiesService],
 })
 export class PropertiesModule {}

@@ -25,6 +25,10 @@ home-land-demo/
 
 ## Trang & dữ liệu
 
+Tính năng **Admin → Thu thập nhà** hỗ trợ crawl trực tiếp trang tìm kiếm Zillow, xem trước và nhập listing California.
+Xem [hướng dẫn, phạm vi dữ liệu và giới hạn](backend/src/modules/admin/properties/crawl/README.md).
+Chạy migration mới trước khi khởi động API; Redfin và Luxury Portfolio chưa được hỗ trợ.
+
 | Trang | Nguồn nội dung |
 |---|---|
 | `/` , `/about`, `/contact` | Section CMS (Admin → Trang / Section), nội dung mặc định ở `backend/.../seeds/page.seed.ts` |

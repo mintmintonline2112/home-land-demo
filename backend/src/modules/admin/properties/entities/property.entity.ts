@@ -2,8 +2,8 @@
  * Bảng properties: nhà đăng bán (listing) — tên, slug, địa chỉ, giá, phòng ngủ / tắm, diện tích, thông số, mô tả, tiện ích, bộ ảnh, SEO.
  * Dùng bởi: properties.service.ts, properties.controller.ts, modules/client/properties, database/seeding (property.seed.ts).
  * Lưu ý: description là văn bản thường, các đoạn cách nhau bằng một dòng trống; amenities là mảng chuỗi; images là mảng {src, alt}
- * (src là link https hoặc đường dẫn uploads/... của Thư viện), ảnh đầu tiên là ảnh bìa. type / region là mã cố định khớp
- * frontend-next/src/config/property-search.ts. latitude / longitude trống thì nhà không hiện trên bản đồ (vẫn có trong danh sách).
+ * (src là link https hoặc đường dẫn uploads/... của Thư viện), ảnh đầu tiên là ảnh bìa; type / region khớp frontend config/property-search.ts.
+ * Khóa nguồn chống trùng listing crawl; baths hỗ trợ số lẻ. Toạ độ trống thì nhà không hiện trên bản đồ.
  * TypeORM nạp entity theo mẫu tên *.entity.ts, không đổi tên file.
  */
 import { Column, Entity, Index } from 'typeorm';
@@ -17,7 +17,7 @@ export const PROPERTY_TYPES = [
 ] as const;
 export type PropertyType = (typeof PROPERTY_TYPES)[number];
 
-export const PROPERTY_REGIONS = ['orange-county', 'bay-area'] as const;
+export const PROPERTY_REGIONS = ['orange-county', 'bay-area', 'california'] as const;
 export type PropertyRegion = (typeof PROPERTY_REGIONS)[number];
 
 export type PropertyImage = { src: string; alt: string };
@@ -25,6 +25,7 @@ export type PropertyImage = { src: string; alt: string };
 @Entity('properties')
 @Index('IDX_properties_listing', ['isActive', 'sortOrder'])
 @Index('IDX_properties_location', ['latitude', 'longitude'])
+@Index('UQ_properties_source_key', ['source', 'sourceKey'], { unique: true })
 export class Property extends BaseEntity {
   @Column({ type: 'varchar', length: 255 })
   title: string;
@@ -35,6 +36,21 @@ export class Property extends BaseEntity {
 
   @Column({ name: 'listing_id', type: 'varchar', length: 40, nullable: true })
   listingId: string | null;
+
+  @Column({ type: 'varchar', length: 30, nullable: true })
+  source: string | null;
+
+  @Column({ name: 'source_key', type: 'varchar', length: 80, nullable: true })
+  sourceKey: string | null;
+
+  @Column({ name: 'source_url', type: 'varchar', length: 2048, nullable: true })
+  sourceUrl: string | null;
+
+  @Column({ name: 'source_broker', type: 'varchar', length: 255, nullable: true })
+  sourceBroker: string | null;
+
+  @Column({ name: 'last_crawled_at', type: 'datetime', nullable: true })
+  lastCrawledAt: Date | null;
 
   @Column({ type: 'varchar', length: 40, default: 'For Sale' })
   status: string;
@@ -77,7 +93,7 @@ export class Property extends BaseEntity {
   @Column({ type: 'tinyint', unsigned: true, default: 0 })
   beds: number;
 
-  @Column({ type: 'tinyint', unsigned: true, default: 0 })
+  @Column({ type: 'decimal', precision: 5, scale: 2, unsigned: true, default: 0 })
   baths: number;
 
   @Column({ type: 'int', unsigned: true, default: 0 })
