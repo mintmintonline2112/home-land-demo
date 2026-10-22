@@ -71,7 +71,7 @@ export const PAGES: PageDefinition[] = [
             { value: '15+', label: 'Years of Local Expertise', note: 'Orange County & the Bay Area' },
             { value: '350+', label: 'Families Guided Home', note: 'Buyers, sellers & investors' },
             { value: '2,000+', label: 'Brokerage Network', note: 'FirstTeam® agents across SoCal' },
-            { value: 'EN · VI', label: 'Bilingual Service', note: 'English & Tiếng Việt' },
+            { value: '70+', label: 'Countries Worldwide', note: 'LeadingRE® — 500+ member firms' },
           ],
         },
         sortOrder: 2,
