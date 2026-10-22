@@ -10,3 +10,6 @@ tools/
 # Hệ điều hành
 Thumbs.db
 .DS_Store
+
+# Trạng thái deploy trên VPS (commit đã build, slot frontend đang chạy) — deploy.sh tự ghi
+.deploy/

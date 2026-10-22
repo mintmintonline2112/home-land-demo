@@ -95,10 +95,21 @@ Sơ đồ trên server:
 bash /www/wwwroot/seantruongre.com/deploy.sh
 ```
 
-Script làm hết: `git pull` → build backend → migration + seed → build frontend
-trực tiếp vào thư mục chuẩn `.next` → restart 2 app → kiểm tra site/api còn sống.
-Không đổi tên output sau build vì manifest runtime của Next.js phụ thuộc `distDir`;
-đổi `.next-build` thành `.next` có thể khiến `/_next/static` trả 400.
+Script làm hết: `git pull` → build backend → migration + seed → build frontend →
+restart → kiểm tra site/api, in thời gian từng bước. Cách nó chạy nhanh và không làm site chết:
+
+- **Chỉ build / restart app có thay đổi.** Mỗi app có "dấu vân tay" = nội dung thư mục trong git
+  (`backend/`, `frontend-next/`) + file env của app. Không đổi thì bỏ qua build và giữ app đang chạy.
+  Dấu vân tay của lần build thành công lưu ở `.deploy/` (không có trong git).
+- **`npm ci` chỉ chạy khi `package-lock.json` đổi** (hash lưu trong `node_modules/.deploy-lock-hash`).
+- **Frontend build xen kẽ hai thư mục `.next-blue` / `.next-green`** qua biến `NEXT_DIST_DIR`
+  (đọc trong `next.config.ts`): build vào thư mục đang rảnh trong khi site cũ vẫn chạy thư mục kia,
+  xong mới restart sang bản mới. Bản mới không trả được trang chủ + CSS/JS → tự quay về bản cũ.
+  Thư mục đang chạy ghi ở `.deploy/frontend.slot`. Không đổi tên thư mục build sau khi build
+  (manifest của Next ghi `distDir`; đổi tên làm `/_next/static` trả 400).
+- **Khoá chống chạy trùng** (`/tmp/seantruongre-deploy.lock`): lỡ chạy 2 lần cùng lúc thì lần sau dừng ngay.
+- `bash deploy.sh --force` = build lại + cài lại gói + restart cả 2 app dù không có gì đổi
+  (dùng khi nghi build hỏng, hoặc vừa sửa env mà muốn chắc chắn).
 
 Chạy lần đầu trên máy mới, nếu git báo `dubious ownership` thì cấp phép một lần:
 
@@ -108,10 +119,10 @@ git config --global --add safe.directory /www/wwwroot/seantruongre.com
 
 Ghi chú:
 
-- `npm install` chỉ cần khi `package.json` đổi; `db:run:prod`/`db:seed:prod` chạy dư
-  vô hại (migration đã chạy bị bỏ qua, seed insert-only không đè dữ liệu admin sửa).
-- Sửa `NEXT_PUBLIC_*` trong env của frontend → **bắt buộc** build lại rồi restart
-  (giá trị bị nhúng vào code lúc build). Sửa `backend/.env` → chỉ cần restart `seantruongre_api`.
+- `db:run:prod`/`db:seed:prod` chạy mỗi lần deploy, chạy dư vô hại (migration đã chạy bị bỏ qua,
+  seed chỉ thêm phần thiếu, không đè dữ liệu admin sửa).
+- Sửa `frontend-next/.env.local` (VD `NEXT_PUBLIC_*`) hoặc `backend/.env` → chỉ cần `bash deploy.sh`:
+  env nằm trong dấu vân tay nên app đó tự build lại + restart.
 
 ### pm2 là tay quản duy nhất (đã chuyển từ 2026-09-10)
 
@@ -162,9 +173,10 @@ curl -X POST http://127.0.0.1:3008/api/revalidate \
 **Xả cache toàn bộ** (nghi ngờ build cũ/cache hỏng):
 
 ```bash
-cd /www/wwwroot/seantruongre.com/frontend-next && rm -rf .next && npm run build
+bash /www/wwwroot/seantruongre.com/deploy.sh --force
 ```
-rồi restart `seantruongre_web` trong panel.
+Đừng `rm -rf .next` / build tay: app đang chạy từ `.next-blue` hoặc `.next-green` (xem `.deploy/frontend.slot`),
+build tay vào `.next` không được dùng tới.
 
 ### Sự cố thường gặp
 
