@@ -8,6 +8,7 @@ export const SITE_CONTACT = {
   name: "Sean Truong",
   title: "Realtor® · First Team Real Estate",
   office: "First Team Real Estate",
+  brokerageLicense: "CA DRE# 01008773",
   location: "Irvine, CA 92604",
   address: "4040 Barranca Pkwy #100",
   email: "SeanTruong@FirstTeam.com",

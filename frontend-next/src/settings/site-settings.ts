@@ -82,6 +82,7 @@ export function resolveContact(settings: SiteSettings) {
     hours: company.hours?.trim() || SITE_CONTACT.hours,
     mapUrl: company.mapUrl?.trim() || null,
     office: SITE_CONTACT.office,
+    brokerageLicense: SITE_CONTACT.brokerageLicense,
     title: SITE_CONTACT.title,
     website: SITE_CONTACT.website,
     photo: toPublicMediaHref(SITE_CONTACT.photo),

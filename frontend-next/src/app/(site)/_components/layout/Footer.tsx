@@ -1,5 +1,6 @@
 /**
- * Footer site public: logo + đoạn giới thiệu, cột "Buy & Sell", cột "Areas", cột liên hệ; dòng bản quyền + mạng xã hội.
+ * Footer site public: logo + đoạn giới thiệu, cột "Buy & Sell", cột "Areas", cột liên hệ; dòng bản quyền + giấy phép công ty môi giới
+ * (DRE) + Equal Housing Opportunity + mạng xã hội.
  * Dùng bởi: app/(site)/layout.tsx.
  * Lưu ý: liên hệ lấy từ Admin (resolveContact), trống thì dùng config/contact.ts; dòng bản quyền đọc footerText của Admin → Cài đặt.
  * Cột "Areas" lấy nhãn từ config/property-search.ts (AREA_GROUPS) theo danh sách FOOTER_AREA_NAMES.
@@ -96,9 +97,14 @@ export function Footer({
         </div>
       </div>
       <div className="site-container flex flex-wrap items-center justify-between gap-x-8 gap-y-4 border-t border-light/10 py-6 text-sm max-[640px]:flex-col max-[640px]:items-start">
-        <p className="m-0">
-          © {new Date().getFullYear()} {footerText?.trim() || `${contact.name} · ${contact.office}. All rights reserved.`}
-        </p>
+        <div>
+          <p className="m-0">
+            © {new Date().getFullYear()} {footerText?.trim() || `${contact.name} · ${contact.office}. All rights reserved.`}
+          </p>
+          <p className="m-0 mt-1 text-xs text-light/50">
+            Brokerage: {contact.office} · {contact.brokerageLicense} · Equal Housing Opportunity
+          </p>
+        </div>
         <SocialIcons
           links={social}
           className="inline-flex items-center gap-2"

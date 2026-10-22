@@ -122,7 +122,7 @@ export const PAGES: PageDefinition[] = [
           background: 'plain',
           items: [
             { title: 'Deep Local Expertise', text: '15+ years living and working in Orange County and the Bay Area — Sean knows every neighborhood\'s story.', icon: 'pin' },
-            { title: 'First Team Network', text: 'Backed by one of Southern California\'s leading brokerages — with the reach, tools, and marketing to match.', icon: 'shield' },
+            { title: 'First Team Network', text: 'Backed by one of Southern California\'s leading independent brokerages and its global luxury network — Luxury Portfolio International® and LeadingRE®.', icon: 'shield' },
             { title: 'English & Vietnamese', text: 'Fully bilingual service — contracts, negotiations, and guidance explained clearly in the language you prefer.', icon: 'chat' },
             { title: 'Proven Negotiation', text: 'A track record of winning offers for buyers and top-dollar results for sellers in competitive markets.', icon: 'dollar' },
           ],
@@ -233,7 +233,7 @@ export const PAGES: PageDefinition[] = [
           layout: 'split',
           background: 'tint',
           items: [
-            { title: 'First Team Real Estate', text: 'Part of one of Southern California\'s leading independent brokerages, with deep market reach and marketing power.', icon: 'home' },
+            { title: 'First Team Real Estate', text: 'A founding member of Luxury Portfolio International® and part of Leading Real Estate Companies of the World® — global reach for every listing.', icon: 'home' },
             { title: 'Licensed & Credentialed', text: 'California-licensed Realtor® in good standing, with continuing education in negotiation, finance, and ethics.', icon: 'shield' },
             { title: 'Market Expertise', text: 'Pricing strategy, off-market opportunities, and data-driven advice across two of America\'s hottest markets.', icon: 'chart' },
             { title: 'Community Roots', text: 'An active member of the Vietnamese-American community in Orange County — your neighbor, not just your agent.', icon: 'users' },
