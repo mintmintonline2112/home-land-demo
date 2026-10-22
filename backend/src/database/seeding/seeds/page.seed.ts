@@ -325,7 +325,6 @@ export const PAGES: PageDefinition[] = [
           ],
           messagePlaceholder: 'Tell Sean what you\'re looking for — areas, timeline, budget...',
           submitLabel: 'Send Message',
-          mapNote: 'Map placeholder — Google Maps integration coming in a later phase',
         },
         sortOrder: 1,
       },

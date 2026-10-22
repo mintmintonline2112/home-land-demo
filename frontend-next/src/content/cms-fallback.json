@@ -554,8 +554,7 @@
             }
           ],
           "messagePlaceholder": "Tell Sean what you're looking for — areas, timeline, budget...",
-          "submitLabel": "Send Message",
-          "mapNote": "Map placeholder — Google Maps integration coming in a later phase"
+          "submitLabel": "Send Message"
         },
         "isActive": true,
         "sortOrder": 1,

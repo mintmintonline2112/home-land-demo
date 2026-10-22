@@ -1,8 +1,9 @@
 /**
- * Section `contact`: cột trái các thẻ thông tin (văn phòng, điện thoại, email, giờ làm việc), cột phải khung form tư vấn; dưới cùng là bản đồ.
+ * Section `contact`: cột trái các thẻ thông tin (văn phòng, điện thoại, email, giờ làm việc), cột phải khung form tư vấn; dưới cùng là bản đồ
+ * Google Maps khi admin đã nhập link (Admin → Trang Liên hệ), chưa có link thì không hiện khung bản đồ.
  * Dùng bởi: sections/index.ts (registry) qua SectionRenderer.
  * Lưu ý: CMS đọc heading (tiêu đề khung form), content (câu mở đầu form), metadata.labelOffice, labelPhone, labelEmail, labelHours, phoneNote,
- * topics [{label, value}] (ô "I'm Interested In"; value khớp ?topic= trên URL), messagePlaceholder, submitLabel, mapNote, background.
+ * topics [{label, value}] (ô "I'm Interested In"; value khớp ?topic= trên URL), messagePlaceholder, submitLabel, background.
  * Văn phòng / điện thoại / email / giờ / bản đồ lấy từ Admin → Trang Liên hệ (resolveContact), trống thì dùng config/contact.ts.
  * lint-sections-ignore R2: tiêu đề là tiêu đề của khung form ở cột phải, không phải đầu khối căn giữa của Head.
  */
@@ -41,7 +42,6 @@ export async function Contact({ section, index = 0 }: SectionProps) {
   const contact = resolveContact(await getSiteSettings());
   const topics = itemsOf(section, "topics").filter((topic) => topic.label);
   const phoneNote = textOf(section, "phoneNote");
-  const mapNote = textOf(section, "mapNote");
   const id = anchorIdOf(section, "contact");
 
   return (
@@ -109,8 +109,8 @@ export async function Contact({ section, index = 0 }: SectionProps) {
         </div>
       </div>
 
-      <div className="reveal relative mt-12 grid aspect-[21/8] min-h-72 place-items-center overflow-hidden bg-[linear-gradient(135deg,var(--cream)_0%,var(--line)_100%)]">
-        {contact.mapUrl ? (
+      {contact.mapUrl ? (
+        <div className="reveal relative mt-12 aspect-[21/8] min-h-72 overflow-hidden bg-cream">
           <iframe
             src={contact.mapUrl}
             title={contact.office}
@@ -118,13 +118,8 @@ export async function Contact({ section, index = 0 }: SectionProps) {
             className="absolute inset-0 h-full w-full border-0"
             referrerPolicy="no-referrer-when-downgrade"
           />
-        ) : (
-          <>
-            <IconBadge className="h-14 w-14 bg-navy-800 text-light">{iconFor("pin", 0)}</IconBadge>
-            {mapNote ? <p className="absolute bottom-4 m-0 text-xs text-ink-faint">{mapNote}</p> : null}
-          </>
-        )}
-      </div>
+        </div>
+      ) : null}
     </Shell>
   );
 }

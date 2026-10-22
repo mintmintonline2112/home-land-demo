@@ -254,7 +254,6 @@ const DEFINITIONS: DefinitionSeed[] = [
       buildTextMapField('Form', [
         { name: 'messagePlaceholder', label: 'Chữ mờ ô lời nhắn' },
         { name: 'submitLabel', label: 'Chữ trên nút gửi (VD: Send Message)' },
-        { name: 'mapNote', label: 'Dòng chữ trên bản đồ khi chưa có link Google Maps' },
       ]),
       BACKGROUND_FIELD,
     ],
