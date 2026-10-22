@@ -41,7 +41,6 @@ const MENU_TREE: SeedMenuItem[] = [
     href: '/contact?topic=sell',
     children: [
       { label: 'Home Valuation', href: '/home-valuation' },
-      { label: 'Seller Consultation', href: '/contact?topic=sell' },
     ],
   },
   {

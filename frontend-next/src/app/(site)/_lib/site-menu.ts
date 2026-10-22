@@ -40,7 +40,6 @@ export const SITE_MENU_ITEMS: SiteMenuItem[] = [
     href: siteRoutes.contactTopic("sell"),
     children: [
       { label: "Home Valuation", href: siteRoutes.homeValuation },
-      { label: "Seller Consultation", href: siteRoutes.contactTopic("sell") },
     ],
   },
   { key: "orange-county", label: "Orange County", href: siteRoutes.propertiesFiltered({ keyword: "Orange County" }) },
