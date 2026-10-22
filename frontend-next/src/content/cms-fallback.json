@@ -399,43 +399,6 @@
       {
         "id": 14,
         "pageId": 11,
-        "sectionKey": "testimonials",
-        "heading": "What Clients Say",
-        "subheading": "Testimonials",
-        "content": null,
-        "mediaPath": null,
-        "metadata": {
-          "_component": "testimonials",
-          "layout": "spotlight",
-          "background": "dark",
-          "items": [
-            {
-              "text": "Sean helped us buy our first home in Irvine. He explained everything in Vietnamese for my parents and negotiated $40k under asking. We couldn't have done it without him.",
-              "title": "The Nguyen Family",
-              "label": "Buyers · Irvine, CA"
-            },
-            {
-              "text": "Our Newport Beach home sold in nine days, over asking, with multiple offers. Sean's marketing plan and staging advice made all the difference.",
-              "title": "Mark & Elaine R.",
-              "label": "Sellers · Newport Beach, CA"
-            },
-            {
-              "text": "We relocated from overseas and Sean handled everything — financing referrals, school research, even utilities. True full-service from day one.",
-              "title": "David T.",
-              "label": "Relocation Buyer · San Jose, CA"
-            }
-          ]
-        },
-        "isActive": true,
-        "sortOrder": 3,
-        "createdAt": "2026-01-01T00:00:00.000Z",
-        "updatedAt": "2026-01-01T00:00:00.000Z",
-        "deletedAt": null,
-        "translations": null
-      },
-      {
-        "id": 15,
-        "pageId": 11,
         "sectionKey": "network",
         "heading": "A Full Team Behind Every Transaction",
         "subheading": "Professional Network",
@@ -469,14 +432,14 @@
           ]
         },
         "isActive": true,
-        "sortOrder": 4,
+        "sortOrder": 3,
         "createdAt": "2026-01-01T00:00:00.000Z",
         "updatedAt": "2026-01-01T00:00:00.000Z",
         "deletedAt": null,
         "translations": null
       },
       {
-        "id": 16,
+        "id": 15,
         "pageId": 11,
         "sectionKey": "move-cta",
         "heading": "Ready to make your move?",
@@ -489,7 +452,7 @@
           "ctaHref": "/contact"
         },
         "isActive": true,
-        "sortOrder": 5,
+        "sortOrder": 4,
         "createdAt": "2026-01-01T00:00:00.000Z",
         "updatedAt": "2026-01-01T00:00:00.000Z",
         "deletedAt": null,
@@ -498,7 +461,7 @@
     ]
   },
   "contact": {
-    "id": 17,
+    "id": 16,
     "title": "Schedule a Consultation",
     "slug": "contact",
     "status": "published",
@@ -516,8 +479,8 @@
     "translations": null,
     "sections": [
       {
-        "id": 18,
-        "pageId": 17,
+        "id": 17,
+        "pageId": 16,
         "sectionKey": "consultation",
         "heading": "Tell Sean About Your Goals",
         "subheading": null,

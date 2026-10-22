@@ -242,22 +242,6 @@ export const PAGES: PageDefinition[] = [
         sortOrder: 2,
       },
       {
-        sectionKey: 'testimonials',
-        heading: 'What Clients Say',
-        subheading: 'Testimonials',
-        metadata: {
-          _component: 'testimonials',
-          layout: 'spotlight',
-          background: 'dark',
-          items: [
-            { text: 'Sean helped us buy our first home in Irvine. He explained everything in Vietnamese for my parents and negotiated $40k under asking. We couldn\'t have done it without him.', title: 'The Nguyen Family', label: 'Buyers · Irvine, CA' },
-            { text: 'Our Newport Beach home sold in nine days, over asking, with multiple offers. Sean\'s marketing plan and staging advice made all the difference.', title: 'Mark & Elaine R.', label: 'Sellers · Newport Beach, CA' },
-            { text: 'We relocated from overseas and Sean handled everything — financing referrals, school research, even utilities. True full-service from day one.', title: 'David T.', label: 'Relocation Buyer · San Jose, CA' },
-          ],
-        },
-        sortOrder: 3,
-      },
-      {
         sectionKey: 'network',
         heading: 'A Full Team Behind Every Transaction',
         subheading: 'Professional Network',
@@ -273,7 +257,7 @@ export const PAGES: PageDefinition[] = [
             { title: 'Worldwide Path', text: 'For international clients — a strategic immigration resource for planning your move to the U.S.', icon: 'globe' },
           ],
         },
-        sortOrder: 4,
+        sortOrder: 3,
       },
       {
         sectionKey: 'move-cta',
@@ -284,7 +268,7 @@ export const PAGES: PageDefinition[] = [
           ctaLabel: 'Schedule Consultation',
           ctaHref: '/contact',
         },
-        sortOrder: 5,
+        sortOrder: 4,
       },
     ],
   },
