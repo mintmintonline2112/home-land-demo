@@ -41,7 +41,7 @@ export type SocialLinks = Partial<Record<SocialKey, string>>;
 
 export const DEFAULT_BRAND_NAME = "Sean Truong";
 
-export const DEFAULT_FAVICON = "/favicon.svg";
+export const DEFAULT_FAVICON = "/favicon.png";
 
 export function brandNameOf(settings: SiteSettings): string {
   return settings.brandName?.trim() || DEFAULT_BRAND_NAME;

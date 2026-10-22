@@ -31,7 +31,7 @@ export async function generateMetadata(): Promise<Metadata> {
   const site = resolveSiteSeo(settings);
   return {
     title: { default: site.title, template: `%s — ${site.name}` },
-    icons: { icon: faviconHrefOf(settings) },
+    icons: { icon: faviconHrefOf(settings), apple: "/apple-touch-icon.png" },
     description: site.description,
     openGraph: {
       type: "website",

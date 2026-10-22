@@ -10,7 +10,7 @@ import "@/styles/tailwind.css";
 
 export const metadata: Metadata = {
   metadataBase: new URL(env.siteUrl),
-  icons: { icon: "/favicon.svg" },
+  icons: { icon: "/favicon.png", apple: "/apple-touch-icon.png" },
 };
 
 export const viewport: Viewport = {
