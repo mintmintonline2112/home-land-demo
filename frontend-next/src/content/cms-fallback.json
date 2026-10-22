@@ -121,43 +121,72 @@
             {
               "title": "Irvine",
               "text": "Master-planned communities & top schools",
-              "image": "https://images.unsplash.com/photo-1449844908441-8829872d2607?auto=format&fit=crop&w=800&q=80",
-              "alt": "Aerial view of a master-planned community",
+              "image": "uploads/areas/irvine.jpg",
+              "alt": "Irvine Spectrum office towers",
+              "credit": "Photo: Sewageboy, CC BY 4.0",
               "href": "/properties?keyword=Irvine"
             },
             {
               "title": "Newport Beach",
               "text": "Coastal luxury & harbor living",
-              "image": "https://images.unsplash.com/photo-1519046904884-53103b34b206?auto=format&fit=crop&w=800&q=80",
-              "alt": "Southern California beach",
+              "image": "uploads/areas/newport-beach.jpg",
+              "alt": "Aerial view of Newport Beach, Balboa Peninsula and pier",
+              "credit": "Photo: Don Ramey Logan, CC BY 4.0",
               "href": "/properties?keyword=Newport%20Beach"
+            },
+            {
+              "title": "Tustin",
+              "text": "Old Town charm & the historic blimp hangars",
+              "image": "uploads/areas/tustin.jpg",
+              "alt": "Historic blimp hangar in Tustin",
+              "credit": "Photo: Robert A. Estremo, CC BY-SA 2.0",
+              "href": "/properties?keyword=Tustin"
             },
             {
               "title": "Anaheim Hills",
               "text": "View homes & golf communities",
-              "image": "https://images.unsplash.com/photo-1570129477492-45c003edd2be?auto=format&fit=crop&w=800&q=80",
-              "alt": "Hillside home with a view",
+              "image": "uploads/areas/anaheim-hills.jpg",
+              "alt": "Sunset over the Anaheim Hills",
+              "credit": "Photo: Jordan Wozniak, CC0",
               "href": "/properties?keyword=Anaheim%20Hills"
             },
             {
               "title": "Orange & Villa Park",
-              "text": "Historic charm & estate lots",
-              "image": "https://images.unsplash.com/photo-1560518883-ce09059eeffa?auto=format&fit=crop&w=800&q=80",
-              "alt": "Charming residential street",
+              "text": "Old Towne charm & estate lots",
+              "image": "uploads/areas/orange.jpg",
+              "alt": "Fountain at the Plaza in Old Towne Orange",
+              "credit": "Photo: Jeaniac, CC BY-SA 3.0",
               "href": "/properties?keyword=Orange"
+            },
+            {
+              "title": "Garden Grove",
+              "text": "Christ Cathedral & family neighborhoods",
+              "image": "uploads/areas/garden-grove.jpg",
+              "alt": "Christ Cathedral campus in Garden Grove",
+              "credit": "Photo: Farragutful, CC BY-SA 4.0",
+              "href": "/properties?keyword=Garden%20Grove"
+            },
+            {
+              "title": "Westminster (Little Saigon)",
+              "text": "Heart of the Vietnamese-American community",
+              "image": "uploads/areas/westminster.jpg",
+              "alt": "Asian Garden Mall on Bolsa Avenue, Little Saigon",
+              "credit": "Photo: Orange County Archives, CC BY 2.0",
+              "href": "/properties?keyword=Westminster"
             },
             {
               "title": "San Francisco",
               "text": "Iconic city living",
               "image": "https://images.unsplash.com/photo-1501594907352-04cda38ebc29?auto=format&fit=crop&w=800&q=80",
-              "alt": "San Francisco skyline and bay",
+              "alt": "Golden Gate Bridge, San Francisco",
               "href": "/properties?keyword=San%20Francisco"
             },
             {
               "title": "San Jose & Silicon Valley",
               "text": "Tech-hub neighborhoods",
-              "image": "https://images.unsplash.com/photo-1449824913935-59a10b8d2000?auto=format&fit=crop&w=800&q=80",
-              "alt": "City skyline at dusk",
+              "image": "uploads/areas/san-jose.jpg",
+              "alt": "Downtown San Jose skyline at night",
+              "credit": "Photo: Ben Loomis, CC BY 2.0",
               "href": "/properties?keyword=Silicon%20Valley"
             }
           ]

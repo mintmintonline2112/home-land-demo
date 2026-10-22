@@ -1,8 +1,9 @@
 /**
  * Section `media-cards`: lưới thẻ ảnh 3 cột, mỗi thẻ là một link (ảnh trên, tên + mô tả ngắn dưới, ô mũi tên bên phải).
  * Dùng bởi: sections/index.ts (registry) qua SectionRenderer.
- * Lưu ý: CMS đọc heading, subheading, content, metadata.items [{title, text, image, alt, href}], note, ctaLabel, ctaHref, background.
- * Thẻ không có href thì vẫn hiện nhưng không bấm được và không có mũi tên.
+ * Lưu ý: CMS đọc heading, subheading, content, metadata.items [{title, text, image, alt, credit, href}], note, ctaLabel, ctaHref, background.
+ * Thẻ không có href thì vẫn hiện nhưng không bấm được và không có mũi tên. credit = dòng ghi nguồn ảnh (tác giả + giấy phép, bắt buộc với
+ * ảnh Wikimedia CC BY / CC BY-SA), hiện chữ nhỏ ở góc dưới ảnh.
  */
 import { CARD, CARD_HOVER, PHOTO_FRAME, PHOTO_ZOOM } from "@/app/(site)/_components/ui";
 import { cn } from "@/utils/cn";
@@ -26,6 +27,11 @@ function CardBody({ row }: { row: Record<string, string> }) {
         <div className={cn(PHOTO_FRAME, PHOTO_ZOOM, "aspect-[8/5]")}>
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img src={resolveImage(row.image)} alt={row.alt ?? row.title ?? ""} loading="lazy" />
+          {row.credit ? (
+            <span className="absolute right-0 bottom-0 max-w-full truncate bg-navy-900/55 px-2 py-0.5 text-[0.6rem] text-light/85">
+              {row.credit}
+            </span>
+          ) : null}
         </div>
       ) : null}
       <div className="flex items-center justify-between gap-4 px-5.5 py-5">

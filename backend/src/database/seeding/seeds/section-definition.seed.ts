@@ -152,6 +152,7 @@ const DEFINITIONS: DefinitionSeed[] = [
         { name: 'text', label: 'Mô tả ngắn', kind: 'text' },
         { name: 'image', label: 'Ảnh', kind: 'image' },
         { name: 'alt', label: 'Mô tả ảnh (alt; trống thì dùng Tên)', kind: 'text' },
+        { name: 'credit', label: 'Nguồn ảnh (VD Photo: Tên tác giả, CC BY 4.0 — bắt buộc với ảnh Wikimedia)', kind: 'text' },
         { name: 'href', label: 'Link khi bấm (VD /properties?keyword=Irvine)', kind: 'text' },
       ]),
       buildTextMapField('Cuối khối', [{ name: 'note', label: 'Dòng ghi chú' }, ...CTA_FIELDS], CTA_HINT),
