@@ -121,11 +121,12 @@ const DEFINITIONS: DefinitionSeed[] = [
   {
     pageSlug: 'shared', sectionKey: 'stats', sortOrder: 2,
     label: 'Dải số liệu',
-    description: 'Stats.tsx — dải navy, mỗi cột một con số lớn + nhãn chữ hoa (số ở đầu tự chạy đếm). Heading / Nội dung để trống thì chỉ có dải số.',
+    description: 'Stats.tsx — dải navy, mỗi cột một con số lớn + nhãn chữ hoa + dòng mô tả nhỏ (số ở đầu tự chạy đếm từ 0 khi cuộn tới). Heading / Nội dung để trống thì chỉ có dải số.',
     fields: [
       buildItemListField('stats', 'Số liệu', [
-        { name: 'value', label: 'Giá trị (VD: 350+)', kind: 'text' },
-        { name: 'label', label: 'Nhãn (VD: Homes Sold)', kind: 'text' },
+        { name: 'value', label: 'Giá trị (VD: 350+, 2,000+ hoặc chữ như EN · VI)', kind: 'text' },
+        { name: 'label', label: 'Nhãn (VD: Families Guided Home)', kind: 'text' },
+        { name: 'note', label: 'Dòng mô tả nhỏ dưới nhãn (tuỳ chọn)', kind: 'text' },
       ], 'Giá trị bắt đầu bằng số sẽ tự chạy hiệu ứng đếm.'),
     ],
   },

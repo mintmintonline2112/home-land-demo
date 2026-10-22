@@ -1,8 +1,9 @@
 "use client";
 
 /**
- * Mọi hiệu ứng trang trí của site public: hiện dần khi cuộn + so le, đếm số, tách chữ tiêu đề, mở khẩu độ / trượt ảnh (GSAP), nút nam châm, thẻ nghiêng 3D, thanh tiến độ.
- * Dùng bởi: app/(site)/layout.tsx. Chạy lại mỗi lần đổi route; tôn trọng prefers-reduced-motion.
+ * Mọi hiệu ứng trang trí của site public: hiện dần khi cuộn + so le, đếm số (từ 0, chạy so le theo data-stagger, giữ dấu phẩy nghìn), tách chữ tiêu đề, mở khẩu độ / trượt ảnh (GSAP), nút nam châm, thẻ nghiêng 3D, thanh tiến độ.
+ * Dùng bởi: app/(site)/layout.tsx. Chạy lại mỗi lần đổi route; tôn trọng prefers-reduced-motion (riêng đếm số vẫn chạy vì chỉ đổi chữ,
+ * không chuyển động — Windows tắt "Animation effects" là Chrome báo reduce).
  * Lưu ý: móc trong markup (style ở styles/effects.css): .reveal / .reveal-group (thêm .is-visible), data-stagger="N" (ms),
  * data-count, h1[data-headline], .photo-frame img, .news-card-thumb img, .news-featured-photo img, .btn-gold, .tilt-card.
  * Đổi tên các class / thuộc tính này phải sửa cả component dùng chúng.
@@ -39,18 +40,25 @@ export function SiteEffects() {
         });
       });
 
+    const COUNT_UP_MS = 2200;
+
+    function countUpDelayOf(counter: HTMLElement) {
+      const staggerItem = counter.closest("[data-stagger] > *");
+      return staggerItem ? Number.parseFloat(getComputedStyle(staggerItem).getPropertyValue("--reveal-delay")) || 0 : 0;
+    }
+
     function runCountUp(element: Element) {
-      const target = Number.parseInt(element.getAttribute("data-count") ?? "", 10);
       const counter = element as HTMLElement;
+      const target = Number.parseInt(counter.getAttribute("data-count") ?? "", 10);
       if (!Number.isFinite(target) || counter.dataset.counted) return;
       counter.dataset.counted = "true";
+      const delay = countUpDelayOf(counter);
       let startTime: number | null = null;
       const tick = (now: number) => {
-        if (startTime === null) startTime = now;
-        const progress = Math.min((now - startTime) / 1400, 1);
-        const eased = 1 - Math.pow(1 - progress, 3);
-        if (counter.firstChild)
-          counter.firstChild.nodeValue = String(Math.round(eased * target));
+        if (startTime === null) startTime = now + delay;
+        const progress = Math.min(Math.max((now - startTime) / COUNT_UP_MS, 0), 1);
+        const eased = progress === 1 ? 1 : 1 - Math.pow(2, -10 * progress);
+        if (counter.firstChild) counter.firstChild.nodeValue = Math.round(eased * target).toLocaleString("en-US");
         if (progress < 1) requestAnimationFrame(tick);
       };
       requestAnimationFrame(tick);
@@ -67,7 +75,6 @@ export function SiteEffects() {
           entries.forEach((entry) => {
             if (!entry.isIntersecting) return;
             entry.target.classList.add("is-visible");
-            entry.target.querySelectorAll("[data-count]").forEach(runCountUp);
             revealObserver?.unobserve(entry.target);
           });
         },
@@ -75,6 +82,25 @@ export function SiteEffects() {
       );
       revealElements.forEach((element) => revealObserver?.observe(element));
       cleanups.push(() => revealObserver?.disconnect());
+    }
+
+    if ("IntersectionObserver" in window) {
+      const counters = document.querySelectorAll<HTMLElement>("[data-count]");
+      counters.forEach((counter) => {
+        if (!counter.dataset.counted && counter.firstChild) counter.firstChild.nodeValue = "0";
+      });
+      const countObserver = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (!entry.isIntersecting) return;
+            runCountUp(entry.target);
+            countObserver.unobserve(entry.target);
+          });
+        },
+        { threshold: 0.6 },
+      );
+      counters.forEach((counter) => countObserver.observe(counter));
+      cleanups.push(() => countObserver.disconnect());
     }
 
     const progressBar = progressRef.current;

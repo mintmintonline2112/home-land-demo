@@ -68,10 +68,10 @@ export const PAGES: PageDefinition[] = [
         metadata: {
           _component: 'stats',
           stats: [
-            { value: '350+', label: 'Homes Sold' },
-            { value: '15+', label: 'Years of Experience' },
-            { value: '120+', label: 'Five-Star Reviews' },
-            { value: '40+', label: 'Communities Served' },
+            { value: '15+', label: 'Years of Local Expertise', note: 'Orange County & the Bay Area' },
+            { value: '350+', label: 'Families Guided Home', note: 'Buyers, sellers & investors' },
+            { value: '2,000+', label: 'Brokerage Network', note: 'FirstTeam® agents across SoCal' },
+            { value: 'EN · VI', label: 'Bilingual Service', note: 'English & Tiếng Việt' },
           ],
         },
         sortOrder: 2,
